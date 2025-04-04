@@ -12,7 +12,6 @@ namespace Engine
 	
 		_Window = std::make_unique<Window>(SWindowPropeties(1280, 720, "Engine"));
 		_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
-		_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		_bRunning = true;
 	
 		_ImGuiLayer = new ImGuiLayer();
@@ -55,14 +54,6 @@ namespace Engine
 		return true;
 	}
 	
-	bool Application::OnKeyPress(KeyPressedEvent& e)
-	{
-		if (e.GetKeyCode() == E_KEY_ESCAPE)
-			_bRunning = false;
-	
-		return true;
-	}
-	
 	float lastFrameTime = 0.0f;
 	void Application::Run()
 	{
@@ -76,8 +67,7 @@ namespace Engine
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClose));
-		dispatcher.Dispatch<KeyPressedEvent>(BIND_EVENT_FUNCTION(Application::OnKeyPress));
-	
+
 		for (auto it = _LayerStack.end(); it != _LayerStack.begin(); ) {
 			(*--it)->OnEvent(e);
 			if (e.Handled)

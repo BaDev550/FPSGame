@@ -15,10 +15,22 @@ namespace Engine
 	
 		unsigned char* data = stbi_load(path.c_str(), &_Width, &_Height, &_NumOfChannels, 0);
 		if (data) {
-			GLenum format = (_NumOfChannels == 3) ? GL_RGB : GL_RGBA;
+			GLenum format{};
+			if (_NumOfChannels == 1)
+				format = GL_RED;
+			else if (_NumOfChannels == 3)
+				format = GL_RGB;
+			else if (_NumOfChannels == 4)
+				format = GL_RGBA;
+
 			glBindTexture(GL_TEXTURE_2D, _TextureID);
 			glTexImage2D(GL_TEXTURE_2D, 0, format, _Width, _Height, 0, format, GL_UNSIGNED_BYTE, data);
 			glGenerateMipmap(GL_TEXTURE_2D);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			stbi_image_free(data);
 		}
 		else {
@@ -38,9 +50,9 @@ namespace Engine
 		_Type.clear();
 	}
 	
-	void Texture::Bind(const int index) const
+	void Texture::Bind() const
 	{
-		glActiveTexture(GL_TEXTURE0 + index);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _TextureID);
 	}
 	

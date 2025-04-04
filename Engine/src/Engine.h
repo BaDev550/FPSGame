@@ -43,6 +43,7 @@ typedef Engine::ShaderDataType EngineShaderDataType;
 
 #define EngineClear() EngineRenderCommand::Clear()
 #define EngineSetClearColor(r, g, b, a) EngineRenderCommand::SetClearColor({r, g, b, a})
+#define EngineSetPollyMode(face, mode) EngineRenderCommand::SetPolyMode(face, mode);
 
 #define RendererBeginScene(camera) EngineRenderer::BeginScene(camera)
 #define RendererEndScene() EngineRenderer::EndScene()

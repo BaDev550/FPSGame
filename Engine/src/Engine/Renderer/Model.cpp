@@ -41,36 +41,43 @@ namespace Engine
 	
 	void Model::Draw(std::shared_ptr<Shader>& shader)
 	{
-		for (unsigned int i = 0; i < _Meshes.size(); i++)
-		{
-			_Meshes[i].Draw(shader);
-		}
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+		shader->SetMat4("u_Model", model);
+		for (auto & mesh : _Meshes)
+			mesh.Draw(shader);
 	}
 	
 	std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory)
 	{
 		std::vector<Texture> textures;
 		int textureCount = mat->GetTextureCount(type);
-		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
+		for (unsigned int i = 0; i < textureCount; i++)
 		{
 			aiString str;
 			mat->GetTexture(type, i, &str);
+			std::string filename = std::string(str.C_Str());
+			filename = directory + '/' + filename;
 	
 			bool skip = false;
-			for (unsigned int j = 0; j < _LoadedTextures.size(); j++)
+			for (const auto & LoadedTexture : _LoadedTextures)
 			{
-				if (std::strcmp(_LoadedTextures[j].GetFilePath().data(), str.C_Str()) == 0)
+				if (std::strcmp(LoadedTexture.GetFilePath().data(), filename.c_str()) == 0)
 				{
-					textures.push_back(_LoadedTextures[j]);
+					textures.push_back(LoadedTexture);
 					skip = true;
 					break;
 				}
 			}
 			if (!skip)
 			{
-				std::string filename = std::string(str.C_Str());
-				filename = directory + '/' + filename;
-	
+				std::cout << "Loading texture: " << filename << std::endl;
 				Texture texture(filename, typeName);
 				textures.push_back(texture);
 				_LoadedTextures.push_back(texture);

@@ -69,10 +69,10 @@
     <ClInclude Include="src\Engine\Core\Application\Application.h">
       <Filter>src\Engine\Core\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\Core.h">
-      <Filter>src\Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Core\Application\EntiryPoint.h">
+      <Filter>src\Engine\Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Core.h">
       <Filter>src\Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Events\ApplicationEvent.h">

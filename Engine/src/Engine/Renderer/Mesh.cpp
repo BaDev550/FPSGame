@@ -49,8 +49,10 @@ namespace Engine
 				number = std::to_string(normalNr++);
 			else if (texType == "texture_height")
 				number = std::to_string(heightNr++);
-	
-			_Textures[i].Bind(i);
+
+			std::string matTexName = "u_Material." + texType;
+			shader->SetInt(matTexName, i);
+			_Textures[i].Bind();
 		}
 		Renderer::Submit(shader, _Mesh);
 	}

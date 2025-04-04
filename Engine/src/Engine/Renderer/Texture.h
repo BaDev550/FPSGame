@@ -9,7 +9,7 @@ namespace Engine
 		Texture(const std::string& path, const std::string& type);
 		~Texture();
 	
-		void Bind(const int index) const;
+		void Bind() const;
 		void Unbind() const;
 		inline unsigned int GetWidth() const { return _Width; }
 		inline unsigned int GetHeight() const { return _Height; }

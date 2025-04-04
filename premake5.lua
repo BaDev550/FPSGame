@@ -113,7 +113,9 @@ includedirs
 {
     "Engine/src",
     "Engine/vendor",
-    "%{IncludeDir.glm}"
+    "%{IncludeDir.glm}",
+    "%{IncludeDir.GLFW}",
+    "%{IncludeDir.Assimp}"
 }
 
 links 

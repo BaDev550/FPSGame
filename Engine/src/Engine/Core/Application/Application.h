@@ -29,7 +29,6 @@ namespace Engine
 		void Render();
 	
 		bool OnWindowClose(WindowCloseEvent& e);
-		bool OnKeyPress(KeyPressedEvent& e);
 	private:
 		std::unique_ptr<Window> _Window;
 	

@@ -18,4 +18,8 @@ namespace Engine
 	{
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, NULL);
 	}
+	void OpenGLRendererAPI::SetPolyMode(const int face, const int mode)
+	{
+		glPolygonMode(face, mode);
+	}
 }

@@ -10,5 +10,6 @@ namespace Engine
 		virtual void SetClearColor(const glm::vec4& color) override;
 		virtual void Clear() override;
 		virtual void DrawIndexed(const std::shared_ptr<VertexArrayBuffer>& vertexArray) override;
+		virtual void SetPolyMode(const int face, const int mode) override;
 	};
 }
