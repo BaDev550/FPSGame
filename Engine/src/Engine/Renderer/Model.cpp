@@ -10,7 +10,7 @@ namespace Engine
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, 
 			aiProcess_Triangulate |
-			aiProcess_GenSmoothNormals | 
+			aiProcess_GenSmoothNormals |
 			aiProcess_FlipUVs |
 			aiProcess_CalcTangentSpace |
 			aiProcess_JoinIdenticalVertices);
@@ -54,9 +54,9 @@ namespace Engine
 			mesh.Draw(shader);
 	}
 	
-	std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory)
+	std::vector<std::shared_ptr<Texture2D>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory)
 	{
-		std::vector<Texture> textures;
+		std::vector<std::shared_ptr<Texture2D>> textures;
 		int textureCount = mat->GetTextureCount(type);
 		for (unsigned int i = 0; i < textureCount; i++)
 		{
@@ -68,7 +68,7 @@ namespace Engine
 			bool skip = false;
 			for (const auto & LoadedTexture : _LoadedTextures)
 			{
-				if (std::strcmp(LoadedTexture.GetFilePath().data(), filename.c_str()) == 0)
+				if (std::strcmp(LoadedTexture->GetFile().data(), filename.c_str()) == 0)
 				{
 					textures.push_back(LoadedTexture);
 					skip = true;
@@ -78,7 +78,8 @@ namespace Engine
 			if (!skip)
 			{
 				std::cout << "Loading texture: " << filename << std::endl;
-				Texture texture(filename, typeName);
+				std::shared_ptr<Texture2D> texture;
+				texture = Texture2D::Create(filename, typeName);
 				textures.push_back(texture);
 				_LoadedTextures.push_back(texture);
 			}
@@ -90,7 +91,7 @@ namespace Engine
 	{
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
+		std::vector<std::shared_ptr<Texture2D>> textures;
 	
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -150,21 +151,21 @@ namespace Engine
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 	
 		// 1. diffuse maps
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", _ModelDirectory);
+		std::vector<std::shared_ptr<Texture2D>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", _ModelDirectory);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 	
 		// 2. specular maps
-		std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", _ModelDirectory);
+		std::vector<std::shared_ptr<Texture2D>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", _ModelDirectory);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	
 		// 3. normal maps
-		std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", _ModelDirectory);
+		std::vector<std::shared_ptr<Texture2D>> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", _ModelDirectory);
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	
 		// 4. height maps
-		std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", _ModelDirectory);
+		std::vector<std::shared_ptr<Texture2D>> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", _ModelDirectory);
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-	
+
 		return Mesh(vertices, indices, textures);
 	}
 }

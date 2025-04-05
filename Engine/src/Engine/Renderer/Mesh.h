@@ -10,7 +10,7 @@ namespace Engine
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<Texture>& textures)
+		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<std::shared_ptr<Texture2D>>& textures)
 			: _Vertices(vertices), _Indices(indices), _Textures(textures)
 		{
 			setupMesh();
@@ -23,6 +23,6 @@ namespace Engine
 		std::shared_ptr<VertexArrayBuffer> _Mesh;
 		std::vector<Vertex> _Vertices;
 		std::vector<unsigned int> _Indices;
-		std::vector<Texture> _Textures;
+		std::vector<std::shared_ptr<Texture2D>> _Textures;
 	};
 }

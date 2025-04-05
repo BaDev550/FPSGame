@@ -16,16 +16,17 @@ namespace Engine
 	{
 	public:
 		Model(const std::string& path) {
+			std::cout << "Loading Model from " << path << std::endl;
 			LoadModel(path);
 		};
 		void LoadModel(const std::string& path);
 		void Draw(std::shared_ptr<Shader>& shader);
 	private:
 		std::vector<Mesh> _Meshes;
-		std::vector<Texture> _LoadedTextures;
+		std::vector<std::shared_ptr<Texture2D>> _LoadedTextures;
 		std::string _ModelDirectory;
 	
-		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory);
+		std::vector<std::shared_ptr<Texture2D>> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory);
 		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 		void processNode(aiNode* node, const aiScene* scene);
 	

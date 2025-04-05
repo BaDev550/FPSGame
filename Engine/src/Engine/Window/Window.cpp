@@ -11,6 +11,8 @@
 namespace Engine
 {
 	static bool s_GLFWInitialized = false;
+	static void GLFWErrorCallback(int err, const char* desc);
+
 	Window::Window(SWindowPropeties props)
 	{
 		_WindowProperties = props;
@@ -31,6 +33,8 @@ namespace Engine
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwSetErrorCallback(GLFWErrorCallback);
+
 			s_GLFWInitialized = true;
 		}
 	}
@@ -149,5 +153,10 @@ namespace Engine
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			data.EventCallbackFn(event);
 			});
+	}
+
+	void GLFWErrorCallback(int err, const char* desc)
+	{
+		std::cout << "GLFW Error [" << err << "]: " << desc;
 	}
 }

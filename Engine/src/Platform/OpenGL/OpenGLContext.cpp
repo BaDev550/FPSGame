@@ -7,6 +7,13 @@
 
 namespace Engine
 {
+	void APIENTRY GLDebugMessageCallback(GLenum source, GLenum type, GLuint id,
+		GLenum severity, GLsizei length,
+		const GLchar* message, const void* userParam)
+	{
+		std::cout << "[OpenGL Debug] " << message << std::endl;
+	}
+
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
 		: _WindowHandle(windowHandle)
 	{
@@ -29,6 +36,11 @@ namespace Engine
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
+
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(GLDebugMessageCallback, nullptr);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 	}
 	
 	void OpenGLContext::SwapBuffers()

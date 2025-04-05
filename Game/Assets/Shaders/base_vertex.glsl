@@ -9,8 +9,10 @@ uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
 
 out vec2 TexCoord;
+out vec3 Normal;
 
 void main(){
     TexCoord = aTexCoord;
+	Normal = mat3(transpose(inverse(u_Model))) * aNormal;
 	gl_Position = u_ViewProjection * u_Model * vec4(aPos, 1.0f);
 }

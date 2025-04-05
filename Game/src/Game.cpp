@@ -9,7 +9,7 @@ public:
 		EngineWindow* window = &EngineApp::Get().GetWindow();
 		float aspectRatio = (float)window->GetWidth() / (float)window->GetHeight();
 		_Camera.reset(new EngineCamera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, -90.0f, 0.0f, aspectRatio));
-		_Mario = EngineLoadStaticMesh("Assets/Models/backpack/backpack.obj");
+		_Mario = EngineLoadStaticMesh("Assets/Models/mario_2/mario_2.obj");
 		_Shader = EngineCreateShader("Assets/Shaders/base_vertex.glsl", "Assets/Shaders/base_fragment.glsl");
 	}
 
@@ -77,6 +77,9 @@ public:
 			EngineSetPollyMode(GL_FRONT_AND_BACK, _bWireframeRendering ? GL_LINE : GL_FILL);
 			_Shader->SetBool("u_bWireframe", _bWireframeRendering);
 		}
+		if (ImGui::Checkbox("Texture Coords", &_bTextureCoordRendering)) {
+			_Shader->SetBool("u_bTextureCoords", _bTextureCoordRendering);
+		}
 
 		ImGui::End();
 	}
@@ -92,6 +95,7 @@ private:
 	std::shared_ptr<EngineCamera> _Camera;
 	std::unique_ptr<EngineModel> _Mario;
 	bool _bWireframeRendering = false;
+	bool _bTextureCoordRendering = false;
 	bool _bCursor = true;
 };
 

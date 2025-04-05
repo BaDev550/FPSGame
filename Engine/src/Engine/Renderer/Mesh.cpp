@@ -32,15 +32,14 @@ namespace Engine
 	
 	void Mesh::Draw(std::shared_ptr<Shader>& shader)
 	{
-		shader->Bind();
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		unsigned int normalNr = 1;
 		unsigned int heightNr = 1;
-		for (unsigned int i = 0; i < _Textures.size(); i++)
+		for (const auto & Texture : _Textures)
 		{
 			std::string number;
-			std::string texType = _Textures[i].GetType();
+			std::string texType = Texture->GetType();
 			if (texType == "texture_diffuse")
 				number = std::to_string(diffuseNr++);
 			else if (texType == "texture_specular")
@@ -50,10 +49,7 @@ namespace Engine
 			else if (texType == "texture_height")
 				number = std::to_string(heightNr++);
 
-			std::string matTexName = "u_Material." + texType;
-			shader->SetInt(matTexName, i);
-			_Textures[i].Bind();
+			Renderer::Submit(shader, Texture, _Mesh);
 		}
-		Renderer::Submit(shader, _Mesh);
 	}
 }

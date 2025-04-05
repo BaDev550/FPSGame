@@ -1,26 +1,27 @@
 #pragma once
 #include <string>
+#include "Engine/Core/Core.h"
 
 namespace Engine
 {
 	class Texture
 	{
 	public:
-		Texture(const std::string& path, const std::string& type);
-		~Texture();
-	
-		void Bind() const;
-		void Unbind() const;
-		inline unsigned int GetWidth() const { return _Width; }
-		inline unsigned int GetHeight() const { return _Height; }
-		inline unsigned int GetTextureID() const { return _TextureID; }
-		inline const std::string& GetFilePath() const { return _FilePath; }
-		inline const std::string& GetType() const { return _Type; }
-	private:
-		unsigned int _TextureID;
-		std::string _FilePath;
-		std::string _Type;
-		int _Width, _Height, _NumOfChannels;
+		virtual ~Texture() = default;
+
+		virtual void Bind(uint32_t slot = 0) const = 0;
+		virtual void Unbind() const = 0;
+
+		virtual uint32_t GetWidth() const = 0;
+		virtual uint32_t GetHeight() const = 0;
+
+		virtual std::string& GetFile() = 0;
+		virtual std::string& GetType() = 0;
+	};
+
+	class Texture2D : public Texture {
+	public:
+		static std::shared_ptr<Texture2D> Create(const std::string& path, const std::string& type);
 	};
 }
 
