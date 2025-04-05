@@ -13,7 +13,8 @@ namespace Engine
 			aiProcess_GenSmoothNormals |
 			aiProcess_FlipUVs |
 			aiProcess_CalcTangentSpace |
-			aiProcess_JoinIdenticalVertices);
+			aiProcess_JoinIdenticalVertices
+		);
 	
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -39,16 +40,9 @@ namespace Engine
 	
 	}
 	
-	void Model::Draw(std::shared_ptr<Shader>& shader)
+	void Model::Draw(std::shared_ptr<Shader>& shader, const glm::mat4& transform)
 	{
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-
-		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
+		glm::mat4 model = transform;
 		shader->SetMat4("u_Model", model);
 		for (auto & mesh : _Meshes)
 			mesh.Draw(shader);
@@ -96,44 +90,28 @@ namespace Engine
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
 			Vertex vertex;
-			glm::vec3 vector;
 	
-			vector.x = mesh->mVertices[i].x;
-			vector.y = mesh->mVertices[i].y;
-			vector.z = mesh->mVertices[i].z;
-			vertex.Position[0] = (float)vector.x;
-			vertex.Position[1] = (float)vector.y;
-			vertex.Position[2] = (float)vector.z;
+			vertex.Position[0] = (float)mesh->mVertices[i].x;
+			vertex.Position[1] = (float)mesh->mVertices[i].y;
+			vertex.Position[2] = (float)mesh->mVertices[i].z;
 			if (mesh->HasNormals())
 			{
-				vector.x = mesh->mNormals[i].x;
-				vector.y = mesh->mNormals[i].y;
-				vector.z = mesh->mNormals[i].z;
-				vertex.Normal[0] = (float)vector.x;
-				vertex.Normal[1] = (float)vector.y;
-				vertex.Normal[2] = (float)vector.z;
+				vertex.Normal[0] = (float)mesh->mNormals[i].x;
+				vertex.Normal[1] = (float)mesh->mNormals[i].y;
+				vertex.Normal[2] = (float)mesh->mNormals[i].z;
 			}
 			if (mesh->mTextureCoords[0])
 			{
-				glm::vec2 vec;
-				vec.x = mesh->mTextureCoords[0][i].x;
-				vec.y = mesh->mTextureCoords[0][i].y;
-				vertex.TexCoords[0] = (float)vec.x;
-				vertex.TexCoords[1] = (float)vec.y;
+				vertex.TexCoords[0] = (float)mesh->mTextureCoords[0][i].x;
+				vertex.TexCoords[1] = (float)mesh->mTextureCoords[0][i].y;
 				// tangent
-				vector.x = mesh->mTangents[i].x;
-				vector.y = mesh->mTangents[i].y;
-				vector.z = mesh->mTangents[i].z;
-				vertex.Tangent[0] = (float)vector.x;
-				vertex.Tangent[1] = (float)vector.y;
-				vertex.Tangent[2] = (float)vector.z;
+				vertex.Tangent[0] = (float)mesh->mTangents[i].x;
+				vertex.Tangent[1] = (float)mesh->mTangents[i].y;
+				vertex.Tangent[2] = (float)mesh->mTangents[i].z;
 				// bitangent
-				vector.x = mesh->mBitangents[i].x;
-				vector.y = mesh->mBitangents[i].y;
-				vector.z = mesh->mBitangents[i].z;
-				vertex.Bitangent[0] = (float)vector.x;
-				vertex.Bitangent[1] = (float)vector.y;
-				vertex.Bitangent[2] = (float)vector.z;
+				vertex.Bitangent[0] = (float)mesh->mBitangents[i].x;
+				vertex.Bitangent[1] = (float)mesh->mBitangents[i].y;
+				vertex.Bitangent[2] = (float)mesh->mBitangents[i].z;
 			}
 			else {
 				vertex.TexCoords[0] = 0.0f;

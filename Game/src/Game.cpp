@@ -9,7 +9,6 @@ public:
 		EngineWindow* window = &EngineApp::Get().GetWindow();
 		float aspectRatio = (float)window->GetWidth() / (float)window->GetHeight();
 		_Camera.reset(new EngineCamera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, -90.0f, 0.0f, aspectRatio));
-		_Mario = EngineLoadStaticMesh("Assets/Models/mario_2/mario_2.obj");
 		_Shader = EngineCreateShader("Assets/Shaders/base_vertex.glsl", "Assets/Shaders/base_fragment.glsl");
 	}
 
@@ -27,8 +26,6 @@ public:
 		EngineClear();
 
 		RendererBeginScene(*_Camera);
-
-		_Mario->Draw(_Shader);
 
 		RendererEndScene();
 	}
@@ -93,7 +90,6 @@ public:
 private:
 	std::shared_ptr<EngineShader> _Shader;
 	std::shared_ptr<EngineCamera> _Camera;
-	std::unique_ptr<EngineModel> _Mario;
 	bool _bWireframeRendering = false;
 	bool _bTextureCoordRendering = false;
 	bool _bCursor = true;

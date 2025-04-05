@@ -37,12 +37,12 @@ namespace Engine
 	#define MAX_BONE_INFLUENCE 4
 	struct Vertex{
 		float Position[3];
+		float TexCoords[2];
 		float Normal[3];
-		float TexCoords[2] ;
 		float Tangent[3];
 		float Bitangent[3];
-		int m_BoneIDs[MAX_BONE_INFLUENCE];
-		float m_Weights[MAX_BONE_INFLUENCE];
+		int BoneIDs[MAX_BONE_INFLUENCE];
+		float Weights[MAX_BONE_INFLUENCE];
 	};
 	
 	struct BufferElement{
