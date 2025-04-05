@@ -4,25 +4,17 @@
     <Filter Include="ECS">
       <UniqueIdentifier>{60E1870B-CCEA-877C-5566-9E7CC16E937C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{B3F7140E-1F0C-3DBF-E88D-E01E546139F0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ECS\Components.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ECS\ECSManager.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ECS\PhysicsSystem.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ECS\Systems.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ECS\ECSManager.cpp">
-      <Filter>ECS</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\base_fragment.glsl" />
+    <None Include="Assets\Shaders\base_vertex.glsl" />
+    <None Include="Assets\Shaders\endless_grid_fragment.glsl" />
+    <None Include="Assets\Shaders\endless_grid_vertex.glsl" />
   </ItemGroup>
 </Project>

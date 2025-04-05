@@ -59,7 +59,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -77,7 +77,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -95,13 +95,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ECS\Components.h" />
-    <ClInclude Include="src\ECS\ECSManager.h" />
-    <ClInclude Include="src\ECS\PhysicsSystem.h" />
-    <ClInclude Include="src\ECS\Systems.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\ECS\ECSManager.cpp" />
     <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
   <ItemGroup>

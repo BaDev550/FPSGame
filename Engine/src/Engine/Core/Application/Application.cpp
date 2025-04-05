@@ -10,7 +10,7 @@ namespace Engine
 		ENGINE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 	
-		_Window = std::make_unique<Window>(SWindowPropeties(1280, 720, "Engine"));
+		_Window = std::make_unique<Window>(SWindowPropeties(1280, 720, "Window"));
 		_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 		_bRunning = true;
 	

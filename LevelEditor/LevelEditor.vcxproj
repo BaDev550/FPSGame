@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A4A34224-1059-BB19-994D-B5F00502B21D}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>LevelEditor</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\Debug-windows-x86_64\LevelEditor\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\LevelEditor\</IntDir>
+    <TargetName>LevelEditor</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Release-windows-x86_64\LevelEditor\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\LevelEditor\</IntDir>
+    <TargetName>LevelEditor</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\LevelEditor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.vcxproj">
+      <Project>{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Game\Game.vcxproj">
+      <Project>{7FA9857C-6BE0-860D-14CD-6C1000E3020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\vendor\GLFW\GLFW.vcxproj">
+      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\vendor\GLAD\GLAD.vcxproj">
+      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\vendor\assimp\assimp.vcxproj">
+      <Project>{724885F2-5EEA-AFC8-47A5-C31C33E63619}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Editor.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

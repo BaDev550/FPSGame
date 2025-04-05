@@ -1,5 +1,5 @@
-﻿#include <Engine.h>
-#include "imgui/imgui.h"
+﻿#define DEFINE_MAIN
+#include <Engine.h>
 
 class Game : public EngineLayer {
 public:
@@ -13,15 +13,6 @@ public:
 	}
 
 	void OnUpdate() override {
-		if (EngineKeyPressed(E_KEY_W))
-			_Camera->ProcessKeyboard(Engine::ECameraDirection::FORWARD, 0.1f);
-		if (EngineKeyPressed(E_KEY_S))
-			_Camera->ProcessKeyboard(Engine::ECameraDirection::BACKWARD, 0.1f);
-		if (EngineKeyPressed(E_KEY_A))
-			_Camera->ProcessKeyboard(Engine::ECameraDirection::LEFT, 0.1f);
-		if (EngineKeyPressed(E_KEY_D))
-			_Camera->ProcessKeyboard(Engine::ECameraDirection::RIGHT, 0.1f);
-
 		EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		EngineClear();
 
@@ -34,8 +25,6 @@ public:
 	bool bfirstPressed = true;
 	bool OnMouseMove(Engine::MouseMovedEvent& e)
 	{
-		if (_bCursor) return false;
-
 		if (bfirstPressed)
 		{
 			lastX = e.GetX();
@@ -54,45 +43,19 @@ public:
 		return true;
 	}
 
-	bool OnKeyPressed(Engine::KeyPressedEvent& e) {
-		EngineWindow* window = &EngineApp::Get().GetWindow();
-		if (e.GetKeyCode() == E_KEY_TAB) {
-			_bCursor = !_bCursor;
-			bfirstPressed = true;
-			window->SetInputMode(GLFW_CURSOR, _bCursor ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
-		}
-
-		return true;
-	}
-
 	virtual void OnImGuiRender() override {
-		ImGui::Begin("Test");
-		ImGui::Text("Hello World");
-		ImGui::Text("Mouse Position: (%.1f, %.1f)", lastX, lastY);
-		ImGui::Text("Camera Position: (%.1f, %.1f, %.1f)", _Camera->GetPosition().x, _Camera->GetPosition().y, _Camera->GetPosition().z);
-		if (ImGui::Checkbox("Wireframe", &_bWireframeRendering)) {
-			EngineSetPollyMode(GL_FRONT_AND_BACK, _bWireframeRendering ? GL_LINE : GL_FILL);
-			_Shader->SetBool("u_bWireframe", _bWireframeRendering);
-		}
-		if (ImGui::Checkbox("Texture Coords", &_bTextureCoordRendering)) {
-			_Shader->SetBool("u_bTextureCoords", _bTextureCoordRendering);
-		}
 
-		ImGui::End();
 	}
 
 	void OnEvent(Engine::Event& event) override {
 		Engine::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<Engine::MouseMovedEvent>(BIND_EVENT_FUNCTION(Game::OnMouseMove));
-		dispatcher.Dispatch<Engine::KeyPressedEvent>(BIND_EVENT_FUNCTION(Game::OnKeyPressed));
 	}
 
 private:
 	std::shared_ptr<EngineShader> _Shader;
 	std::shared_ptr<EngineCamera> _Camera;
-	bool _bWireframeRendering = false;
-	bool _bTextureCoordRendering = false;
-	bool _bCursor = true;
+	std::shared_ptr<EngineScene> _Scene;
 };
 
 class Sandbox : public Engine::Application {

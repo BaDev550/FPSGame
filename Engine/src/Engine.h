@@ -19,6 +19,10 @@
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Model.h"
 
+#include "Engine/Scene/Scene.h"
+#include "Engine/Scene/ECS/Components.h"
+#include "Engine/Scene/ECS/Systems.h"
+
 typedef Engine::Application EngineApp;
 typedef Engine::Layer EngineLayer;
 typedef Engine::Event EngineEvent;
@@ -35,9 +39,14 @@ typedef Engine::BufferLayout EngineBufferLayout;
 typedef Engine::BufferElement EngineBufferElement;
 typedef Engine::Vertex EngineVertex;
 typedef Engine::ShaderDataType EngineShaderDataType;
+typedef Engine::Scene EngineScene;
+typedef Engine::RenderSystem EngineRenderSystem;
+
+typedef Engine::MeshComponent EngineStaticMeshComponent;
+typedef entt::entity Entity;
 
 #define EngineLoadStaticMesh(path) std::unique_ptr<EngineModel>(new EngineModel(path))
-#define EngineCreateShader(vertexPath, fragmentPath) std::unique_ptr<EngineShader>(new EngineShader(vertexPath, fragmentPath))
+#define EngineCreateShader(vertexPath, fragmentPath) std::shared_ptr<EngineShader>(new EngineShader(vertexPath, fragmentPath))
 
 #define EngineKeyPressed(key) EngineInput::IsKeyPressed(key)
 
