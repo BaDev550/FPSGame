@@ -137,6 +137,8 @@ void EditorLayer::OnImGuiRender()
 	DrawScene(registry);
 }
 
+static bool bShowOpenSceneDialog = false;
+static bool bShowSaveSceneDialog = false;
 void EditorLayer::DrawTopBar()
 {
 	ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always);
@@ -149,10 +151,10 @@ void EditorLayer::DrawTopBar()
 
 			}
 			if (ImGui::MenuItem("Open")) {
-
+				bShowOpenSceneDialog = !bShowOpenSceneDialog;
 			}
 			if (ImGui::MenuItem("Save")) {
-
+				bShowSaveSceneDialog = !bShowSaveSceneDialog;
 			}
 			if (ImGui::MenuItem("Close")) {
 				EngineApp::Get().Close();
@@ -171,6 +173,31 @@ void EditorLayer::DrawTopBar()
 		}
 
 		ImGui::EndMainMenuBar();
+	}
+
+	IGFD::FileDialogConfig config;
+	if (bShowOpenSceneDialog) {
+		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a scene file", ".scene", config);
+		if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
+			if (ImGuiFileDialog::Instance()->IsOk()) {
+				std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+				EngineApp::Get().LoadScene(filePath, *_Scene);
+			}
+			ImGuiFileDialog::Instance()->Close();
+			bShowOpenSceneDialog = false;
+		}
+	}
+
+	if (bShowSaveSceneDialog) {
+		ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save scene", ".scene", config);
+		if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey")) {
+			if (ImGuiFileDialog::Instance()->IsOk()) {
+				std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+				EngineApp::Get().SaveScene(filePath, *_Scene);
+			}
+			ImGuiFileDialog::Instance()->Close();
+			bShowSaveSceneDialog = false;
+		}
 	}
 
 	ImGui::SameLine();

@@ -1,25 +1,33 @@
-project "YAML"
+project "yaml-cpp"
 	kind "StaticLib"
-	language "C"
-	warnings "off"
-	staticruntime "on"
-	
+	language "C++"
+
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
-		"include/yaml-cpp/**.h",
-		"include/yaml-cpp/**.cpp",
+		"src/**.h",
+		"src/**.cpp",
+		
+		"include/**.h"
+	}
+
+	includedirs
+	{
+		"include"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
+		cppdialect "C++17"
+		staticruntime "off"
 
-		defines 
-		{ 
-			"_CRT_SECURE_NO_WARNINGS"
-		}
+	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++17"
+		staticruntime "off"
 
 	filter "configurations:Debug"
 		runtime "Debug"

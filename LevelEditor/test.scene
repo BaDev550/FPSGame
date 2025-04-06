@@ -1,0 +1,11 @@
+Scene: Untitled Scene
+Entities:
+  - ID: 1
+    NameComponent:
+      Name: Entity
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      ModelPath: ../Game/Assets/Models/Cube/cube.obj

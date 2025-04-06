@@ -11,4 +11,5 @@ namespace Engine
 	    _Registry.emplace<NameComponent>(entity, name);
 	    return entity;
 	}
+
 }

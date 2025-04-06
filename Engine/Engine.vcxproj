@@ -601,8 +601,8 @@
     <ProjectReference Include="vendor\assimp\assimp.vcxproj">
       <Project>{724885F2-5EEA-AFC8-47A5-C31C33E63619}</Project>
     </ProjectReference>
-    <ProjectReference Include="vendor\yaml\YAML.vcxproj">
-      <Project>{F8FB8E7C-E432-900D-8D1F-761079350C0F}</Project>
+    <ProjectReference Include="vendor\yaml\yaml-cpp.vcxproj">
+      <Project>{88F1A057-74BE-FB62-9DD7-E90A890331F1}</Project>
     </ProjectReference>
     <ProjectReference Include="vendor\ImGuizmo\ImGuiGizmo.vcxproj">
       <Project>{C64C7BA4-B204-BDF1-1B0C-964D07E357E2}</Project>

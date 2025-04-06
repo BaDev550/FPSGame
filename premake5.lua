@@ -19,7 +19,7 @@ IncludeDir["ImGui"] = "Engine/vendor/ImGui/"
 IncludeDir["glm"] =   "Engine/vendor/glm/"
 IncludeDir["stb"] =   "Engine/vendor/stb/"
 IncludeDir["entt"] =  "Engine/vendor/entt/include"
-IncludeDir["YAML"] =  "Engine/vendor/yaml/include"
+IncludeDir["yaml"] =  "Engine/vendor/yaml/include"
 
 group "Dependencies"
     include "Engine/vendor/GLFW"
@@ -68,7 +68,7 @@ project "Engine"
         "%{IncludeDir.Assimp}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.stb}",
-        "%{IncludeDir.YAML}",
+        "%{IncludeDir.yaml}",
         "%{IncludeDir.entt}"
     }
 
@@ -78,7 +78,7 @@ project "Engine"
         "GLAD",
         "ImGui",
         "Assimp",
-        "YAML",
+        "yaml-cpp",
         "ImGuiGizmo",
         "opengl32.lib"
     }
@@ -127,6 +127,7 @@ includedirs
     "%{IncludeDir.glm}",
     "%{IncludeDir.GLFW}",
     "%{IncludeDir.Assimp}",
+    "%{IncludeDir.yaml}",
     "%{IncludeDir.entt}"
 }
 
@@ -179,6 +180,7 @@ project "LevelEditor"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Assimp}",
         "%{IncludeDir.ImGui}",
+        "%{IncludeDir.yaml}",
         "%{IncludeDir.entt}"
     }
 

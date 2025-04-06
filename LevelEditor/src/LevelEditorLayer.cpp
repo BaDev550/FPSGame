@@ -11,9 +11,6 @@ LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
 	_LoadedScene->CreateEntity(_Camera, "Camera");
 	_LoadedScene->GetRegistry().emplace<Engine::CameraComponent>(_Camera);
 
-	_LoadedScene->CreateEntity(_Mario, "Mario");
-	_LoadedScene->GetRegistry().emplace<EngineStaticMeshComponent>(_Mario, "../Game/Assets/Models/mario_2/mario_2.obj");
-
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _ShadowShader, _Window, _LoadedScene->GetRegistry());
 }
 

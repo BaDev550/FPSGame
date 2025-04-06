@@ -36,9 +36,9 @@ namespace Engine
 	};
 	
 	struct MeshComponent {
-	private:
-		std::unique_ptr<Model> _Model;
 	public:
+		std::unique_ptr<Model> _Model;
+
 		MeshComponent(const std::string& modelPath) {
 			_Model = std::make_unique<Model>(modelPath);
 		}

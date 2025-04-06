@@ -40,7 +40,6 @@ private:
 	std::shared_ptr<EngineRenderSystem> _RenderSystem;
 
 	Entity _Camera;
-	Entity _Mario;
 private:
 	float _LastX = 0.0f, _LastY = 0.0f;
 	bool _bfirstPressed = true;

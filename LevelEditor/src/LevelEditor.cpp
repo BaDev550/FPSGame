@@ -13,7 +13,8 @@ public:
 		PushLayer(_EditorLayer.get());
 		PushOverlay(_Editor.get());
 	}
-	~LevelEditor() {}
+	~LevelEditor() {
+	}
 };
 
 Engine::Application* Engine::CreateApplication() {

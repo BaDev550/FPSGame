@@ -51,6 +51,91 @@ namespace Engine
 		overlay->OnAttach();
 	}
 
+	void Application::LoadScene(const std::string& path, Scene& scene)
+	{
+		auto& registry = scene.GetRegistry();
+		auto view = registry.view<NameComponent, TransformComponent, MeshComponent>();
+		for (auto entity : view) {
+			if (registry.any_of<NameComponent>(entity) || registry.any_of<TransformComponent>(entity) || registry.any_of<MeshComponent>(entity)) {
+				registry.destroy(entity);
+			}
+		}
+
+		YAML::Node data = YAML::LoadFile(path);
+		auto entities = data["Entities"];
+
+		for (auto entityNode : entities) {
+			entt::entity entity = scene.GetRegistry().create();
+
+			auto tagNode = entityNode["NameComponent"];
+			if (tagNode) {
+				auto& tag = scene.GetRegistry().emplace<NameComponent>(entity);
+				tag.name = tagNode["Name"].as<std::string>();
+			}
+
+			auto transformNode = entityNode["TransformComponent"];
+			if (transformNode) {
+				auto& tc = scene.GetRegistry().emplace<TransformComponent>(entity);
+				tc.Position = transformNode["Position"].as<glm::vec3>();
+				tc.Rotation = transformNode["Rotation"].as<glm::vec3>();
+				tc.Scale = transformNode["Scale"].as<glm::vec3>();
+			}
+
+			auto modelNode = entityNode["MeshComponent"];
+			if (modelNode) {
+				std::string path = modelNode["ModelPath"].as<std::string>();
+
+				scene.GetRegistry().emplace<MeshComponent>(entity, path);
+			}
+		}
+	}
+
+	void Application::SaveScene(const std::string& path, Scene& scene)
+	{
+		YAML::Emitter out;
+		out << YAML::BeginMap;
+		out << YAML::Key << "Scene" << YAML::Value << "Untitled Scene";
+
+		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
+		auto view = scene.GetRegistry().view<NameComponent, TransformComponent, MeshComponent>();
+
+		for (auto entity : view) {
+			out << YAML::BeginMap;
+			out << YAML::Key << "ID" << YAML::Value << (uint32_t)entity;
+
+			if (scene.GetRegistry().any_of<NameComponent>(entity)) {
+				auto& tag = scene.GetRegistry().get<NameComponent>(entity);
+				out << YAML::Key << "NameComponent" << YAML::Value << YAML::BeginMap;
+				out << YAML::Key << "Name" << YAML::Value << tag.name;
+				out << YAML::EndMap;
+			}
+
+			if (scene.GetRegistry().any_of<TransformComponent>(entity)) {
+				auto& tc = scene.GetRegistry().get<TransformComponent>(entity);
+				out << YAML::Key << "TransformComponent" << YAML::Value << YAML::BeginMap;
+				out << YAML::Key << "Position" << YAML::Value << tc.Position;
+				out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
+				out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
+				out << YAML::EndMap;
+			}
+
+			if (scene.GetRegistry().any_of<MeshComponent>(entity)) {
+				auto& tc = scene.GetRegistry().get<MeshComponent>(entity);
+				out << YAML::Key << "MeshComponent" << YAML::Value << YAML::BeginMap;
+				out << YAML::Key << "ModelPath" << YAML::Value << tc._Model->GetPath();
+				out << YAML::EndMap;
+			}
+
+			out << YAML::EndMap; // End Entity
+		}
+
+		out << YAML::EndSeq; // End Entities
+		out << YAML::EndMap;
+
+		std::ofstream fout(path);
+		fout << out.c_str();
+	}
+
 	void Application::Close()
 	{
 		_bRunning = false;
