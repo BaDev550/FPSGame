@@ -179,13 +179,11 @@ void EditorLayer::DrawTopBar()
 	ImGui::End();
 }
 
+static bool bShowFileDialog = false;
 void EditorLayer::DrawScene(entt::registry& registry)
 {
 	ImGui::SetNextWindowSize(ImVec2((float)EngineApp::Get().GetWindow().GetWidth() / 2, (float)EngineApp::Get().GetWindow().GetHeight()), ImGuiCond_Always);
 	ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoResize);
-
-	ImGui::DragFloat("Camera Speed", &_LevelEditor->GetActiveCamera()->MovementSpeed);
-	ImGui::DragFloat("Camera Sens", &_LevelEditor->GetActiveCamera()->MouseSensitivity);
 
 	if (ImGui::Button("Create Entity")) {
 		Entity newEntity;
@@ -195,28 +193,53 @@ void EditorLayer::DrawScene(entt::registry& registry)
 	auto view = registry.view<Engine::TransformComponent, Engine::NameComponent>();
 	for (auto entity : view) {
 		auto& nameComp = registry.get<Engine::NameComponent>(entity);
-		auto& transform = registry.get<Engine::TransformComponent>(entity);
 
-		if (ImGui::TreeNode(nameComp.name.c_str())) {
+		if (ImGui::Selectable(nameComp.name.c_str())) {
+			_SelectedEntity = entity;
+		}
+	}
+	if (_SelectedEntity != entt::null) {
+		auto& nameComp = registry.get<Engine::NameComponent>(_SelectedEntity);
+		auto& transform = registry.get<Engine::TransformComponent>(_SelectedEntity);
+
+		if (ImGui::Begin("Properties")) {
 			static int SelectedComboBoxComponentItem = 0;
-
 			char buffer[128];
 			strncpy(buffer, nameComp.name.c_str(), sizeof(buffer));
 			if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
 				nameComp.name = buffer;
 			}
 
-			if (ImGui::IsItemClicked()) {
-				_SelectedEntity = entity;
-			}
-
 			ImGui::DragFloat3("Position", glm::value_ptr(transform.Position), 0.1f);
 			ImGui::DragFloat3("Rotation", glm::value_ptr(transform.Rotation), 0.1f);
 			ImGui::DragFloat3("Scale", glm::value_ptr(transform.Scale), 0.1f);
 
-			if (registry.any_of<EngineStaticMeshComponent>(entity)) {
-				auto& staticMesh = registry.get<EngineStaticMeshComponent>(entity);
+			if (registry.any_of<EngineStaticMeshComponent>(_SelectedEntity)) {
+				auto& staticMesh = registry.get<EngineStaticMeshComponent>(_SelectedEntity);
 				ImGui::Text(staticMesh.GetModelPath().c_str());
+				if (ImGui::Button("Load Model")) {
+					bShowFileDialog = !bShowFileDialog;
+				}
+				if (bShowFileDialog) {
+					IGFD::FileDialogConfig config;
+
+					ImGuiFileDialog::Instance()->OpenDialog("SelectModel", "Choose Texture", ".obj,.gltf", config);
+
+					if (ImGuiFileDialog::Instance()->Display("SelectModel")) {
+						if (ImGuiFileDialog::Instance()->IsOk()) {
+							std::string path = ImGuiFileDialog::Instance()->GetFilePathName();
+							if (!path.empty()) {
+								std::replace(path.begin(), path.end(), '\\', '/');
+								staticMesh.LoadModel(path);
+							}
+						}
+						ImGuiFileDialog::Instance()->Close();
+						bShowFileDialog = false;
+					}
+					ImGui::SetItemDefaultFocus();
+					ImGui::SetItemAllowOverlap();
+				}
+
 				int materialID = 0;
 				for (auto& material : staticMesh.GetMaterials()) {
 					std::string label = "Material " + std::to_string(materialID);
@@ -225,18 +248,23 @@ void EditorLayer::DrawScene(entt::registry& registry)
 				}
 			}
 
+			if (registry.any_of<Engine::CameraComponent>(_SelectedEntity)) {
+				ImGui::DragFloat("Camera Speed", &_LevelEditor->GetActiveCamera()->MovementSpeed);
+				ImGui::DragFloat("Camera Sens", &_LevelEditor->GetActiveCamera()->MouseSensitivity);
+			}
+
 			if (ImGui::Combo("Add Component", &SelectedComboBoxComponentItem, "None\0Static Mesh")) {
 				switch (SelectedComboBoxComponentItem)
 				{
 				case 1:
-					if(!registry.any_of<EngineStaticMeshComponent>(entity))
-						registry.emplace<EngineStaticMeshComponent>(entity, "../Game/Assets/Models/Cube/cube.obj");
+					if (!registry.any_of<EngineStaticMeshComponent>(_SelectedEntity))
+						registry.emplace<EngineStaticMeshComponent>(_SelectedEntity, "../Game/Assets/Models/Cube/cube.obj");
 				default:
 					break;
 				}
 			}
-			ImGui::TreePop();
 		}
+		ImGui::End();
 	}
 	ImGui::End();
 }

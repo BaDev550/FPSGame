@@ -11,5 +11,6 @@ namespace Engine
 		virtual void Clear() override;
 		virtual void DrawIndexed(const std::shared_ptr<VertexArrayBuffer>& vertexArray) override;
 		virtual void SetPolyMode(const int face, const int mode) override;
+		virtual void SetViewport(int width, int height) override;
 	};
 }

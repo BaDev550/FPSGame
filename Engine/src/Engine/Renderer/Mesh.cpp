@@ -71,4 +71,10 @@ namespace Engine
 		}
 		Renderer::Submit(shader, _Mesh);
 	}
+	void Mesh::DrawShadow(std::shared_ptr<Shader>& shader)
+	{
+		shader->Bind();
+		_Mesh->Bind();
+		RenderCommand::DrawIndexed(_Mesh);
+	}
 }

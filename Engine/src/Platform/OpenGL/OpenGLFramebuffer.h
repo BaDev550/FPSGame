@@ -13,6 +13,8 @@ namespace Engine
 		virtual void Unbind() const override;
 		virtual void Resize(uint32_t width, uint32_t height) override;
 		virtual uint32_t GetColorAttachmentFramebufferID() const override { return _ColorAttachment; };
+		virtual uint32_t GetWidth() const override { return _Spec.Width; }
+		virtual uint32_t GetHeight() const override { return _Spec.Height; }
 
 	private:
 		void Invalidate();

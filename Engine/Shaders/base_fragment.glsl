@@ -10,6 +10,8 @@ struct Material {
     sampler2D texture_specular;
     sampler2D texture_normal;
     sampler2D texture_height;
+    sampler2D texture_ao;        // Ambient Occlusion map
+    sampler2D texture_emissive;  // Emissive map
     bool Highlight;
     float shininess;
     float metalness;
@@ -19,6 +21,8 @@ struct Material {
 uniform Material u_Material;
 uniform vec3 u_LightPos;
 uniform vec3 u_ViewPos;
+uniform sampler2D u_ShadowMap;
+uniform mat4 u_LightSpaceMatrix;
 
 vec3 FresnelSchlick(float cosTheta, vec3 F0) {
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
@@ -50,11 +54,23 @@ float GeometrySmith(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness) {
     return ggx1 * ggx2;
 }
 
+float ShadowCalculation(vec4 fragPosLightSpace) {
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    float closestDepth = texture(u_ShadowMap, projCoords.xy).r;
+    float currentDepth = projCoords.z;
+
+    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    return shadow;
+}
+
 void main() {
     // Retrieve material textures
     vec4 diffuseColor = texture(u_Material.texture_diffuse, TexCoord);
     vec4 normalColor = texture(u_Material.texture_normal, TexCoord);
     vec4 heightMap = texture(u_Material.texture_height, TexCoord);
+    vec4 aoMap = texture(u_Material.texture_ao, TexCoord);
+    vec4 emissiveMap = texture(u_Material.texture_emissive, TexCoord);
 
     // Calculate normal and height information
     vec3 normal = normalize(normalColor.rgb * 2.0 - 1.0);  // Normal mapping
@@ -83,7 +99,13 @@ void main() {
 
     // Combine the results
     vec3 diffuse = diffuseColor.rgb * diff;  // Lambertian diffuse reflection
-    vec3 color = diffuse + specular;  // Final color
+    vec3 ambient = aoMap.rgb * diffuseColor.rgb;  // Ambient occlusion
+    vec3 emissive = emissiveMap.rgb;  // Emissive color
+    vec3 color = ambient + diffuse + specular + emissive;  // Final color
+
+    //vec4 fragPosLightSpace = u_LightSpaceMatrix * vec4(FragPos, 1.0);
+    //float shadow = ShadowCalculation(fragPosLightSpace);
+    //color = mix(color, color * shadow, 0.5); // Apply shadow
 
     // Highlight effect (if needed)
     if (u_Material.Highlight) {

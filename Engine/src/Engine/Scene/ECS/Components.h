@@ -43,10 +43,15 @@ namespace Engine
 			_Model = std::make_unique<Model>(modelPath);
 		}
 		bool ModelLoaded() { return _Model.get(); }
+
+		void LoadModel(const std::string& modelPath) {
+			_Model.reset();
+			_Model = std::make_unique<Model>(modelPath);
+		}
 		std::string& GetModelPath() { return _Model->GetPath(); }
 		std::vector<std::shared_ptr<Material>> GetMaterials() { return _Model->GetAllMaterials(); }
-		void Draw(std::shared_ptr<Shader> shader, TransformComponent& transform) {
-			_Model->Draw(shader, transform.GetModelMatrix());
+		void Draw(std::shared_ptr<Shader> shader, std::shared_ptr<Shader> ShadowShader, TransformComponent& transform) {
+			_Model->Draw(shader, ShadowShader, transform.GetModelMatrix());
 		}
 	};
 

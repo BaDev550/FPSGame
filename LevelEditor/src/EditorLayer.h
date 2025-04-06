@@ -3,6 +3,7 @@
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_internal.h"
 #include "ImGuizmo/ImGuizmo.h"
+#include "ImGui/ImGuiFileDialog.h"
 
 class LevelEditorLayer;
 class EditorLayer : public EngineLayer {

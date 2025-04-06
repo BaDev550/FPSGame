@@ -24,8 +24,8 @@ namespace Engine
 	
 	class RenderSystem {
 	public:
-		RenderSystem(std::shared_ptr<Shader>& shader, std::shared_ptr<Window>& window, entt::registry& registry)
-			: _Shader(shader), _Window(window), _Registry(registry)
+		RenderSystem(std::shared_ptr<Shader>& shader, std::shared_ptr<Shader>& shadowShader, std::shared_ptr<Window>& window, entt::registry& registry)
+			: _Shader(shader), _Window(window), _Registry(registry), _ShadowShader(shadowShader)
 		{
 			float aspectRatio = (float)_Window->GetWidth() / (float)_Window->GetHeight();
 			auto view = _Registry.view<CameraComponent>();
@@ -45,7 +45,7 @@ namespace Engine
 				auto& mesh = view.get<MeshComponent>(entity);
 
 				if (mesh.ModelLoaded())
-					mesh.Draw(_Shader, transform);
+					mesh.Draw(_Shader, _ShadowShader, transform);
 			}
 		}
 
@@ -69,6 +69,7 @@ namespace Engine
 		}
 	private:
 		std::shared_ptr<Shader> _Shader;
+		std::shared_ptr<Shader> _ShadowShader;
 		std::shared_ptr<Window> _Window;
 		entt::registry& _Registry;
 	};

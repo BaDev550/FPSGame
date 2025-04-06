@@ -41,13 +41,17 @@ namespace Engine
 	
 	}
 	
-	void Model::Draw(std::shared_ptr<Shader>& shader, const glm::mat4& transform)
+	void Model::Draw(std::shared_ptr<Shader>& shader, std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform)
 	{
+		glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
+
 		glm::mat4 model = transform;
 		shader->SetMat4("u_Model", model);
 
-		for (auto & mesh : _Meshes)
+		for (auto& mesh : _Meshes) {
 			mesh.Draw(shader);
+			//Renderer::RenderShadowMap(ShadowShader, mesh._Mesh, lightSpaceMatrix);
+		}
 	}
 
 	std::vector<std::shared_ptr<Material>> Model::GetAllMaterials()
@@ -151,27 +155,6 @@ namespace Engine
 		LoadAndSet(aiTextureType_SPECULAR, ETextureType::Specular, "texture_specular");
 		LoadAndSet(aiTextureType_HEIGHT, ETextureType::Normal, "texture_normal");
 		LoadAndSet(aiTextureType_AMBIENT, ETextureType::AmbientOcclusion, "texture_ambient");
-
-		//// 1. diffuse maps
-		//std::vector<std::shared_ptr<Texture2D>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", _ModelDirectory);
-		//if (diffuseMaps.empty()) {
-		//	std::shared_ptr<Texture2D> defaulttex;
-		//	defaulttex = Texture2D::Create("", "texture_diffuse");
-		//	diffuseMaps.push_back(defaulttex);
-		//}
-		//textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	
-		//// 2. specular maps
-		//std::vector<std::shared_ptr<Texture2D>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", _ModelDirectory);
-		//textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	
-		//// 3. normal maps
-		//std::vector<std::shared_ptr<Texture2D>> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", _ModelDirectory);
-		//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	
-		//// 4. height maps
-		//std::vector<std::shared_ptr<Texture2D>> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", _ModelDirectory);
-		//textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		return Mesh(vertices, indices, Mmaterial);
 	}

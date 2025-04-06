@@ -52,9 +52,6 @@ namespace Engine {
 					if (ImGuiFileDialog::Instance()->Display("ChooseTexture")) {
 						if (ImGuiFileDialog::Instance()->IsOk()) {
 							std::string path = ImGuiFileDialog::Instance()->GetFilePathName();
-							if (ImGui::Button("Reset Texture")) {
-								AddTexture(currentTextureType, Texture2D::Create("", label));
-							}
 							if (!path.empty()) {
 								AddTexture(currentTextureType, Texture2D::Create(path, "texture_" + label));
 							}
@@ -64,6 +61,10 @@ namespace Engine {
 					}
 					ImGui::SetItemDefaultFocus();
 					ImGui::SetItemAllowOverlap();
+				}
+
+				if (ImGui::Button("Reset Texture")) {
+					AddTexture(type, Texture2D::Create("", label));
 				}
 			}
 			ImGui::DragFloat("Metalness", &_metalness);

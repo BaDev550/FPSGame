@@ -34,6 +34,7 @@ public:
 	bool _ViewportFocused = false;
 private:
 	std::shared_ptr<EngineShader> _Shader;
+	std::shared_ptr<EngineShader> _ShadowShader;
 	std::shared_ptr<EngineScene> _LoadedScene;
 	std::shared_ptr<EngineWindow> _Window;
 	std::shared_ptr<EngineRenderSystem> _RenderSystem;

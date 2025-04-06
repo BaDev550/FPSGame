@@ -6,6 +6,7 @@ namespace Engine {
 	{
 	public:
 		OpenGLTexture2D(const std::string& path, const std::string& type);
+		OpenGLTexture2D(uint32_t width, uint32_t height);
 		virtual ~OpenGLTexture2D();
 
 		virtual void CreateCheckerboardTexture() override;

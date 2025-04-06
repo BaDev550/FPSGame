@@ -53,5 +53,6 @@ typedef entt::entity Entity;
 #define EngineSetPollyMode(face, mode) EngineRenderCommand::SetPolyMode(face, mode);
 
 #define RendererBeginScene(camera) EngineRenderer::BeginScene(camera)
+#define RenderShadow(shader, vertexArray, lightSpaceMatrix) EngineRenderer::RenderShadowMap(shader, vertexArray, lightSpaceMatrix)
 #define RendererEndScene() EngineRenderer::EndScene()
 #define RendererSubmit(shader, vertexArray) EngineRenderer::Submit(shader, vertexArray)

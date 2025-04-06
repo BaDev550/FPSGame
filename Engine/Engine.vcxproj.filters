@@ -1515,10 +1515,4 @@
       <Filter>vendor\stb</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\base_fragment.glsl" />
-    <None Include="Shaders\base_vertex.glsl" />
-    <None Include="Shaders\outline_shader_fragment.glsl" />
-    <None Include="Shaders\outline_shader_vertex.glsl" />
-  </ItemGroup>
 </Project>

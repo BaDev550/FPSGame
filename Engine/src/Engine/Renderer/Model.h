@@ -21,9 +21,10 @@ namespace Engine
 			LoadModel(path);
 		};
 		void LoadModel(const std::string& path);
-		void Draw(std::shared_ptr<Shader>& shader, const glm::mat4& transform);
+		void Draw(std::shared_ptr<Shader>& shader, std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform);
 		std::vector<std::shared_ptr<Material>> GetAllMaterials();
 		std::string& GetPath() { return _ModelPath; }
+		std::vector<Mesh>& GetAllMeshes() { return _Meshes; }
 	private:
 		std::vector<Mesh> _Meshes;
 		std::string _ModelDirectory;

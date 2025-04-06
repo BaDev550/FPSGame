@@ -21,7 +21,9 @@ namespace Engine
 		
 		std::shared_ptr<Material> GetMaterial() const { return _Material; }
 		void setupMesh();
+
 		void Draw(std::shared_ptr<Shader>& shader);
+		void DrawShadow(std::shared_ptr<Shader>& shader);
 	public:
 		std::shared_ptr<VertexArrayBuffer> _Mesh;
 		std::vector<Vertex> _Vertices;

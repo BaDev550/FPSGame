@@ -22,4 +22,8 @@ namespace Engine
 	{
 		glPolygonMode(face, mode);
 	}
+	void OpenGLRendererAPI::SetViewport(int width, int height)
+	{
+		glViewport(0, 0, width, height);
+	}
 }

@@ -5,6 +5,7 @@ LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
 	_Window = std::make_shared<EngineWindow>(EngineApp::Get().GetWindow());
 
 	_Shader = EngineCreateShader("../Engine/Shaders/base_vertex.glsl", "../Engine/Shaders/base_fragment.glsl");
+	_ShadowShader = EngineCreateShader("../Engine/Shaders/shadow_vertex.glsl", "../Engine/Shaders/shadow_fragment.glsl");
 	_LoadedScene = std::make_shared<EngineScene>();
 
 	_LoadedScene->CreateEntity(_Camera, "Camera");
@@ -13,7 +14,7 @@ LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
 	_LoadedScene->CreateEntity(_Mario, "Mario");
 	_LoadedScene->GetRegistry().emplace<EngineStaticMeshComponent>(_Mario, "../Game/Assets/Models/mario_2/mario_2.obj");
 
-	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _Window, _LoadedScene->GetRegistry());
+	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _ShadowShader, _Window, _LoadedScene->GetRegistry());
 }
 
 void LevelEditorLayer::OnUpdate()

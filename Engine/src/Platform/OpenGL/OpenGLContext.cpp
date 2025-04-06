@@ -39,10 +39,12 @@ namespace Engine
 
 		glEnable(GL_STENCIL_TEST);
 
-		glDisable(GL_DEBUG_OUTPUT);
+#ifdef E_DEBUG
+		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(GLDebugMessageCallback, nullptr);
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+#endif // E_DEBUG
 	}
 	
 	void OpenGLContext::SwapBuffers()
