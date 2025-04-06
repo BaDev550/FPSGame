@@ -7,6 +7,7 @@ namespace Engine
 {
 	void Model::LoadModel(const std::string& path)
 	{
+		_ModelPath = path;
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, 
 			aiProcess_Triangulate |
@@ -44,8 +45,18 @@ namespace Engine
 	{
 		glm::mat4 model = transform;
 		shader->SetMat4("u_Model", model);
+
 		for (auto & mesh : _Meshes)
 			mesh.Draw(shader);
+	}
+
+	std::vector<std::shared_ptr<Material>> Model::GetAllMaterials()
+	{
+		std::vector<std::shared_ptr<Material>> materials;
+		for (auto& mesh : _Meshes)
+			materials.push_back(mesh.GetMaterial());
+
+		return materials;
 	}
 	
 	std::vector<std::shared_ptr<Texture2D>> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName, const std::string& directory)
@@ -86,11 +97,11 @@ namespace Engine
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
 		std::vector<std::shared_ptr<Texture2D>> textures;
-	
+
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
 			Vertex vertex;
-	
+
 			vertex.Position[0] = (float)mesh->mVertices[i].x;
 			vertex.Position[1] = (float)mesh->mVertices[i].y;
 			vertex.Position[2] = (float)mesh->mVertices[i].z;
@@ -117,7 +128,7 @@ namespace Engine
 				vertex.TexCoords[0] = 0.0f;
 				vertex.TexCoords[1] = 0.0f;
 			}
-	
+
 			vertices.push_back(vertex);
 		}
 		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -127,23 +138,41 @@ namespace Engine
 				indices.push_back(face.mIndices[j]);
 		}
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-	
-		// 1. diffuse maps
-		std::vector<std::shared_ptr<Texture2D>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", _ModelDirectory);
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-	
-		// 2. specular maps
-		std::vector<std::shared_ptr<Texture2D>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", _ModelDirectory);
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-	
-		// 3. normal maps
-		std::vector<std::shared_ptr<Texture2D>> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", _ModelDirectory);
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-	
-		// 4. height maps
-		std::vector<std::shared_ptr<Texture2D>> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", _ModelDirectory);
-		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-		return Mesh(vertices, indices, textures);
+		std::shared_ptr<Material> Mmaterial = std::make_shared<Material>();
+		auto LoadAndSet = [&](aiTextureType type, ETextureType ourType, const std::string& name) {
+			auto texs = loadMaterialTextures(material, type, name, _ModelDirectory);
+			if (!texs.empty())
+				Mmaterial->AddTexture(ourType, texs[0]);
+			else
+				Mmaterial->AddTexture(ourType, Texture2D::Create("", name));
+		};
+		LoadAndSet(aiTextureType_DIFFUSE, ETextureType::Diffuse, "texture_diffuse");
+		LoadAndSet(aiTextureType_SPECULAR, ETextureType::Specular, "texture_specular");
+		LoadAndSet(aiTextureType_HEIGHT, ETextureType::Normal, "texture_normal");
+		LoadAndSet(aiTextureType_AMBIENT, ETextureType::AmbientOcclusion, "texture_ambient");
+
+		//// 1. diffuse maps
+		//std::vector<std::shared_ptr<Texture2D>> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse", _ModelDirectory);
+		//if (diffuseMaps.empty()) {
+		//	std::shared_ptr<Texture2D> defaulttex;
+		//	defaulttex = Texture2D::Create("", "texture_diffuse");
+		//	diffuseMaps.push_back(defaulttex);
+		//}
+		//textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+	
+		//// 2. specular maps
+		//std::vector<std::shared_ptr<Texture2D>> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular", _ModelDirectory);
+		//textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+	
+		//// 3. normal maps
+		//std::vector<std::shared_ptr<Texture2D>> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal", _ModelDirectory);
+		//textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+	
+		//// 4. height maps
+		//std::vector<std::shared_ptr<Texture2D>> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height", _ModelDirectory);
+		//textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+		return Mesh(vertices, indices, Mmaterial);
 	}
 }

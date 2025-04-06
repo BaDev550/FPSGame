@@ -1,5 +1,6 @@
 #pragma once
 #include "Components.h"
+#include "Engine/Window/Window.h"
 #include "entt/entt.hpp"
 
 namespace Engine
@@ -23,21 +24,52 @@ namespace Engine
 	
 	class RenderSystem {
 	public:
-		RenderSystem(std::shared_ptr<Shader>& shader)
-			: _Shader(shader)
-		{}
+		RenderSystem(std::shared_ptr<Shader>& shader, std::shared_ptr<Window>& window, entt::registry& registry)
+			: _Shader(shader), _Window(window), _Registry(registry)
+		{
+			float aspectRatio = (float)_Window->GetWidth() / (float)_Window->GetHeight();
+			auto view = _Registry.view<CameraComponent>();
+			for (auto entity : view)
+			{
+				auto& camera = view.get<CameraComponent>(entity);
+				camera.SetAspectRatio(aspectRatio);
+			}
+		}
 	
-		void Draw(entt::registry& registry) {
-			auto view = registry.view<TransformComponent, MeshComponent>();
+		void Draw() {
+			auto view = _Registry.view<TransformComponent, MeshComponent>();
+			UpdateCameraSystem();
+
 			for (auto entity : view) {
 				auto& transform = view.get<TransformComponent>(entity);
 				auto& mesh = view.get<MeshComponent>(entity);
-	
+
 				if (mesh.ModelLoaded())
 					mesh.Draw(_Shader, transform);
 			}
 		}
+
+		void UpdateCameraSystem()
+		{
+			auto view = _Registry.view<CameraComponent, TransformComponent>();
+			for (auto entity : view)
+			{
+				auto& camera = view.get<CameraComponent>(entity);
+				auto& transform = view.get<TransformComponent>(entity);
+
+				transform.Position = camera.Position;
+
+				transform.Rotation.y = camera.Yaw;
+				transform.Rotation.x = camera.Pitch;
+				_Shader->SetVec3("u_ViewPos", transform.Position);
+				_Shader->SetVec3("u_LightPos", transform.Position);
+
+				camera.UpdateCameraVectors();
+			}
+		}
 	private:
 		std::shared_ptr<Shader> _Shader;
+		std::shared_ptr<Window> _Window;
+		entt::registry& _Registry;
 	};
 }

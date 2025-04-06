@@ -16,7 +16,6 @@
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Shader.h"
 #include "Engine/Renderer/VertexArrayBuffer.h"
-#include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Model.h"
 
 #include "Engine/Scene/Scene.h"
@@ -33,7 +32,6 @@ typedef Engine::VertexArrayBuffer EngineVertexArrayBuffer;
 typedef Engine::RenderCommand EngineRenderCommand;
 typedef Engine::GraphicsContext EngineGraphicsContext;
 typedef Engine::Renderer EngineRenderer;
-typedef Engine::Camera EngineCamera;
 typedef Engine::Model EngineModel;
 typedef Engine::BufferLayout EngineBufferLayout;
 typedef Engine::BufferElement EngineBufferElement;

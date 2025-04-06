@@ -1,7 +1,8 @@
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Core\Application\Application.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Application.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Input\Input.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Input.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Buffers.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Buffers.obj
-C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Camera.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Camera.obj
+C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\FrameBuffer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\FrameBuffer.obj
+C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Material.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Material.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Mesh.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Mesh.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Model.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Model.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\RenderCommand.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\RenderCommand.obj
@@ -18,6 +19,7 @@ C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Window\LayerSta
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Window\Window.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Window.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLBuffers.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLBuffers.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLContext.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLContext.obj
+C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLFramebuffer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLFramebuffer.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLRendererAPI.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLRendererAPI.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLTexture2D.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLTexture2D.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Platform\OpenGL\OpenGLVertexArrayBuffer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\OpenGLVertexArrayBuffer.obj

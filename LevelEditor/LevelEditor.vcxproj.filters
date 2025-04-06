@@ -7,8 +7,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\LevelEditor.cpp" />
+    <ClCompile Include="src\EditorLayer.cpp" />
+    <ClCompile Include="src\LevelEditorLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Editor.h" />
+    <ClInclude Include="src\EditorLayer.h" />
+    <ClInclude Include="src\LevelEditorLayer.h" />
   </ItemGroup>
 </Project>

@@ -11,10 +11,4 @@
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\Shaders\base_fragment.glsl" />
-    <None Include="Assets\Shaders\base_vertex.glsl" />
-    <None Include="Assets\Shaders\endless_grid_fragment.glsl" />
-    <None Include="Assets\Shaders\endless_grid_vertex.glsl" />
-  </ItemGroup>
 </Project>

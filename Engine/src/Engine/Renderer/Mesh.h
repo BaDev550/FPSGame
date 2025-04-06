@@ -3,6 +3,8 @@
 #include "Engine/Renderer/Buffers.h"
 #include "Engine/Renderer/VertexArrayBuffer.h"
 #include "Engine/Renderer/Texture.h"
+#include "Engine/Renderer/Material.h"
+#include "Engine/Renderer/Shader.h"
 
 namespace Engine
 {
@@ -10,19 +12,20 @@ namespace Engine
 	class Mesh
 	{
 	public:
-		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::vector<std::shared_ptr<Texture2D>>& textures)
-			: _Vertices(vertices), _Indices(indices), _Textures(textures)
+		Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices, std::shared_ptr<Material>& material)
+			: _Vertices(vertices), _Indices(indices), _Material(material)
 		{
 			setupMesh();
 		};
 		~Mesh() {};
-	
+		
+		std::shared_ptr<Material> GetMaterial() const { return _Material; }
 		void setupMesh();
 		void Draw(std::shared_ptr<Shader>& shader);
 	public:
 		std::shared_ptr<VertexArrayBuffer> _Mesh;
 		std::vector<Vertex> _Vertices;
 		std::vector<unsigned int> _Indices;
-		std::vector<std::shared_ptr<Texture2D>> _Textures;
+		std::shared_ptr<Material> _Material;
 	};
 }

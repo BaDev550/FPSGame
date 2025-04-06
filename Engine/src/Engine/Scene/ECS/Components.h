@@ -38,14 +38,112 @@ namespace Engine
 	struct MeshComponent {
 	private:
 		std::unique_ptr<Model> _Model;
-	
 	public:
 		MeshComponent(const std::string& modelPath) {
 			_Model = std::make_unique<Model>(modelPath);
 		}
 		bool ModelLoaded() { return _Model.get(); }
+		std::string& GetModelPath() { return _Model->GetPath(); }
+		std::vector<std::shared_ptr<Material>> GetMaterials() { return _Model->GetAllMaterials(); }
 		void Draw(std::shared_ptr<Shader> shader, TransformComponent& transform) {
 			_Model->Draw(shader, transform.GetModelMatrix());
 		}
+	};
+
+	enum class ECameraDirection {
+		FORWARD,
+		BACKWARD,
+		LEFT,
+		RIGHT
+	};
+	struct CameraComponent
+	{
+		CameraComponent(){
+			UpdateCameraVectors();
+		}
+
+		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Front = { 0.0f, 0.0f, -1.0f };
+		glm::vec3 Up = { 0.0f, 1.0f, 0.0f };
+		glm::vec3 Right = { 1.0f, 0.0f, 0.0f };
+		glm::vec3 WorldUp = { 0.0f, 1.0f, 0.0f };
+
+		float Yaw = -90.0f;
+		float Pitch = 0.0f;
+
+		float MovementSpeed = 5.0f;
+		float MouseSensitivity = 0.1f;
+		float Zoom = 45.0f;
+
+		float AspectRatio = 1.778f;
+
+		glm::mat4 GetViewMatrix()
+		{
+			return glm::lookAt(Position, Position + Front, Up);
+		}
+
+		glm::mat4 GetProjectionMatrix(float nearPlane, float farPlane)
+		{
+			return glm::perspective(glm::radians(Zoom), AspectRatio, nearPlane, farPlane);
+		}
+
+		glm::mat4 GetViewProjectionMatrix()
+		{
+			return GetProjectionMatrix(0.1f, 100.0f) * GetViewMatrix();
+		}
+
+		void ProcessKeyboard(ECameraDirection direction, float deltaTime) {
+			float velocity = MovementSpeed * deltaTime;
+			if (direction == ECameraDirection::FORWARD)
+				Position += Front * velocity;
+			if (direction == ECameraDirection::BACKWARD)
+				Position -= Front * velocity;
+			if (direction == ECameraDirection::LEFT)
+				Position -= Right * velocity;
+			if (direction == ECameraDirection::RIGHT)
+				Position += Right * velocity;
+		}
+
+		void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true) {
+			xoffset *= MouseSensitivity;
+			yoffset *= MouseSensitivity;
+
+			Yaw += xoffset;
+			Pitch += yoffset;
+
+			if (constrainPitch)
+			{
+				if (Pitch > 89.0f)
+					Pitch = 89.0f;
+				if (Pitch < -89.0f)
+					Pitch = -89.0f;
+			}
+
+			UpdateCameraVectors();
+		}
+
+		void ProcessMouseScroll(float yoffset) {
+			Zoom -= yoffset;
+			if (Zoom < 1.0f)
+				Zoom = 1.0f;
+			if (Zoom > 45.0f)
+				Zoom = 45.0f;
+		}
+		void SetAspectRatio(float ar) { AspectRatio = ar; }
+		void UpdateCameraVectors() {
+			glm::vec3 front;
+			front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+			front.y = sin(glm::radians(Pitch));
+			front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+			Front = glm::normalize(front);
+
+			Right = glm::normalize(glm::cross(Front, WorldUp));
+			Up = glm::normalize(glm::cross(Right, Front));
+		}
+
+		inline glm::vec3 GetPosition() const { return Position; }
+		inline glm::vec3 GetFront() const { return Front; }
+		inline glm::vec3 GetUp() const { return Up; }
+		inline glm::vec3 GetRight() const { return Right; }
 	};
 }

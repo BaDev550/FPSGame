@@ -4,9 +4,9 @@
 
 namespace Engine
 {
-	entt::entity Scene::CreateEntity(const std::string& name)
+	entt::entity Scene::CreateEntity(entt::entity& entity, const std::string& name)
 	{
-	    entt::entity entity = _Registry.create();
+	    entity = _Registry.create();
 	    _Registry.emplace<TransformComponent>(entity);
 	    _Registry.emplace<NameComponent>(entity, name);
 	    return entity;

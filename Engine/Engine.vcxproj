@@ -113,8 +113,9 @@
     <ClInclude Include="src\Engine\Input\KeyCodes.h" />
     <ClInclude Include="src\Engine\Input\MouseButtonCodes.h" />
     <ClInclude Include="src\Engine\Renderer\Buffers.h" />
-    <ClInclude Include="src\Engine\Renderer\Camera.h" />
+    <ClInclude Include="src\Engine\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Engine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Engine\Renderer\Material.h" />
     <ClInclude Include="src\Engine\Renderer\Mesh.h" />
     <ClInclude Include="src\Engine\Renderer\Model.h" />
     <ClInclude Include="src\Engine\Renderer\RenderCommand.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\Engine\Window\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffers.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture2D.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArrayBuffer.h" />
@@ -559,7 +561,8 @@
     <ClCompile Include="src\Engine\Core\Application\Application.cpp" />
     <ClCompile Include="src\Engine\Input\Input.cpp" />
     <ClCompile Include="src\Engine\Renderer\Buffers.cpp" />
-    <ClCompile Include="src\Engine\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Engine\Renderer\FrameBuffer.cpp" />
+    <ClCompile Include="src\Engine\Renderer\Material.cpp" />
     <ClCompile Include="src\Engine\Renderer\Mesh.cpp" />
     <ClCompile Include="src\Engine\Renderer\Model.cpp" />
     <ClCompile Include="src\Engine\Renderer\RenderCommand.cpp" />
@@ -576,6 +579,7 @@
     <ClCompile Include="src\Engine\Window\Window.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffers.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture2D.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArrayBuffer.cpp" />
@@ -600,6 +604,12 @@
     <ProjectReference Include="vendor\ImGuizmo\ImGuiGizmo.vcxproj">
       <Project>{C64C7BA4-B204-BDF1-1B0C-964D07E357E2}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\base_fragment.glsl" />
+    <None Include="Shaders\base_vertex.glsl" />
+    <None Include="Shaders\outline_shader_fragment.glsl" />
+    <None Include="Shaders\outline_shader_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

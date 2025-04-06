@@ -1,6 +1,7 @@
 #include "epch.h"
 #include "Application.h"
 #include "Engine/Core/Core.h"
+#include "Engine/Renderer/Renderer.h"
 
 namespace Engine
 {	
@@ -17,12 +18,14 @@ namespace Engine
 		_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(_ImGuiLayer);
 
+		Renderer::Init(_Window);
 		for (Layer* layer : _LayerStack)
 			layer->SetWindow(_Window.get());
 	}
 	
 	Application::~Application()
 	{
+
 	}
 	
 	void Application::Render()
@@ -47,10 +50,21 @@ namespace Engine
 		_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
+
+	void Application::Close()
+	{
+		_bRunning = false;
+	}
 	
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
 		_bRunning = false;
+		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		Renderer::GetFramebuffer()->Resize(e.GetWidth(), e.GetHeight());
 		return true;
 	}
 	
@@ -67,6 +81,7 @@ namespace Engine
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FUNCTION(Application::OnWindowResize));
 
 		for (auto it = _LayerStack.end(); it != _LayerStack.begin(); ) {
 			(*--it)->OnEvent(e);

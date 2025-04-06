@@ -8,6 +8,7 @@ namespace Engine {
 		OpenGLTexture2D(const std::string& path, const std::string& type);
 		virtual ~OpenGLTexture2D();
 
+		virtual void CreateCheckerboardTexture() override;
 		virtual void Bind(uint32_t slot = 0) const override;
 		virtual void Unbind() const override;
 
@@ -16,6 +17,8 @@ namespace Engine {
 
 		virtual std::string& GetFile() override { return _Path; }
 		virtual std::string& GetType() override { return _Type; }
+
+		virtual uint32_t GetTextureID() override { return _TextureID; }
 	private:
 		std::string _Path;
 		std::string _Type;

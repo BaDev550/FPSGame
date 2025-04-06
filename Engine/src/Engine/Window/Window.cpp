@@ -15,8 +15,12 @@ namespace Engine
 
 	Window::Window(SWindowPropeties props)
 	{
-		_WindowProperties = props;
 		Init();
+		_WindowProperties = props;
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* vidmode = glfwGetVideoMode(monitor);
+		_WindowProperties.Width = vidmode->width;
+		_WindowProperties.Height = vidmode->height - 50.0f;
 		Create();
 	}
 	
@@ -33,6 +37,7 @@ namespace Engine
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 			glfwSetErrorCallback(GLFWErrorCallback);
 
 			s_GLFWInitialized = true;

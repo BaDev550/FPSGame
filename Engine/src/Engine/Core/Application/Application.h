@@ -25,10 +25,13 @@ namespace Engine
 	
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+
+		void Close();
 	private:
 		void Render();
 	
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 	private:
 		std::unique_ptr<Window> _Window;
 	

@@ -8,7 +8,7 @@ public:
 	{
 		EngineWindow* window = &EngineApp::Get().GetWindow();
 		float aspectRatio = (float)window->GetWidth() / (float)window->GetHeight();
-		_Camera.reset(new EngineCamera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, -90.0f, 0.0f, aspectRatio));
+		//_Camera.reset(new EngineCamera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, -90.0f, 0.0f, aspectRatio));
 		_Shader = EngineCreateShader("Assets/Shaders/base_vertex.glsl", "Assets/Shaders/base_fragment.glsl");
 	}
 
@@ -16,7 +16,7 @@ public:
 		EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		EngineClear();
 
-		RendererBeginScene(*_Camera);
+		//RendererBeginScene(*_Camera);
 
 		RendererEndScene();
 	}
@@ -39,7 +39,7 @@ public:
 		lastX = e.GetX();
 		lastY = e.GetY();
 
-		_Camera->ProcessMouseMovement(xOffset, yOffset);
+		//_Camera->ProcessMouseMovement(xOffset, yOffset);
 		return true;
 	}
 
@@ -54,7 +54,6 @@ public:
 
 private:
 	std::shared_ptr<EngineShader> _Shader;
-	std::shared_ptr<EngineCamera> _Camera;
 	std::shared_ptr<EngineScene> _Scene;
 };
 
