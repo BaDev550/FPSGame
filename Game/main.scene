@@ -1,0 +1,106 @@
+Entities:
+  - ID: 2
+    NameComponent:
+      Name: Entity2
+    TransformComponent:
+      Position: [-0.0434619263, 0, 0]
+      Rotation: [0, -0, 0]
+      Scale: [1, 0.0483133905, 1]
+    MeshComponent:
+      ModelPath: ../Game/Assets/Models/Cube/cube.obj
+      ModelMaterials:
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: ""
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Textures/wood/Wood_Floor_009_normal.png
+              Type: texture_diffuse
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+  - ID: 1
+    NameComponent:
+      Name: Entity
+    TransformComponent:
+      Position: [-0.0704988241, 0.0747475028, -0.57627058]
+      Rotation: [0, -0, 0]
+      Scale: [0.00971404463, 0.0100000501, 0.0100000501]
+    MeshComponent:
+      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/scene.gltf
+      ModelMaterials:
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_metallicRoughness.png
+              Type: texture_diffuse
+            texture_normal:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_normal.png
+              Type: texture_diffuse
+            texture_ambientOcclusion:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_baseColor.png
+              Type: texture_diffuse
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_metallicRoughness.png
+              Type: texture_diffuse
+            texture_normal:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_normal.png
+              Type: texture_diffuse
+            texture_ambientOcclusion:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_baseColor.png
+              Type: texture_diffuse
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Hair_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Long_Hammer_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient

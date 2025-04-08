@@ -6,12 +6,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\LevelEditor.cpp" />
-    <ClCompile Include="src\EditorLayer.cpp" />
-    <ClCompile Include="src\LevelEditorLayer.cpp" />
+    <ClCompile Include="src\Editor\EditorLayer.cpp" />
+    <ClCompile Include="src\Editor\LevelEditorLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EditorLayer.h" />
-    <ClInclude Include="src\LevelEditorLayer.h" />
+    <ClInclude Include="src\Editor\EditorLayer.h" />
+    <ClInclude Include="src\Editor\LevelEditorLayer.h" />
+    <ClInclude Include="src\LevelEditor.h" />
   </ItemGroup>
 </Project>

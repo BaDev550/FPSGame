@@ -25,6 +25,14 @@ namespace Engine
 		std::vector<std::shared_ptr<Material>> GetAllMaterials();
 		std::string& GetPath() { return _ModelPath; }
 		std::vector<Mesh>& GetAllMeshes() { return _Meshes; }
+		void SetMaterial(std::vector<std::shared_ptr<Material>>& materials) {
+			size_t materialCount = materials.size();
+			size_t meshCount = _Meshes.size();
+
+			for (size_t i = 0; i < meshCount; ++i) {
+				_Meshes[i]._Material = materials[i % materialCount];
+			}
+		}
 	private:
 		std::vector<Mesh> _Meshes;
 		std::string _ModelDirectory;

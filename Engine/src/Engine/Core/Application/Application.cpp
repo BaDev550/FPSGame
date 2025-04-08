@@ -17,7 +17,7 @@ namespace Engine
 	
 		_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(_ImGuiLayer);
-
+		
 		Renderer::Init(_Window);
 		for (Layer* layer : _LayerStack)
 			layer->SetWindow(_Window.get());
@@ -51,89 +51,22 @@ namespace Engine
 		overlay->OnAttach();
 	}
 
-	void Application::LoadScene(const std::string& path, Scene& scene)
+	void Application::QueueLayer(Layer* layer)
 	{
-		auto& registry = scene.GetRegistry();
-		auto view = registry.view<NameComponent, TransformComponent, MeshComponent>();
-		for (auto entity : view) {
-			if (registry.any_of<NameComponent>(entity) || registry.any_of<TransformComponent>(entity) || registry.any_of<MeshComponent>(entity)) {
-				registry.destroy(entity);
-			}
-		}
-
-		YAML::Node data = YAML::LoadFile(path);
-		auto entities = data["Entities"];
-
-		for (auto entityNode : entities) {
-			entt::entity entity = scene.GetRegistry().create();
-
-			auto tagNode = entityNode["NameComponent"];
-			if (tagNode) {
-				auto& tag = scene.GetRegistry().emplace<NameComponent>(entity);
-				tag.name = tagNode["Name"].as<std::string>();
-			}
-
-			auto transformNode = entityNode["TransformComponent"];
-			if (transformNode) {
-				auto& tc = scene.GetRegistry().emplace<TransformComponent>(entity);
-				tc.Position = transformNode["Position"].as<glm::vec3>();
-				tc.Rotation = transformNode["Rotation"].as<glm::vec3>();
-				tc.Scale = transformNode["Scale"].as<glm::vec3>();
-			}
-
-			auto modelNode = entityNode["MeshComponent"];
-			if (modelNode) {
-				std::string path = modelNode["ModelPath"].as<std::string>();
-
-				scene.GetRegistry().emplace<MeshComponent>(entity, path);
-			}
-		}
+		_PendingLayers.push_back(layer);
 	}
 
-	void Application::SaveScene(const std::string& path, Scene& scene)
+	void Application::QueueOverlay(Layer* overlay)
 	{
-		YAML::Emitter out;
-		out << YAML::BeginMap;
-		out << YAML::Key << "Scene" << YAML::Value << "Untitled Scene";
+		_PendingOverlays.push_back(overlay);
+	}
 
-		out << YAML::Key << "Entities" << YAML::Value << YAML::BeginSeq;
-		auto view = scene.GetRegistry().view<NameComponent, TransformComponent, MeshComponent>();
+	void Application::QueueRemoveLayer(Layer* layer) {
+		_PendingRemoveLayers.push_back(layer);
+	}
 
-		for (auto entity : view) {
-			out << YAML::BeginMap;
-			out << YAML::Key << "ID" << YAML::Value << (uint32_t)entity;
-
-			if (scene.GetRegistry().any_of<NameComponent>(entity)) {
-				auto& tag = scene.GetRegistry().get<NameComponent>(entity);
-				out << YAML::Key << "NameComponent" << YAML::Value << YAML::BeginMap;
-				out << YAML::Key << "Name" << YAML::Value << tag.name;
-				out << YAML::EndMap;
-			}
-
-			if (scene.GetRegistry().any_of<TransformComponent>(entity)) {
-				auto& tc = scene.GetRegistry().get<TransformComponent>(entity);
-				out << YAML::Key << "TransformComponent" << YAML::Value << YAML::BeginMap;
-				out << YAML::Key << "Position" << YAML::Value << tc.Position;
-				out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
-				out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
-				out << YAML::EndMap;
-			}
-
-			if (scene.GetRegistry().any_of<MeshComponent>(entity)) {
-				auto& tc = scene.GetRegistry().get<MeshComponent>(entity);
-				out << YAML::Key << "MeshComponent" << YAML::Value << YAML::BeginMap;
-				out << YAML::Key << "ModelPath" << YAML::Value << tc._Model->GetPath();
-				out << YAML::EndMap;
-			}
-
-			out << YAML::EndMap; // End Entity
-		}
-
-		out << YAML::EndSeq; // End Entities
-		out << YAML::EndMap;
-
-		std::ofstream fout(path);
-		fout << out.c_str();
+	void Application::QueueRemoveOverlay(Layer* overlay) {
+		_PendingRemoveOverlays.push_back(overlay);
 	}
 
 	void Application::Close()
@@ -158,6 +91,23 @@ namespace Engine
 	{
 		while (_Window->IsOpen() && _bRunning) {
 			Render();
+
+			for (Layer* layer : _PendingLayers)
+				PushLayer(layer);
+			_PendingLayers.clear();
+
+			for (Layer* overlay : _PendingOverlays)
+				PushOverlay(overlay);
+			_PendingOverlays.clear();
+
+			for (Layer* layer : _PendingRemoveLayers)
+				_LayerStack.RemoveLayer(layer);
+			_PendingRemoveLayers.clear();
+
+			for (Layer* overlay : _PendingRemoveOverlays)
+				_LayerStack.RemoveOverlay(overlay);
+			_PendingRemoveOverlays.clear();
+
 			_Window->SwapBuffers();
 		}
 	}

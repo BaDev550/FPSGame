@@ -52,6 +52,7 @@ namespace Engine {
 					if (ImGuiFileDialog::Instance()->Display("ChooseTexture")) {
 						if (ImGuiFileDialog::Instance()->IsOk()) {
 							std::string path = ImGuiFileDialog::Instance()->GetFilePathName();
+							std::replace(path.begin(), path.end(), '\\', '/');
 							if (!path.empty()) {
 								AddTexture(currentTextureType, Texture2D::Create(path, "texture_" + label));
 							}

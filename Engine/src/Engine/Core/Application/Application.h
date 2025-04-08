@@ -10,37 +10,11 @@
 #include "Engine/Window/LayerStack.h"
 #include "Engine/Window/ImGui/ImGuiLayer.h"
 #include "Engine/Renderer/Model.h"
+#include "Engine/Renderer/Material.h"
 
 #include "Engine/Scene/Scene.h"
 
 #include <glm/glm.hpp>
-#include "yaml-cpp/yaml.h"
-
-namespace YAML {
-	template<>
-	struct convert<glm::vec3> {
-		static Node encode(const glm::vec3& rhs) {
-			Node node;
-			node.push_back(rhs.x);
-			node.push_back(rhs.y);
-			node.push_back(rhs.z);
-			return node;
-		}
-
-		static bool decode(const Node& node, glm::vec3& rhs) {
-			if (!node.IsSequence() || node.size() != 3) return false;
-			rhs.x = node[0].as<float>();
-			rhs.y = node[1].as<float>();
-			rhs.z = node[2].as<float>();
-			return true;
-		}
-	};
-
-	inline Emitter& operator<<(Emitter& out, const glm::vec3& v) {
-		out << YAML::Flow << YAML::BeginSeq << v.x << v.y << v.z << YAML::EndSeq;
-		return out;
-	}
-}
 
 namespace Engine
 {
@@ -58,8 +32,11 @@ namespace Engine
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		void LoadScene(const std::string& path, Scene& scene);
-		void SaveScene(const std::string& path, Scene& scene);
+		void QueueLayer(Layer* layer);
+		void QueueOverlay(Layer* overlay);
+
+		void QueueRemoveLayer(Layer* layer);
+		void QueueRemoveOverlay(Layer* overlay);
 
 		void Close();
 	private:
@@ -75,6 +52,12 @@ namespace Engine
 	private:
 		ImGuiLayer* _ImGuiLayer;
 		LayerStack _LayerStack;
+
+		std::vector<Layer*> _PendingLayers;
+		std::vector<Layer*> _PendingOverlays;
+
+		std::vector<Layer*> _PendingRemoveLayers;
+		std::vector<Layer*> _PendingRemoveOverlays;
 	};
 
 	Application* CreateApplication();

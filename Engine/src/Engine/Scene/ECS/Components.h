@@ -50,6 +50,7 @@ namespace Engine
 		}
 		std::string& GetModelPath() { return _Model->GetPath(); }
 		std::vector<std::shared_ptr<Material>> GetMaterials() { return _Model->GetAllMaterials(); }
+		void SetMaterials(std::vector<std::shared_ptr<Material>>& materials) { _Model->SetMaterial(materials); }
 		void Draw(std::shared_ptr<Shader> shader, std::shared_ptr<Shader> ShadowShader, TransformComponent& transform) {
 			_Model->Draw(shader, ShadowShader, transform.GetModelMatrix());
 		}

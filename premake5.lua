@@ -124,6 +124,7 @@ includedirs
     "Engine/src",
     "Engine/vendor",
     "Game/src",
+    "LevelEditor/src",
     "%{IncludeDir.glm}",
     "%{IncludeDir.GLFW}",
     "%{IncludeDir.Assimp}",
@@ -133,7 +134,8 @@ includedirs
 
 links 
 {
-    "Engine"
+    "Engine",
+    "LevelEditor"
 }
 
 filter "system:windows"
@@ -157,7 +159,7 @@ filter "configurations:Release"
 
 project "LevelEditor"
     location "LevelEditor"
-    kind "ConsoleApp"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++17"
     staticruntime "on"
@@ -187,7 +189,6 @@ project "LevelEditor"
     links
     {
         "Engine",
-        "Game",
         "GLFW",
         "GLAD",
         "ImGui",

@@ -17,7 +17,9 @@ namespace Engine
 		void PushOverlay(Layer* overlay);
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
-	
+		void RemoveLayer(Layer* layer);
+		void RemoveOverlay(Layer* overlay);
+
 		std::vector<Layer*>::iterator begin() { return _Layers.begin(); }
 		std::vector<Layer*>::iterator end() { return _Layers.end(); }
 	

@@ -1,70 +1,24 @@
 ﻿#define DEFINE_MAIN
 #include <Engine.h>
+#include <LevelEditor.h>
+#include "GameLayer/GameLayer.h"
+#include "ImGui/imgui.h"
 
-class Game : public EngineLayer {
+class Game : public Engine::Application {
 public:
-	Game()
-		: Layer("GameLayer")
-	{
-		EngineWindow* window = &EngineApp::Get().GetWindow();
-		float aspectRatio = (float)window->GetWidth() / (float)window->GetHeight();
-		//_Camera.reset(new EngineCamera({ 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, -90.0f, 0.0f, aspectRatio));
-		_Shader = EngineCreateShader("Assets/Shaders/base_vertex.glsl", "Assets/Shaders/base_fragment.glsl");
+	std::shared_ptr<GameLayer> _GameLayer;
+	std::shared_ptr<Editor> _Editor;
+
+	Game() {
+		_GameLayer = std::make_shared<GameLayer>();
+		_Editor = std::make_shared<Editor>(_GameLayer->GetActiveScene());
+
+		_GameLayer->SetEditor(_Editor->GetEditor(), _Editor->GetEditorUI());
+		PushLayer(_GameLayer.get());
 	}
-
-	void OnUpdate() override {
-		EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		EngineClear();
-
-		//RendererBeginScene(*_Camera);
-
-		RendererEndScene();
-	}
-
-	float lastX = 0.0f, lastY = 0.0f;
-	bool bfirstPressed = true;
-	bool OnMouseMove(Engine::MouseMovedEvent& e)
-	{
-		if (bfirstPressed)
-		{
-			lastX = e.GetX();
-			lastY = e.GetY();
-			bfirstPressed = false;
-			return false;
-		}
-
-		float xOffset = e.GetX() - lastX;
-		float yOffset = lastY - e.GetY();
-
-		lastX = e.GetX();
-		lastY = e.GetY();
-
-		//_Camera->ProcessMouseMovement(xOffset, yOffset);
-		return true;
-	}
-
-	virtual void OnImGuiRender() override {
-
-	}
-
-	void OnEvent(Engine::Event& event) override {
-		Engine::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<Engine::MouseMovedEvent>(BIND_EVENT_FUNCTION(Game::OnMouseMove));
-	}
-
-private:
-	std::shared_ptr<EngineShader> _Shader;
-	std::shared_ptr<EngineScene> _Scene;
-};
-
-class Sandbox : public Engine::Application {
-public:
-	Sandbox() {
-		PushLayer(new Game());
-	}
-	~Sandbox() {}
+	~Game() {}
 };
 
 Engine::Application* Engine::CreateApplication() {
-	return new Sandbox();
+	return new Game();
 }

@@ -11,6 +11,6 @@ int main(int argc, char** argv) {
 	delete app;
 	return 0;
 }
-#endif // DEFINE_MAIN
+#endif
 
 #endif // E_PLATFORM_WINDOWS

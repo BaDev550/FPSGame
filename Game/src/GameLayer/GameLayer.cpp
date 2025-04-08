@@ -1,8 +1,9 @@
-#include "LevelEditorLayer.h"
+#include "GameLayer.h"
 
-LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
+GameLayer::GameLayer() : Layer("LevelEditor")
 {
 	_Window = std::make_shared<EngineWindow>(EngineApp::Get().GetWindow());
+	_Window->SetInputMode(GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	_Shader = EngineCreateShader("../Engine/Shaders/base_vertex.glsl", "../Engine/Shaders/base_fragment.glsl");
 	_ShadowShader = EngineCreateShader("../Engine/Shaders/shadow_vertex.glsl", "../Engine/Shaders/shadow_fragment.glsl");
@@ -11,35 +12,35 @@ LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
 	_LoadedScene->CreateEntity(_Camera, "Camera");
 	_LoadedScene->GetRegistry().emplace<Engine::CameraComponent>(_Camera);
 
+	EngineLoadScene("main.scene", *_LoadedScene);
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _ShadowShader, _Window, _LoadedScene->GetRegistry());
 }
 
-void LevelEditorLayer::OnUpdate()
+void GameLayer::OnUpdate()
 {
-	if (EngineKeyPressed(E_KEY_W) && _ViewportFocused)
+	if (EngineKeyPressed(E_KEY_W))
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::FORWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_S) && _ViewportFocused)
+	if (EngineKeyPressed(E_KEY_S))
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::BACKWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_A) && _ViewportFocused)
+	if (EngineKeyPressed(E_KEY_A))
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::LEFT, 0.1f);
-	if (EngineKeyPressed(E_KEY_D) && _ViewportFocused)
+	if (EngineKeyPressed(E_KEY_D))
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::RIGHT, 0.1f);
 
-	EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	EngineClear();
+	if (GetActiveCamera() != NULL) {
+		EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		EngineClear();
 
-	RendererBeginScene(*GetActiveCamera());
+		RendererBeginScene(*GetActiveCamera());
 
-	_RenderSystem->Draw();
+		_RenderSystem->Draw();
 
-	RendererEndScene();
-
+		RendererEndScene();
+	}
 }
 
-bool LevelEditorLayer::OnMouseMove(Engine::MouseMovedEvent& e)
+bool GameLayer::OnMouseMove(Engine::MouseMovedEvent& e)
 {
-	if (_bCursor) return false;
-
 	if (_bfirstPressed)
 	{
 		_LastX = e.GetX();
@@ -55,10 +56,10 @@ bool LevelEditorLayer::OnMouseMove(Engine::MouseMovedEvent& e)
 	_LastY = e.GetY();
 
 	GetActiveCamera()->ProcessMouseMovement(xOffset, yOffset);
-	return true;
+	return false;
 }
 
-Engine::CameraComponent* LevelEditorLayer::GetActiveCamera()
+Engine::CameraComponent* GameLayer::GetActiveCamera()
 {
 	if (_LoadedScene->GetRegistry().valid(_Camera) && _LoadedScene->GetRegistry().any_of<Engine::CameraComponent>(_Camera)) {
 		auto& camera = _LoadedScene->GetRegistry().get<Engine::CameraComponent>(_Camera);
@@ -67,4 +68,10 @@ Engine::CameraComponent* LevelEditorLayer::GetActiveCamera()
 	else {
 		std::cout << "No Active Camera" << std::endl;
 	}
+}
+
+void GameLayer::SetEditor(EngineLayer* leveleditor, EngineLayer* editorUI)
+{
+	_levelEditor.reset(leveleditor);
+	_levelEditorUI.reset(editorUI);
 }
