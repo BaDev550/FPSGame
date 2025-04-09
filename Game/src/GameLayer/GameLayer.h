@@ -1,11 +1,13 @@
 #pragma once
 #include "Engine.h"
+#include "LevelEditor.h"
 
 class GameLayer : public EngineLayer {
 public:
 	GameLayer();
 
 	void OnUpdate() override;
+	void OnRender();
 	bool OnMouseMove(Engine::MouseMovedEvent& e);
 	bool OnKeyPressed(Engine::KeyPressedEvent& e) {
 		if (e.GetKeyCode() == E_KEY_L) {
@@ -35,7 +37,7 @@ public:
 
 	Engine::CameraComponent* GetActiveCamera();
 	inline std::shared_ptr<EngineScene>& GetActiveScene() { return _LoadedScene; }
-	void SetEditor(EngineLayer* leveleditor, EngineLayer* editorUI);
+	void SetEditor(LEditor* leveleditor, LEditorUI* editorUI);
 private:
 	std::shared_ptr<EngineShader> _Shader;
 	std::shared_ptr<EngineShader> _ShadowShader;
@@ -43,8 +45,8 @@ private:
 	std::shared_ptr<EngineWindow> _Window;
 	std::shared_ptr<EngineRenderSystem> _RenderSystem;
 
-	std::shared_ptr<EngineLayer> _levelEditor;
-	std::shared_ptr<EngineLayer> _levelEditorUI;
+	std::shared_ptr<LEditor> _levelEditor;
+	std::shared_ptr<LEditorUI> _levelEditorUI;
 	bool _bLevelEditorOpened = false;
 
 	Entity _Camera;

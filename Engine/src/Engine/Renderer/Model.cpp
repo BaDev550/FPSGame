@@ -40,17 +40,58 @@ namespace Engine
 		}
 	
 	}
-	
-	void Model::Draw(std::shared_ptr<Shader>& shader, std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform)
-	{
-		glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
 
+	void Model::SetVertexBoneData(Vertex& vertex, int BoneID, float weight)
+	{
+		for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
+			if (vertex.Weights[i] == 0.0f) {
+				vertex.BoneIDs[i] = BoneID;
+				vertex.Weights[i] = weight;
+				return;
+			}
+		}
+	}
+
+	void Model::ExtractBoneWeight(std::vector<Vertex>& vertices, aiMesh* mesh)
+	{
+		for (unsigned int i = 0; i < mesh->mNumBones; ++i) {
+			std::string boneName(mesh->mBones[i]->mName.C_Str());
+
+			int boneIndex = 0;
+			if (_BoneMapping.find(boneName) == _BoneMapping.end()) {
+				boneIndex = _BoneCounter++;
+				_BoneMapping[boneName] = boneIndex;
+				_BoneOffsets.push_back(AssimpGLMHelper::ConvertMatrixToGLMFormat(mesh->mBones[i]->mOffsetMatrix));
+			}
+			else {
+				boneIndex = _BoneMapping[boneName];
+			}
+
+			for (unsigned int j = 0; j < mesh->mBones[i]->mNumWeights; ++j) {
+				int vertexID = mesh->mBones[i]->mWeights[j].mVertexId;
+				float weight = mesh->mBones[i]->mWeights[j].mWeight;
+				SetVertexBoneData(vertices[vertexID], boneIndex, weight);
+			}
+		}
+	}
+	
+	void Model::Draw(std::shared_ptr<Shader>& shader, const glm::mat4& transform)
+	{
 		glm::mat4 model = transform;
 		shader->SetMat4("u_Model", model);
 
 		for (auto& mesh : _Meshes) {
 			mesh.Draw(shader);
-			//Renderer::RenderShadowMap(ShadowShader, mesh._Mesh, lightSpaceMatrix);
+		}
+	}
+
+	void Model::DrawShadow(std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform, glm::mat4 LightSpaceMatrix)
+	{
+		glm::mat4 model = transform;
+		ShadowShader->SetMat4("u_Model", model);
+
+		for (auto& mesh : _Meshes) {
+			mesh.DrawShadow(ShadowShader, LightSpaceMatrix);
 		}
 	}
 

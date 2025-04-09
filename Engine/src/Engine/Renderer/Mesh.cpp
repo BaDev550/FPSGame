@@ -36,7 +36,6 @@ namespace Engine
 			return;
 
 		shader->Bind();
-		shader->SetBool("u_Material.Highlight", _Material->_bHighlight);
 
 		int textureSlot = 0;
 		for (const auto& [type, texture] : _Material->GetAllTextures())
@@ -69,12 +68,14 @@ namespace Engine
 			shader->SetFloat("u_Material.roughness", _Material->_roughness);
 			textureSlot++;
 		}
+
 		Renderer::Submit(shader, _Mesh);
 	}
-	void Mesh::DrawShadow(std::shared_ptr<Shader>& shader)
+	void Mesh::DrawShadow(std::shared_ptr<Shader>& shader, glm::mat4 lightSpaceMatrix)
 	{
 		shader->Bind();
-		_Mesh->Bind();
-		RenderCommand::DrawIndexed(_Mesh);
+		shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
+
+		Renderer::RenderShadowMap(shader, _Mesh, lightSpaceMatrix);
 	}
 }

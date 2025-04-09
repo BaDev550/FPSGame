@@ -37,15 +37,41 @@ namespace Engine
 		}
 	
 		void Draw() {
-			auto view = _Registry.view<TransformComponent, MeshComponent>();
 			UpdateCameraSystem();
 
-			for (auto entity : view) {
-				auto& transform = view.get<TransformComponent>(entity);
-				auto& mesh = view.get<MeshComponent>(entity);
+			glm::vec3 lightDir = glm::normalize(glm::vec3(-2.0f, -4.0f, -1.0f));
+			glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
+			glm::mat4 lightView = glm::lookAt(-lightDir * distance, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+			_Shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
 
-				if (mesh.ModelLoaded())
-					mesh.Draw(_Shader, _ShadowShader, transform);
+			RenderShadowPass(lightSpaceMatrix);
+			RenderMainScene();
+		}
+
+		void RenderShadowPass(const glm::mat4& lightSpaceMatrix) {
+			_ShadowShader->Bind();
+
+			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
+				auto& transform = _Registry.get<TransformComponent>(entity);
+				auto& mesh = _Registry.get<MeshComponent>(entity);
+
+				if (mesh.ModelLoaded()) {
+					mesh.DrawShadow(_ShadowShader, transform, lightSpaceMatrix);
+				}
+			}
+		}
+
+		void RenderMainScene() {
+			_Shader->Bind();
+
+			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
+				auto& transform = _Registry.get<TransformComponent>(entity);
+				auto& mesh = _Registry.get<MeshComponent>(entity);
+
+				if (mesh.ModelLoaded()) {
+					mesh.Draw(_Shader, transform);
+				}
 			}
 		}
 
@@ -72,5 +98,6 @@ namespace Engine
 		std::shared_ptr<Shader> _ShadowShader;
 		std::shared_ptr<Window> _Window;
 		entt::registry& _Registry;
+		float distance = 60.0f;
 	};
 }

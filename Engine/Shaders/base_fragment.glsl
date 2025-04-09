@@ -3,6 +3,7 @@
 in vec2 TexCoord;
 in vec3 FragPos;
 in vec3 Normal;
+in vec4 FragPosLightSpace;
 out vec4 FragColor;
 
 struct Material {
@@ -22,7 +23,6 @@ uniform Material u_Material;
 uniform vec3 u_LightPos;
 uniform vec3 u_ViewPos;
 uniform sampler2D u_ShadowMap;
-uniform mat4 u_LightSpaceMatrix;
 
 vec3 FresnelSchlick(float cosTheta, vec3 F0) {
     return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
@@ -55,12 +55,16 @@ float GeometrySmith(vec3 normal, vec3 viewDir, vec3 lightDir, float roughness) {
 }
 
 float ShadowCalculation(vec4 fragPosLightSpace) {
-    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    projCoords = projCoords * 0.5 + 0.5;
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w; // Perspective divide
+    projCoords = projCoords * 0.5 + 0.5; // Normalize to [0,1] range
+
     float closestDepth = texture(u_ShadowMap, projCoords.xy).r;
+
     float currentDepth = projCoords.z;
 
-    float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
+    float bias = 0.005;
+    float shadow = currentDepth > closestDepth + bias ? 1.0 : 0.0;
+
     return shadow;
 }
 
@@ -103,15 +107,12 @@ void main() {
     vec3 emissive = emissiveMap.rgb;  // Emissive color
     vec3 color = ambient + diffuse + specular + emissive;  // Final color
 
-    //vec4 fragPosLightSpace = u_LightSpaceMatrix * vec4(FragPos, 1.0);
-    //float shadow = ShadowCalculation(fragPosLightSpace);
-    //color = mix(color, color * shadow, 0.5); // Apply shadow
+    float shadow = ShadowCalculation(FragPosLightSpace);
+    color = mix(color, color * shadow, 0.5);
 
-    // Highlight effect (if needed)
     if (u_Material.Highlight) {
-        color = mix(color, vec3(1.0, 1.0, 0.0), 0.2);  // Add yellow highlight
+        color = mix(color, vec3(1.0, 1.0, 0.0), 0.2);
     }
 
-    // Final output color
     FragColor = vec4(color, 1.0);
 }

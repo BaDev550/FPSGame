@@ -9,38 +9,44 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_ShadowShader = EngineCreateShader("../Engine/Shaders/shadow_vertex.glsl", "../Engine/Shaders/shadow_fragment.glsl");
 	_LoadedScene = std::make_shared<EngineScene>();
 
-	_LoadedScene->CreateEntity(_Camera, "Camera");
-	_LoadedScene->GetRegistry().emplace<Engine::CameraComponent>(_Camera);
-
 	EngineLoadScene("main.scene", *_LoadedScene);
+	_Camera = _LoadedScene->CreateCamera(_Camera, "GameCamera");
+
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _ShadowShader, _Window, _LoadedScene->GetRegistry());
 }
 
 void GameLayer::OnUpdate()
 {
-	if (EngineKeyPressed(E_KEY_W))
+	if (EngineKeyPressed(E_KEY_W) && !_bLevelEditorOpened)
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::FORWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_S))
+	if (EngineKeyPressed(E_KEY_S) && !_bLevelEditorOpened)
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::BACKWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_A))
+	if (EngineKeyPressed(E_KEY_A) && !_bLevelEditorOpened)
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::LEFT, 0.1f);
-	if (EngineKeyPressed(E_KEY_D))
+	if (EngineKeyPressed(E_KEY_D) && !_bLevelEditorOpened)
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::RIGHT, 0.1f);
 
+	OnRender();
+}
+
+void GameLayer::OnRender()
+{
 	if (GetActiveCamera() != NULL) {
-		EngineSetClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		EngineSetClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		EngineClear();
-
 		RendererBeginScene(*GetActiveCamera());
-
 		_RenderSystem->Draw();
-
 		RendererEndScene();
+	}
+	else {
+		std::cout << "No Active Camera not rendering" << std::endl;
 	}
 }
 
 bool GameLayer::OnMouseMove(Engine::MouseMovedEvent& e)
 {
+	if (_bLevelEditorOpened || GetActiveCamera() == NULL) return false;
+
 	if (_bfirstPressed)
 	{
 		_LastX = e.GetX();
@@ -61,16 +67,21 @@ bool GameLayer::OnMouseMove(Engine::MouseMovedEvent& e)
 
 Engine::CameraComponent* GameLayer::GetActiveCamera()
 {
-	if (_LoadedScene->GetRegistry().valid(_Camera) && _LoadedScene->GetRegistry().any_of<Engine::CameraComponent>(_Camera)) {
-		auto& camera = _LoadedScene->GetRegistry().get<Engine::CameraComponent>(_Camera);
-		return &camera;
+	if (_bLevelEditorOpened) {
+		return _levelEditor->GetActiveCamera();
 	}
 	else {
-		std::cout << "No Active Camera" << std::endl;
+		if (_LoadedScene->GetRegistry().valid(_Camera) && _LoadedScene->GetRegistry().any_of<Engine::CameraComponent>(_Camera)) {
+			auto& camera = _LoadedScene->GetRegistry().get<Engine::CameraComponent>(_Camera);
+			return &camera;
+		}
+		else {
+			std::cout << "No Active Camera" << std::endl;
+		}
 	}
 }
 
-void GameLayer::SetEditor(EngineLayer* leveleditor, EngineLayer* editorUI)
+void GameLayer::SetEditor(LEditor* leveleditor, LEditorUI* editorUI)
 {
 	_levelEditor.reset(leveleditor);
 	_levelEditorUI.reset(editorUI);

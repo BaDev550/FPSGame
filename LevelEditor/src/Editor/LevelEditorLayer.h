@@ -33,14 +33,11 @@ namespace LevelEditor {
 		inline std::shared_ptr<EngineScene>& GetActiveScene() { return _LoadedScene; }
 
 		bool _ViewportFocused = false;
+		Entity _EditorCamera;
 	private:
-		std::shared_ptr<EngineShader> _Shader;
-		std::shared_ptr<EngineShader> _ShadowShader;
 		std::shared_ptr<EngineScene> _LoadedScene;
 		std::shared_ptr<EngineWindow> _Window;
-		std::shared_ptr<EngineRenderSystem> _RenderSystem;
 
-		Entity _Camera;
 	private:
 		float _LastX = 0.0f, _LastY = 0.0f;
 		bool _bfirstPressed = true;

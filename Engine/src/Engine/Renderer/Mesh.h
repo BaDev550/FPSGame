@@ -23,7 +23,7 @@ namespace Engine
 		void setupMesh();
 
 		void Draw(std::shared_ptr<Shader>& shader);
-		void DrawShadow(std::shared_ptr<Shader>& shader);
+		void DrawShadow(std::shared_ptr<Shader>& shader, glm::mat4 lightSpaceMatrix);
 	public:
 		std::shared_ptr<VertexArrayBuffer> _Mesh;
 		std::vector<Vertex> _Vertices;

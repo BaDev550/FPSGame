@@ -260,6 +260,7 @@ namespace LevelEditor {
 					if (ImGui::Button("Load Model")) {
 						bShowFileDialog = !bShowFileDialog;
 					}
+					ImGui::Checkbox("Visible", &staticMesh.bVisible);
 					if (bShowFileDialog) {
 						IGFD::FileDialogConfig config;
 

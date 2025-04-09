@@ -39,19 +39,9 @@ namespace Engine {
 		stbi_image_free(data);
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
-		: _Width(width), _Height(height)
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t textureID, uint32_t width, uint32_t height)
+		: _TextureID(textureID), _Width(width), _Height(height)
 	{
-		glCreateTextures(GL_TEXTURE_2D, 1, &_TextureID);
-		glTextureStorage2D(_TextureID, 1, GL_DEPTH_COMPONENT32F, width, height);
-
-		glTextureParameteri(_TextureID, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameteri(_TextureID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTextureParameteri(_TextureID, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTextureParameteri(_TextureID, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
-		float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-		glTextureParameterfv(_TextureID, GL_TEXTURE_BORDER_COLOR, borderColor);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()

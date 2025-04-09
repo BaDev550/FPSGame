@@ -6,6 +6,7 @@ namespace Engine
 {
 	Renderer::SSCeneData* Renderer::_SceneData = new Renderer::SSCeneData;
 	std::shared_ptr<FrameBuffer> Renderer::_FrameBuffer;
+	std::shared_ptr<FrameBuffer> Renderer::_ShadowMapFramebuffer;
 	std::shared_ptr<Texture2D> Renderer::_ShadowMap;
 
 	void Renderer::Init(std::unique_ptr<Window>& window)
@@ -15,12 +16,20 @@ namespace Engine
 		spec.Height = window->GetHeight();
 		_FrameBuffer.reset(FrameBuffer::Create(spec));
 
-		_ShadowMap = Texture2D::Create(1024, 1024);
+		FrameBufferSpecification shadowSpec;
+		shadowSpec.Width = 1024;
+		shadowSpec.Height = 1024;
+		shadowSpec.type = EFrameBufferType::ShadowMap;
+		_ShadowMapFramebuffer.reset(FrameBuffer::Create(shadowSpec));
+
+		uint32_t shadowDepthTexID = _ShadowMapFramebuffer->GetDepthAttachmentID();
+		_ShadowMap = Texture2D::CreateFromID(shadowDepthTexID, 1024, 1024);
 	}
 
 	void Renderer::BeginScene(CameraComponent& camera)
 	{
 		_FrameBuffer->Bind();
+
 		RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 		RenderCommand::Clear();
 
@@ -37,15 +46,19 @@ namespace Engine
 		shader->Bind();
 		shader->SetMat4("u_ViewProjection", _SceneData->ViewProjectionMatrix);
 
+		_ShadowMap->Bind(1);
+		shader->SetInt("u_ShadowMap", 1);
+
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	};
 
 	void Renderer::RenderShadowMap(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, const glm::mat4& lightSpaceMatrix)
 	{
-		_ShadowMap->Bind();
+		_ShadowMapFramebuffer->Bind();
+
 		RenderCommand::SetViewport(_ShadowMap->GetWidth(), _ShadowMap->GetHeight());
-		RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
 		RenderCommand::Clear();
 
 		shader->Bind();
@@ -54,7 +67,9 @@ namespace Engine
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 
-		_ShadowMap->Unbind();
+		_ShadowMapFramebuffer->Unbind();
+
+		_FrameBuffer->Bind();
 		RenderCommand::SetViewport(_FrameBuffer->GetWidth(), _FrameBuffer->GetHeight());
 	}
 }

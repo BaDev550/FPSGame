@@ -21,6 +21,7 @@ namespace Engine
 
 		inline static RendererAPI::API CurrentAPI() { return RendererAPI::GetAPI(); }
 		inline static std::shared_ptr<FrameBuffer> GetFramebuffer() { return _FrameBuffer; }
+		inline static std::shared_ptr<FrameBuffer> GetShadowbuffer() { return _ShadowMapFramebuffer; }
 		inline static std::shared_ptr<Texture2D> GetShadowMap() { return _ShadowMap; }
 
 	private:
@@ -29,6 +30,7 @@ namespace Engine
 		};
 		static SSCeneData* _SceneData;
 		static std::shared_ptr<FrameBuffer> _FrameBuffer;
+		static std::shared_ptr<FrameBuffer> _ShadowMapFramebuffer;
 		static std::shared_ptr<Texture2D> _ShadowMap;
 	};
 }
