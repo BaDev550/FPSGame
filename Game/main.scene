@@ -1,1 +1,303 @@
 Entities:
+  - ID: 2
+    NameComponent:
+      Name: Entity
+    TransformComponent:
+      Position: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [0.100000001, 0.100000001, 0.100000001]
+    MeshComponent:
+      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/scene.gltf
+      ModelMaterials:
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Hair_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Long_Hammer_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+  - ID: 1
+    NameComponent:
+      Name: EditorCamera
+    TransformComponent:
+      Position: [10.8381681, 15.1794844, 13.4070282]
+      Rotation: [-12.599988, -136.400085, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      ModelPath: Assets/Models/Camera/camera.obj
+      ModelMaterials:
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+  - ID: 0
+    NameComponent:
+      Name: GameCamera
+    TransformComponent:
+      Position: [-9.59521008, 17.9083443, 10.5215063]
+      Rotation: [-19.2999954, -44.0999718, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      ModelPath: Assets/Models/Camera/camera.obj
+      ModelMaterials:
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: Assets/Models/Camera/camera_texture.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient

@@ -36,7 +36,7 @@ namespace Engine
 			}
 		}
 	
-		void Draw() {
+		void Draw(CameraComponent camera) {
 			UpdateCameraSystem();
 
 			glm::vec3 lightDir = glm::normalize(glm::vec3(-2.0f, -4.0f, -1.0f));
@@ -45,7 +45,15 @@ namespace Engine
 			glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 			_Shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
 
+			RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+			RenderCommand::Clear();
+
 			RenderShadowPass(lightSpaceMatrix);
+
+			Renderer::BeginScene(camera);
+			RenderMainScene();
+			Renderer::EndScene();
+
 			RenderMainScene();
 		}
 

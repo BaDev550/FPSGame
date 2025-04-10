@@ -32,11 +32,7 @@ void GameLayer::OnUpdate()
 void GameLayer::OnRender()
 {
 	if (GetActiveCamera() != NULL) {
-		EngineSetClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-		EngineClear();
-		RendererBeginScene(*GetActiveCamera());
-		_RenderSystem->Draw();
-		RendererEndScene();
+		_RenderSystem->Draw(*GetActiveCamera());
 	}
 	else {
 		std::cout << "No Active Camera not rendering" << std::endl;
