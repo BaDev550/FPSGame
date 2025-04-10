@@ -4,7 +4,7 @@ namespace LevelEditor {
 	LevelEditorLayer::LevelEditorLayer(std::shared_ptr<EngineScene>& scene) : Layer("LevelEditor"), _LoadedScene(scene)
 	{
 		_Window = std::make_shared<EngineWindow>(EngineApp::Get().GetWindow());
-		_EditorCamera = _LoadedScene->CreateCamera(_EditorCamera, "EditorCamera");
+		_LoadedScene->CreateCamera(_EditorCamera, "EditorCamera");
 	}
 
 	void LevelEditorLayer::OnUpdate()

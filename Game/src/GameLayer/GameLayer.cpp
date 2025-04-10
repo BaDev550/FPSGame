@@ -10,7 +10,7 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_LoadedScene = std::make_shared<EngineScene>();
 
 	EngineLoadScene("main.scene", *_LoadedScene);
-	_Camera = _LoadedScene->CreateCamera(_Camera, "GameCamera");
+	_LoadedScene->CreateCamera(_Camera, "GameCamera");
 
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _ShadowShader, _Window, _LoadedScene->GetRegistry());
 }

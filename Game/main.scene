@@ -1,13 +1,13 @@
 Entities:
-  - ID: 2
+  - ID: 4
     NameComponent:
       Name: Entity
     TransformComponent:
-      Position: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [0.100000001, 0.100000001, 0.100000001]
+      Position: [-1.4871527, 1.32220125, -1.11628008]
+      Rotation: [0, -0, 0]
+      Scale: [0.550000012, 0.550000012, 0.550000012]
     MeshComponent:
-      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/scene.gltf
+      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/mario_2.obj
       ModelMaterials:
         - Highlight: false
           Metalness: 0
@@ -15,7 +15,7 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_baseColor.png
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/pupil.jpg
               Type: texture_diffuse
             texture_specular:
               File: ""
@@ -32,7 +32,7 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_baseColor.png
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/glove.jpg
               Type: texture_diffuse
             texture_specular:
               File: ""
@@ -49,7 +49,7 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Hair_texture_baseColor.png
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/face.jpg
               Type: texture_diffuse
             texture_specular:
               File: ""
@@ -66,7 +66,58 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Long_Hammer_texture_baseColor.png
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/hat.jpg
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/eye1.jpg
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/body.jpg
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/hair.jpg
               Type: texture_diffuse
             texture_specular:
               File: ""
@@ -79,13 +130,13 @@ Entities:
               Type: texture_ambient
   - ID: 1
     NameComponent:
-      Name: EditorCamera
+      Name: Entity5
     TransformComponent:
-      Position: [10.8381681, 15.1794844, 13.4070282]
-      Rotation: [-12.599988, -136.400085, 0]
-      Scale: [1, 1, 1]
+      Position: [-1.2691288, 0, -1.21606767]
+      Rotation: [0, -0, 0]
+      Scale: [1, 0.0550213642, 1]
     MeshComponent:
-      ModelPath: Assets/Models/Camera/camera.obj
+      ModelPath: ../Game/Assets/Models/Cube/cube.obj
       ModelMaterials:
         - Highlight: false
           Metalness: 0
@@ -93,92 +144,7 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
               File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
               Type: texture_diffuse
             texture_specular:
               File: ""
@@ -191,13 +157,13 @@ Entities:
               Type: texture_ambient
   - ID: 0
     NameComponent:
-      Name: GameCamera
+      Name: Entity6
     TransformComponent:
-      Position: [-9.59521008, 17.9083443, 10.5215063]
-      Rotation: [-19.2999954, -44.0999718, 0]
-      Scale: [1, 1, 1]
+      Position: [-1.20579886, 1.90652549, 0.411837935]
+      Rotation: [0, -0, 0]
+      Scale: [0.340000033, 0.340000033, 0.340000033]
     MeshComponent:
-      ModelPath: Assets/Models/Camera/camera.obj
+      ModelPath: ../Game/Assets/Models/Cube/cube.obj
       ModelMaterials:
         - Highlight: false
           Metalness: 0
@@ -205,92 +171,7 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
               File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: Assets/Models/Camera/camera_texture.png
               Type: texture_diffuse
             texture_specular:
               File: ""

@@ -107,7 +107,7 @@ void main() {
     vec3 emissive = emissiveMap.rgb;  // Emissive color
     vec3 color = ambient + diffuse + specular + emissive;  // Final color
 
-    float shadow = ShadowCalculation(FragPosLightSpace);
+    float shadow = ShadowCalculation(FragPosLightSpace) * -1.0;
     color = mix(color, color * shadow, 0.5);
 
     if (u_Material.Highlight) {

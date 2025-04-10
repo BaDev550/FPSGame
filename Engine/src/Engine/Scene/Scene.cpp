@@ -18,9 +18,6 @@ namespace Engine
 		_Registry.emplace<TransformComponent>(entity);
 		_Registry.emplace<NameComponent>(entity, name);
 		_Registry.emplace<CameraComponent>(entity);
-		_Registry.emplace<MeshComponent>(entity, "Assets/Models/Camera/camera.obj");
-		auto& mesh = _Registry.get<MeshComponent>(entity);
-		mesh.SetVisiblity(false);
 		return entity;
 	}
 
