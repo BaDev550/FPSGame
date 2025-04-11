@@ -49,19 +49,15 @@ namespace Engine
 			_Shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
 
 			Renderer::BeginScene(camera);
-			glEnable(GL_DEPTH_TEST);
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-			RenderCommand::Clear();
 
 			RenderShadowPass(lightSpaceMatrix);
 			RenderMainScene();
+
 			Renderer::EndScene();
-
+			
 			glDisable(GL_DEPTH_TEST);
-			RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-			RenderCommand::ClearColor();
-
 			Renderer::RenderFrameBufferScreen(_FrameBufferShader);
+			glEnable(GL_DEPTH_TEST);
 		}
 
 		void RenderShadowPass(const glm::mat4& lightSpaceMatrix) {
@@ -70,6 +66,8 @@ namespace Engine
 			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
 				auto& transform = _Registry.get<TransformComponent>(entity);
 				auto& mesh = _Registry.get<MeshComponent>(entity);
+				if (!mesh.bDrawShadows)
+					continue;
 
 				if (mesh.ModelLoaded()) {
 					mesh.DrawShadow(_ShadowShader, transform, lightSpaceMatrix);
@@ -83,6 +81,8 @@ namespace Engine
 			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
 				auto& transform = _Registry.get<TransformComponent>(entity);
 				auto& mesh = _Registry.get<MeshComponent>(entity);
+				if (!mesh.bVisible)
+					continue;
 
 				if (mesh.ModelLoaded()) {
 					mesh.Draw(_Shader, transform);

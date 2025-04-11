@@ -2,6 +2,7 @@
 #include "OpenGLVertexArrayBuffer.h"
 #include "glad/glad.h"
 
+#define DEBUG_BUFFER 0
 namespace Engine
 {
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
@@ -44,6 +45,11 @@ namespace Engine
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout) {
+#if (DEBUG_BUFFER)
+			std::cout << "Binding attribute at index " << index
+				<< " with component count " << element.GetComponentCount()
+				<< " and type " << ShaderDataTypeToOpenGLBaseType(element.Type) << std::endl;
+#endif // _DEBUG_BUFFER
 			glEnableVertexAttribArray(index);
 			glVertexAttribPointer(
 				index,

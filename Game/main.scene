@@ -1,136 +1,7 @@
 Entities:
-  - ID: 4
-    NameComponent:
-      Name: Entity
-    TransformComponent:
-      Position: [-1.4871527, 1.32220125, -1.11628008]
-      Rotation: [0, -0, 0]
-      Scale: [0.550000012, 0.550000012, 0.550000012]
-    MeshComponent:
-      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/mario_2.obj
-      ModelMaterials:
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/pupil.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/glove.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/face.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/hat.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/eye1.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/body.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
-        - Highlight: false
-          Metalness: 0
-          Roughness: 0
-          Shininess: 32
-          Textures:
-            texture_diffuse:
-              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/mario_2/hair.jpg
-              Type: texture_diffuse
-            texture_specular:
-              File: ""
-              Type: texture_specular
-            texture_normal:
-              File: ""
-              Type: texture_normal
-            texture_ambientOcclusion:
-              File: ""
-              Type: texture_ambient
   - ID: 1
     NameComponent:
-      Name: Entity5
+      Name: Foor
     TransformComponent:
       Position: [-1.2691288, 0, -1.21606767]
       Rotation: [0, -0, 0]
@@ -157,13 +28,13 @@ Entities:
               Type: texture_ambient
   - ID: 0
     NameComponent:
-      Name: Entity6
+      Name: Warior
     TransformComponent:
-      Position: [-1.20579886, 1.90652549, 0.411837935]
+      Position: [-1.30376005, 0.0551382899, -1.25214386]
       Rotation: [0, -0, 0]
-      Scale: [0.340000033, 0.340000033, 0.340000033]
+      Scale: [0.00810000952, 0.00810000859, 0.00810000952]
     MeshComponent:
-      ModelPath: ../Game/Assets/Models/Cube/cube.obj
+      ModelPath: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/scene.gltf
       ModelMaterials:
         - Highlight: false
           Metalness: 0
@@ -171,7 +42,58 @@ Entities:
           Shininess: 32
           Textures:
             texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Cloth_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
               File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Body_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Hair_texture_baseColor.png
+              Type: texture_diffuse
+            texture_specular:
+              File: ""
+              Type: texture_specular
+            texture_normal:
+              File: ""
+              Type: texture_normal
+            texture_ambientOcclusion:
+              File: ""
+              Type: texture_ambient
+        - Highlight: false
+          Metalness: 0
+          Roughness: 0
+          Shininess: 32
+          Textures:
+            texture_diffuse:
+              File: C:/Users/kekli/source/repos/VortexRenderEngine/Game/Assets/Models/blacksmith/textures/Long_Hammer_texture_baseColor.png
               Type: texture_diffuse
             texture_specular:
               File: ""

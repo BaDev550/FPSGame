@@ -27,6 +27,19 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
+		auto screenTexture = EngineRenderer::GetScreenTexture();
+		uint32_t textureID = screenTexture->GetTextureID();
+
+		ImGui::Begin("GameViewport", nullptr);
+		if (GetActiveCamera() != NULL) {
+			ImVec2 _ViewportPanelSize = ImGui::GetContentRegionAvail();
+			ImVec2 _ViewportPanelPos = ImGui::GetCursorScreenPos();
+
+			ImGui::Image((void*)(intptr_t)textureID, _ViewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
+
+			GetActiveCamera()->SetAspectRatio((float)_ViewportPanelSize.x / (float)_ViewportPanelSize.y);
+		}
+		ImGui::End();
 	}
 
 	void OnEvent(Engine::Event& event) override {

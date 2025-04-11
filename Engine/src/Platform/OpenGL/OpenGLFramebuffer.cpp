@@ -39,27 +39,6 @@ namespace Engine {
 
 	void OpenGLFramebuffer::Invalidate()
 	{
-		vertices.clear();
-		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
-		vertices.push_back({ { -1.0f, -1.0f, 0.0f }, {0.0f, 0.0f} });
-		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
-		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
-		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
-		vertices.push_back({ {  1.0f,  1.0f, 0.0f }, {1.0f, 1.0f} });
-
-		std::shared_ptr<VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(VertexBuffer::Create(vertices.data(), vertices.size()));
-
-		BufferLayout layout = {
-			{ ShaderDataType::Vec3, "aPos" },
-			{ ShaderDataType::Vec2, "aTexCoords" },
-		};
-		vertexBuffer->SetLayout(layout);
-
-		_FrameBufferScreenBuffer.reset(VertexArrayBuffer::Create());
-		_FrameBufferScreenBuffer->AddVertexBuffer(vertexBuffer);
-		_FrameBufferScreenBuffer->SetVertexCount(vertices.size());
-
 		if (_FramebufferID) {
 			glDeleteFramebuffers(1, &_FramebufferID);
 			glDeleteTextures(1, &_ColorAttachment);
@@ -122,5 +101,28 @@ namespace Engine {
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
+
+		vertices.clear();
+		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
+		vertices.push_back({ { -1.0f, -1.0f, 0.0f }, {0.0f, 0.0f} });
+		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
+		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
+		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
+		vertices.push_back({ {  1.0f,  1.0f, 0.0f }, {1.0f, 1.0f} });
+
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices.data(), vertices.size() * sizeof(Vertex)));
+
+		BufferLayout layout = {
+			{ ShaderDataType::Vec3, "aPos" },
+			{ ShaderDataType::Vec2, "aTexCoord" },
+		};
+		vertexBuffer->SetLayout(layout);
+
+		_FrameBufferScreenBuffer.reset(VertexArrayBuffer::Create());
+		_FrameBufferScreenBuffer->Bind();
+
+		_FrameBufferScreenBuffer->AddVertexBuffer(vertexBuffer);
+		_FrameBufferScreenBuffer->SetVertexCount(vertices.size());
 	}
 }

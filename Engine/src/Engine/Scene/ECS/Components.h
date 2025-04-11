@@ -57,12 +57,10 @@ namespace Engine
 		void SetVisiblity(bool Visible) { bVisible = Visible; }
 		void SetDrawShadows(bool Draw) { bDrawShadows = Draw; }
 		void Draw(std::shared_ptr<Shader> shader, TransformComponent& transform) {
-			if(bVisible)
-				_Model->Draw(shader, transform.GetModelMatrix());
+			_Model->Draw(shader, transform.GetModelMatrix());
 		}
 		void DrawShadow(std::shared_ptr<Shader> ShadowShader, TransformComponent& transform, glm::mat4 LightSpaceMatrix) {
-			if (bVisible && bDrawShadows)
-				_Model->DrawShadow(ShadowShader, transform.GetModelMatrix(), LightSpaceMatrix);
+			_Model->DrawShadow(ShadowShader, transform.GetModelMatrix(), LightSpaceMatrix);
 		}
 	};
 

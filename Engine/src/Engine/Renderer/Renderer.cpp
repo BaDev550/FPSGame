@@ -34,13 +34,15 @@ namespace Engine
 	{
 		_FrameBuffer->Bind();
 
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RenderCommand::Clear();
+
 		_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 	
 	void Renderer::EndScene()
 	{
 		_FrameBuffer->Unbind();
-		_ShadowMapFramebuffer->Unbind();
 	}
 	
 	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray)
@@ -61,7 +63,7 @@ namespace Engine
 
 		RenderCommand::SetViewport(_ShadowMap->GetWidth(), _ShadowMap->GetHeight());
 		RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
-		RenderCommand::ClearColor();
+		RenderCommand::Clear();
 
 		shader->Bind();
 		shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
@@ -76,10 +78,13 @@ namespace Engine
 	}
 
 	void Renderer::RenderFrameBufferScreen(const std::shared_ptr<Shader>& shader) {
+		RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		RenderCommand::ClearColor();
+
 		shader->Bind();
 
-		_ScreenTexture->Bind(1);
-		shader->SetInt("screenTexture", 1);
+		_ScreenTexture->Bind(0);
+		shader->SetInt("screenTexture", 0);
 
 		_FrameBuffer->GetScreenBuffer()->Bind();
 		RenderCommand::DrawVertex(_FrameBuffer->GetScreenBuffer());

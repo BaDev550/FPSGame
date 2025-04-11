@@ -64,7 +64,7 @@ namespace LevelEditor {
 			glm::mat4 projectionMatrix = _Camera->GetProjectionMatrix(0.1f, 100.0f);
 
 			ImGuizmo::Manipulate(glm::value_ptr(viewMatrix), glm::value_ptr(projectionMatrix),
-				_GizmoType, ImGuizmo::WORLD, glm::value_ptr(modelMatrix));
+				_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(modelMatrix));
 
 			if (ImGuizmo::IsUsing()) {
 				glm::vec3 newPosition;
@@ -249,6 +249,11 @@ namespace LevelEditor {
 				if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
 					nameComp.name = buffer;
 				}
+				ImGui::SameLine(0.0f, 5.0f);
+				if (ImGui::Button("Delete")) {
+					registry.destroy(_SelectedEntity);
+					_SelectedEntity = entt::null;
+				}
 
 				ImGui::DragFloat3("Position", glm::value_ptr(transform.Position), 0.1f);
 				ImGui::DragFloat3("Rotation", glm::value_ptr(transform.Rotation), 0.1f);
@@ -261,6 +266,8 @@ namespace LevelEditor {
 						bShowFileDialog = !bShowFileDialog;
 					}
 					ImGui::Checkbox("Visible", &staticMesh.bVisible);
+					ImGui::Checkbox("Apply Shadows", &staticMesh.bDrawShadows);
+
 					if (bShowFileDialog) {
 						IGFD::FileDialogConfig config;
 
