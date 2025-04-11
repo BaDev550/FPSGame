@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "LevelEditor.h"
 
+#include "Player/PlayerPawn.h"
+
 class GameLayer : public EngineLayer {
 public:
 	GameLayer();
@@ -23,7 +25,7 @@ public:
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	virtual void OnImGuiRender() override {
@@ -46,11 +48,15 @@ public:
 		Engine::EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<Engine::MouseMovedEvent>(BIND_EVENT_FUNCTION(GameLayer::OnMouseMove));
 		dispatcher.Dispatch<Engine::KeyPressedEvent>(BIND_EVENT_FUNCTION(GameLayer::OnKeyPressed));
+		EngineScene::Get().ProcessEvent(event);
 	}
 
 	Engine::CameraComponent* GetActiveCamera();
 	inline std::shared_ptr<EngineScene>& GetActiveScene() { return _LoadedScene; }
 	void SetEditor(LEditor* leveleditor, LEditorUI* editorUI);
+private:
+	PlayerPawn Player;
+	EngineEntity _Camera;
 private:
 	std::shared_ptr<EngineShader> _Shader;
 	std::shared_ptr<EngineWindow> _Window;
@@ -61,7 +67,6 @@ private:
 	std::shared_ptr<LEditorUI> _levelEditorUI;
 	bool _bLevelEditorOpened = false;
 
-	Entity _Camera;
 private:
 	float _LastX = 0.0f, _LastY = 0.0f;
 	bool _bfirstPressed = true;

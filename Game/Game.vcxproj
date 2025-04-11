@@ -95,6 +95,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Player\PlayerPawn.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameLayer\GameLayer.cpp" />
   </ItemGroup>
@@ -107,6 +108,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Player\PlayerPawn.h" />
     <ClInclude Include="src\GameLayer\GameLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

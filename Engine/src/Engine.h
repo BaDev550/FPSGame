@@ -3,6 +3,10 @@
 #include "Engine/Core/Application/Application.h"
 #include "Engine/Core/Application/EntiryPoint.h"
 
+#include "Engine/Events/KeyEvent.h"
+#include "Engine/Events/MouseEvent.h"
+#include "Engine/Events/Event.h"
+
 #include "Engine/Input/Input.h"
 #include "Engine/Input/KeyCodes.h"
 #include "Engine/Input/MouseButtonCodes.h"
@@ -21,6 +25,11 @@
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/ECS/Components.h"
 #include "Engine/Scene/ECS/Systems.h"
+#include "Engine/Scene/ECS/Entity.h"
+
+#include "Engine/ActorClasses/IActor.h"
+#include "Engine/ActorClasses/IPawn.h"
+#include "Engine/ActorClasses/ICharacter.h"
 
 #include "yaml-cpp/yaml.h"
 
@@ -45,9 +54,14 @@ typedef Engine::RenderSystem EngineRenderSystem;
 typedef Engine::MeshComponent EngineStaticMeshComponent;
 typedef Engine::NameComponent EngineNameComponent;
 typedef Engine::TransformComponent EngineTransformComponent;
+
+typedef Engine::Entity EngineEntity;
+typedef Engine::IActor EngineActor;
+typedef Engine::IPawn EnginePawn;
+typedef Engine::ICharacter EngineCharacter;
+
 typedef Engine::ETextureType EngineTextureType;
 typedef Engine::Material EngineMaterial;
-typedef entt::entity Entity;
 
 #define EngineLoadStaticMesh(path) std::unique_ptr<EngineModel>(new EngineModel(path))
 #define EngineCreateShader(vertexPath, fragmentPath) std::shared_ptr<EngineShader>(new EngineShader(vertexPath, fragmentPath))

@@ -1,24 +1,43 @@
 #include "epch.h"
 #include "Scene.h"
 #include "ECS/Components.h"
+#include "ECS/Entity.h"
+#include "Engine/ActorClasses/IPawn.h"
 
 namespace Engine
 {
-	entt::entity Scene::CreateEntity(entt::entity& entity, const std::string& name)
+	Entity Scene::CreateEntity(const std::string& name)
 	{
-	    entity = _Registry.create();
-	    _Registry.emplace<TransformComponent>(entity);
-	    _Registry.emplace<NameComponent>(entity, name);
-	    return entity;
+		entt::entity handle = _Registry.create();
+	    _Registry.emplace<TransformComponent>(handle);
+	    _Registry.emplace<NameComponent>(handle, name);
+	    return Entity(handle);
 	}
 
-	entt::entity Scene::CreateCamera(entt::entity& entity, const std::string& name)
+	Entity Scene::CreateCamera(const std::string& name)
 	{
-		entity = _Registry.create();
-		_Registry.emplace<TransformComponent>(entity);
-		_Registry.emplace<NameComponent>(entity, name);
-		_Registry.emplace<CameraComponent>(entity);
-		return entity;
+		entt::entity handle = _Registry.create();
+		_Registry.emplace<TransformComponent>(handle);
+		_Registry.emplace<NameComponent>(handle, name);
+		_Registry.emplace<CameraComponent>(handle);
+		return Entity(handle);
 	}
 
+	bool Scene::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		for (auto& entity : _Registry.view<IPawn>()) {
+			IPawn& pawn = _Registry.get<IPawn>(entity);
+			pawn.OnMouseMoved(e);
+		}
+		return true;
+	}
+
+	bool Scene::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		for (auto& entity : _Registry.view<IPawn>()) {
+			IPawn& pawn = _Registry.get<IPawn>(entity);
+			pawn.OnKeyPressed(e);
+		}
+		return true;
+	}
 }

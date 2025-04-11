@@ -15,9 +15,9 @@ namespace LevelEditor {
 
 		}
 
-		void DrawEntityGizmos(entt::registry& registry, entt::entity selectedEntity);
+		void DrawEntityGizmos(entt::entity selectedEntity);
 		void DrawTopBar();
-		void DrawScene(entt::registry& registry);
+		void DrawScene();
 
 		virtual void OnImGuiRender() override;
 
@@ -45,10 +45,10 @@ namespace LevelEditor {
 		}
 
 	private:
-		std::shared_ptr<EngineScene>& _Scene;
+		std::shared_ptr<EngineScene> _Scene;
 		std::shared_ptr<LevelEditorLayer> _LevelEditor;
 		Engine::CameraComponent* _Camera;
-		Entity _SelectedEntity = entt::null;
+		entt::entity _SelectedEntity{ entt::null };
 
 		ImVec2 _ViewportPanelSize, _ViewportPanelPos;
 		bool _ViewportHovered;

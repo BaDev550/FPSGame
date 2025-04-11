@@ -10,8 +10,9 @@
 
 namespace LevelEditor {
 	EditorLayer::EditorLayer(std::shared_ptr<LevelEditorLayer>& layer)
-		: Layer("Editor"), _Scene(layer->GetActiveScene()), _LevelEditor(layer)
+		: Layer("Editor"), _LevelEditor(layer)
 	{
+		_Scene.reset(&EngineScene::Get());
 		_Camera = layer->GetActiveCamera();
 	}
 
@@ -44,9 +45,9 @@ namespace LevelEditor {
 		return true;
 	}
 
-	void EditorLayer::DrawEntityGizmos(entt::registry& registry, entt::entity selectedEntity) {
+	void EditorLayer::DrawEntityGizmos(entt::entity selectedEntity) {
 		if (selectedEntity != entt::null) {
-			auto& transform = registry.get<Engine::TransformComponent>(selectedEntity);
+			auto& transform = EngineScene::Get().GetRegistry().get<Engine::TransformComponent>(selectedEntity);
 
 			glm::mat4 modelMatrix = glm::mat4(1.0f);
 			modelMatrix = glm::translate(modelMatrix, transform.Position);
@@ -132,14 +133,14 @@ namespace LevelEditor {
 
 			_LevelEditor->_ViewportFocused = ImGui::IsWindowFocused();
 			_ViewportHovered = ImGui::IsWindowHovered();
-			DrawEntityGizmos(registry, _SelectedEntity);
+			DrawEntityGizmos(_SelectedEntity);
 		}
 		else {
 			ImGui::Text("No Active Camera!");
 		}
 		ImGui::End();
 
-		DrawScene(registry);
+		DrawScene();
 	}
 
 	static bool bShowOpenSceneDialog = false;
@@ -220,16 +221,16 @@ namespace LevelEditor {
 	}
 
 	static bool bShowFileDialog = false;
-	void EditorLayer::DrawScene(entt::registry& registry)
+	void EditorLayer::DrawScene()
 	{
 		ImGui::SetNextWindowSize(ImVec2((float)EngineApp::Get().GetWindow().GetWidth() / 2, (float)EngineApp::Get().GetWindow().GetHeight()), ImGuiCond_Always);
 		ImGui::Begin("Scene", nullptr, ImGuiWindowFlags_NoResize);
 
 		if (ImGui::Button("Create Entity")) {
-			Entity newEntity;
-			_Scene->CreateEntity(newEntity);
+			EngineEntity newEntity = _Scene->CreateEntity();
 		}
 
+		auto& registry = _Scene->GetRegistry();
 		auto view = registry.view<Engine::TransformComponent, Engine::NameComponent>();
 		for (auto entity : view) {
 			auto& nameComp = registry.get<Engine::NameComponent>(entity);

@@ -101,7 +101,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Engine\ActorClasses\IActor.h" />
     <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Engine\ActorClasses\ICharacter.h" />
+    <ClInclude Include="src\Engine\ActorClasses\IPawn.h" />
     <ClInclude Include="src\Engine\Core\Application\Application.h" />
     <ClInclude Include="src\Engine\Core\Application\EntiryPoint.h" />
     <ClInclude Include="src\Engine\Core\Core.h" />
@@ -125,6 +128,7 @@
     <ClInclude Include="src\Engine\Renderer\Texture.h" />
     <ClInclude Include="src\Engine\Renderer\VertexArrayBuffer.h" />
     <ClInclude Include="src\Engine\Scene\ECS\Components.h" />
+    <ClInclude Include="src\Engine\Scene\ECS\Entity.h" />
     <ClInclude Include="src\Engine\Scene\ECS\Systems.h" />
     <ClInclude Include="src\Engine\Scene\Scene.h" />
     <ClInclude Include="src\Engine\Window\ImGui\ImGuiLayer.h" />

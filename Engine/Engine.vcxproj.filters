@@ -1431,6 +1431,10 @@
     <ClInclude Include="vendor\stb\stb_image.h">
       <Filter>vendor\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Scene\ECS\Entity.h" />
+    <ClInclude Include="src\Engine\ActorClasses\IActor.h" />
+    <ClInclude Include="src\Engine\ActorClasses\IPawn.h" />
+    <ClInclude Include="src\Engine\ActorClasses\ICharacter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Core\Application\Application.cpp">

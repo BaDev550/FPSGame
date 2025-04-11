@@ -14,8 +14,8 @@ public:
 	inline LEditorUI* GetEditorUI() { return _EditorUI.get(); }
 	inline LEditor* GetEditor() { return _Editor.get(); }
 
-	Editor(std::shared_ptr<EngineScene>& scene) {
-		_Editor = std::make_shared<LEditor>(scene);
+	Editor() {
+		_Editor = std::make_shared<LEditor>();
 		_EditorUI = std::make_shared<LEditorUI>(_Editor);
 	}
 };

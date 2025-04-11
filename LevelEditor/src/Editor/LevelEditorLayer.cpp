@@ -1,10 +1,10 @@
 #include "LevelEditorLayer.h"
 
 namespace LevelEditor {
-	LevelEditorLayer::LevelEditorLayer(std::shared_ptr<EngineScene>& scene) : Layer("LevelEditor"), _LoadedScene(scene)
+	LevelEditorLayer::LevelEditorLayer() : Layer("LevelEditor")
 	{
 		_Window = std::make_shared<EngineWindow>(EngineApp::Get().GetWindow());
-		_LoadedScene->CreateCamera(_EditorCamera, "EditorCamera");
+		_EditorCamera = EngineScene::Get().CreateCamera("EditorCamera");
 	}
 
 	void LevelEditorLayer::OnUpdate()
@@ -43,8 +43,8 @@ namespace LevelEditor {
 
 	Engine::CameraComponent* LevelEditorLayer::GetActiveCamera()
 	{
-		if (_LoadedScene->GetRegistry().valid(_EditorCamera) && _LoadedScene->GetRegistry().any_of<Engine::CameraComponent>(_EditorCamera)) {
-			auto& camera = _LoadedScene->GetRegistry().get<Engine::CameraComponent>(_EditorCamera);
+		if (_EditorCamera.IsValid() && _EditorCamera.HasComponent<Engine::CameraComponent>()) {
+			auto& camera = _EditorCamera.GetComponent<Engine::CameraComponent>();
 			return &camera;
 		}
 		else {

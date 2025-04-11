@@ -9,9 +9,9 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_LoadedScene = std::make_shared<EngineScene>();
 
 	EngineLoadScene("main.scene", *_LoadedScene);
-	_LoadedScene->CreateCamera(_Camera, "GameCamera");
+	_Camera = EngineScene::Get().CreateCamera("GameCamera");
 
-	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader, _LoadedScene->GetRegistry());
+	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader);
 }
 
 void GameLayer::OnUpdate()
@@ -66,8 +66,8 @@ Engine::CameraComponent* GameLayer::GetActiveCamera()
 		return _levelEditor->GetActiveCamera();
 	}
 	else {
-		if (_LoadedScene->GetRegistry().valid(_Camera) && _LoadedScene->GetRegistry().any_of<Engine::CameraComponent>(_Camera)) {
-			auto& camera = _LoadedScene->GetRegistry().get<Engine::CameraComponent>(_Camera);
+		if (_Camera.IsValid() && _Camera.HasComponent<Engine::CameraComponent>()) {
+			auto& camera = _Camera.GetComponent<Engine::CameraComponent>();
 			return &camera;
 		}
 		else {

@@ -4,7 +4,7 @@
 namespace LevelEditor {
 	class LevelEditorLayer : public EngineLayer {
 	public:
-		LevelEditorLayer(std::shared_ptr<EngineScene>& scene);
+		LevelEditorLayer();
 
 		void OnUpdate() override;
 		bool OnMouseMove(Engine::MouseMovedEvent& e);
@@ -30,12 +30,10 @@ namespace LevelEditor {
 		}
 
 		Engine::CameraComponent* GetActiveCamera();
-		inline std::shared_ptr<EngineScene>& GetActiveScene() { return _LoadedScene; }
 
 		bool _ViewportFocused = false;
-		Entity _EditorCamera;
+		EngineEntity _EditorCamera;
 	private:
-		std::shared_ptr<EngineScene> _LoadedScene;
 		std::shared_ptr<EngineWindow> _Window;
 
 	private:

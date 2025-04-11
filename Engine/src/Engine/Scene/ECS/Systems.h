@@ -1,6 +1,7 @@
 #pragma once
 #include "Components.h"
 #include "Engine/Window/Window.h"
+#include "Engine/Scene/Scene.h"
 #include "entt/entt.hpp"
 
 namespace Engine
@@ -24,12 +25,12 @@ namespace Engine
 	
 	class RenderSystem {
 	public:
-		RenderSystem(std::shared_ptr<Shader>& shader, entt::registry& registry)
-			: _Shader(shader), _Registry(registry)
+		RenderSystem(std::shared_ptr<Shader>& shader)
+			: _Shader(shader), _Registry(&Scene::Get().GetRegistry())
 		{
 			_Window = std::make_shared<Window>(Application::Get().GetWindow());
 			float aspectRatio = (float)_Window->GetWidth() / (float)_Window->GetHeight();
-			auto view = _Registry.view<CameraComponent>();
+			auto view = _Registry->view<CameraComponent>();
 			for (auto entity : view)
 			{
 				auto& camera = view.get<CameraComponent>(entity);
@@ -54,18 +55,16 @@ namespace Engine
 			RenderMainScene();
 
 			Renderer::EndScene();
-			
-			glDisable(GL_DEPTH_TEST);
+
 			Renderer::RenderFrameBufferScreen(_FrameBufferShader);
-			glEnable(GL_DEPTH_TEST);
 		}
 
 		void RenderShadowPass(const glm::mat4& lightSpaceMatrix) {
 			_ShadowShader->Bind();
 
-			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
-				auto& transform = _Registry.get<TransformComponent>(entity);
-				auto& mesh = _Registry.get<MeshComponent>(entity);
+			for (auto entity : _Registry->view<TransformComponent, MeshComponent>()) {
+				auto& transform = _Registry->get<TransformComponent>(entity);
+				auto& mesh = _Registry->get<MeshComponent>(entity);
 				if (!mesh.bDrawShadows)
 					continue;
 
@@ -78,9 +77,9 @@ namespace Engine
 		void RenderMainScene() {
 			_Shader->Bind();
 
-			for (auto entity : _Registry.view<TransformComponent, MeshComponent>()) {
-				auto& transform = _Registry.get<TransformComponent>(entity);
-				auto& mesh = _Registry.get<MeshComponent>(entity);
+			for (auto entity : _Registry->view<TransformComponent, MeshComponent>()) {
+				auto& transform = _Registry->get<TransformComponent>(entity);
+				auto& mesh = _Registry->get<MeshComponent>(entity);
 				if (!mesh.bVisible)
 					continue;
 
@@ -92,7 +91,7 @@ namespace Engine
 
 		void UpdateCameraSystem()
 		{
-			auto view = _Registry.view<CameraComponent, TransformComponent>();
+			auto view = _Registry->view<CameraComponent, TransformComponent>();
 			for (auto entity : view)
 			{
 				auto& camera = view.get<CameraComponent>(entity);
@@ -113,7 +112,7 @@ namespace Engine
 		std::shared_ptr<Shader> _ShadowShader;
 		std::shared_ptr<Shader> _FrameBufferShader;
 		std::shared_ptr<Window> _Window;
-		entt::registry& _Registry;
+		entt::registry* _Registry;
 		float distance = 60.0f;
 	};
 }

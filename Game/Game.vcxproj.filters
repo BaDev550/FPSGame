@@ -8,8 +8,10 @@
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameLayer\GameLayer.cpp" />
+    <ClCompile Include="src\Player\PlayerPawn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameLayer\GameLayer.h" />
+    <ClInclude Include="src\Player\PlayerPawn.h" />
   </ItemGroup>
 </Project>

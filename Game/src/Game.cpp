@@ -11,7 +11,7 @@ public:
 
 	Game() {
 		_GameLayer = std::make_shared<GameLayer>();
-		_Editor = std::make_shared<Editor>(_GameLayer->GetActiveScene());
+		_Editor = std::make_shared<Editor>();
 
 		_GameLayer->SetEditor(_Editor->GetEditor(), _Editor->GetEditorUI());
 		PushLayer(_GameLayer.get());
