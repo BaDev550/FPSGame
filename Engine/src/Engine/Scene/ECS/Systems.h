@@ -24,9 +24,10 @@ namespace Engine
 	
 	class RenderSystem {
 	public:
-		RenderSystem(std::shared_ptr<Shader>& shader, std::shared_ptr<Shader>& shadowShader, std::shared_ptr<Window>& window, entt::registry& registry)
-			: _Shader(shader), _Window(window), _Registry(registry), _ShadowShader(shadowShader)
+		RenderSystem(std::shared_ptr<Shader>& shader, entt::registry& registry)
+			: _Shader(shader), _Registry(registry)
 		{
+			_Window = std::make_shared<Window>(Application::Get().GetWindow());
 			float aspectRatio = (float)_Window->GetWidth() / (float)_Window->GetHeight();
 			auto view = _Registry.view<CameraComponent>();
 			for (auto entity : view)
@@ -34,6 +35,8 @@ namespace Engine
 				auto& camera = view.get<CameraComponent>(entity);
 				camera.SetAspectRatio(aspectRatio);
 			}
+			_ShadowShader = std::make_shared<Shader>("../Engine/Shaders/shadow_vertex.glsl", "../Engine/Shaders/shadow_fragment.glsl");
+			_FrameBufferShader = std::make_shared<Shader>("../Engine/Shaders/framebuffer_screen_vertex.glsl", "../Engine/Shaders/framebuffer_screen_fragment.glsl");
 		}
 	
 		void Draw(CameraComponent camera) {
@@ -45,16 +48,20 @@ namespace Engine
 			glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 			_Shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
 
-			RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+			Renderer::BeginScene(camera);
+			glEnable(GL_DEPTH_TEST);
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 			RenderCommand::Clear();
 
 			RenderShadowPass(lightSpaceMatrix);
-
-			Renderer::BeginScene(camera);
 			RenderMainScene();
 			Renderer::EndScene();
 
-			RenderMainScene();
+			glDisable(GL_DEPTH_TEST);
+			RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+			RenderCommand::ClearColor();
+
+			Renderer::RenderFrameBufferScreen(_FrameBufferShader);
 		}
 
 		void RenderShadowPass(const glm::mat4& lightSpaceMatrix) {
@@ -104,6 +111,7 @@ namespace Engine
 	private:
 		std::shared_ptr<Shader> _Shader;
 		std::shared_ptr<Shader> _ShadowShader;
+		std::shared_ptr<Shader> _FrameBufferShader;
 		std::shared_ptr<Window> _Window;
 		entt::registry& _Registry;
 		float distance = 60.0f;

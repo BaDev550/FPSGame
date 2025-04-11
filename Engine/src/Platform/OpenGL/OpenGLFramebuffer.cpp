@@ -3,6 +3,8 @@
 #include "glad/glad.h"
 
 namespace Engine {
+	std::vector<Vertex> vertices;
+
 	OpenGLFramebuffer::OpenGLFramebuffer(const FrameBufferSpecification& spec)
 		: _Spec(spec)
 	{
@@ -13,13 +15,14 @@ namespace Engine {
 	{
 		glDeleteFramebuffers(1, &_FramebufferID);
 		glDeleteTextures(1, &_ColorAttachment);
+		glDeleteTextures(1, &_DepthAttachment);
 		glDeleteRenderbuffers(1, &_DepthStencilAttachment);
 	}
 
 	void OpenGLFramebuffer::Bind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, _FramebufferID);
-		glViewport(0, 0, _Spec.Width, _Spec.Height);
+		//glViewport(0, 0, _Spec.Width, _Spec.Height);
 	}
 
 	void OpenGLFramebuffer::Unbind() const
@@ -36,12 +39,32 @@ namespace Engine {
 
 	void OpenGLFramebuffer::Invalidate()
 	{
+		vertices.clear();
+		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
+		vertices.push_back({ { -1.0f, -1.0f, 0.0f }, {0.0f, 0.0f} });
+		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
+		vertices.push_back({ { -1.0f,  1.0f, 0.0f }, {0.0f, 1.0f} });
+		vertices.push_back({ {  1.0f, -1.0f, 0.0f }, {1.0f, 0.0f} });
+		vertices.push_back({ {  1.0f,  1.0f, 0.0f }, {1.0f, 1.0f} });
+
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices.data(), vertices.size()));
+
+		BufferLayout layout = {
+			{ ShaderDataType::Vec3, "aPos" },
+			{ ShaderDataType::Vec2, "aTexCoords" },
+		};
+		vertexBuffer->SetLayout(layout);
+
+		_FrameBufferScreenBuffer.reset(VertexArrayBuffer::Create());
+		_FrameBufferScreenBuffer->AddVertexBuffer(vertexBuffer);
+		_FrameBufferScreenBuffer->SetVertexCount(vertices.size());
+
 		if (_FramebufferID) {
 			glDeleteFramebuffers(1, &_FramebufferID);
 			glDeleteTextures(1, &_ColorAttachment);
 			glDeleteRenderbuffers(1, &_DepthStencilAttachment);
 		}
-
 
 		if (_Spec.type == EFrameBufferType::ShadowMap)
 		{
@@ -76,7 +99,7 @@ namespace Engine {
 			glGenTextures(1, &_ColorAttachment);
 			if (_Spec.UseMultisample) {
 				glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, _ColorAttachment);
-				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, GL_RGBA8, _Spec.Width, _Spec.Height, GL_TRUE);
+				glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 8, GL_RGBA8, _Spec.Width, _Spec.Height, GL_TRUE);
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE, _ColorAttachment, 0);
 			}
 			else {

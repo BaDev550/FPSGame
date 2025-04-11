@@ -608,6 +608,14 @@
       <Project>{C64C7BA4-B204-BDF1-1B0C-964D07E357E2}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\base_fragment.glsl" />
+    <None Include="Shaders\base_vertex.glsl" />
+    <None Include="Shaders\framebuffer_screen_fragment.glsl" />
+    <None Include="Shaders\framebuffer_screen_vertex.glsl" />
+    <None Include="Shaders\shader_fragment.glsl" />
+    <None Include="Shaders\shadow_vertex.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

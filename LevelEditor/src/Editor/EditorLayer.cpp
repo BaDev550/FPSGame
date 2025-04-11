@@ -87,8 +87,8 @@ namespace LevelEditor {
 	void EditorLayer::OnImGuiRender()
 	{
 		auto& registry = _Scene->GetRegistry();
-		auto framebuffer = EngineRenderer::GetFramebuffer();
-		uint32_t textureID = framebuffer->GetColorAttachmentFramebufferID();
+		auto screenTexture = EngineRenderer::GetScreenTexture();
+		uint32_t textureID = screenTexture->GetTextureID();
 		GLFWwindow* nativeWindow = (GLFWwindow*)EngineApp::Get().GetWindow().GetNativeWindow();
 		int xPos, yPos;
 

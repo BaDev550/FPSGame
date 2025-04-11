@@ -8,6 +8,7 @@ namespace Engine
 	std::shared_ptr<FrameBuffer> Renderer::_FrameBuffer;
 	std::shared_ptr<FrameBuffer> Renderer::_ShadowMapFramebuffer;
 	std::shared_ptr<Texture2D> Renderer::_ShadowMap;
+	std::shared_ptr<Texture2D> Renderer::_ScreenTexture;
 
 	void Renderer::Init(std::unique_ptr<Window>& window)
 	{
@@ -15,6 +16,9 @@ namespace Engine
 		spec.Width = window->GetWidth();
 		spec.Height = window->GetHeight();
 		_FrameBuffer.reset(FrameBuffer::Create(spec));
+
+		uint32_t screenTextureID = _FrameBuffer->GetColorAttachmentFramebufferID();
+		_ScreenTexture = Texture2D::CreateFromID(screenTextureID, window->GetWidth(), window->GetHeight());
 
 		FrameBufferSpecification shadowSpec;
 		shadowSpec.Width = 1024;
@@ -30,15 +34,13 @@ namespace Engine
 	{
 		_FrameBuffer->Bind();
 
-		RenderCommand::SetClearColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		RenderCommand::Clear();
-
 		_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 	
 	void Renderer::EndScene()
 	{
 		_FrameBuffer->Unbind();
+		_ShadowMapFramebuffer->Unbind();
 	}
 	
 	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray)
@@ -59,7 +61,7 @@ namespace Engine
 
 		RenderCommand::SetViewport(_ShadowMap->GetWidth(), _ShadowMap->GetHeight());
 		RenderCommand::SetClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
-		RenderCommand::Clear();
+		RenderCommand::ClearColor();
 
 		shader->Bind();
 		shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
@@ -71,5 +73,15 @@ namespace Engine
 
 		_FrameBuffer->Bind();
 		RenderCommand::SetViewport(_FrameBuffer->GetWidth(), _FrameBuffer->GetHeight());
+	}
+
+	void Renderer::RenderFrameBufferScreen(const std::shared_ptr<Shader>& shader) {
+		shader->Bind();
+
+		_ScreenTexture->Bind(1);
+		shader->SetInt("screenTexture", 1);
+
+		_FrameBuffer->GetScreenBuffer()->Bind();
+		RenderCommand::DrawVertex(_FrameBuffer->GetScreenBuffer());
 	}
 }

@@ -18,11 +18,13 @@ namespace Engine
 		
 		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray);
 		static void RenderShadowMap(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, const glm::mat4& lightSpaceMatrix);
+		static void RenderFrameBufferScreen(const std::shared_ptr<Shader>& shader);
 
 		inline static RendererAPI::API CurrentAPI() { return RendererAPI::GetAPI(); }
 		inline static std::shared_ptr<FrameBuffer> GetFramebuffer() { return _FrameBuffer; }
 		inline static std::shared_ptr<FrameBuffer> GetShadowbuffer() { return _ShadowMapFramebuffer; }
 		inline static std::shared_ptr<Texture2D> GetShadowMap() { return _ShadowMap; }
+		inline static std::shared_ptr<Texture2D> GetScreenTexture() { return _ScreenTexture; }
 
 	private:
 		struct SSCeneData {
@@ -32,5 +34,6 @@ namespace Engine
 		static std::shared_ptr<FrameBuffer> _FrameBuffer;
 		static std::shared_ptr<FrameBuffer> _ShadowMapFramebuffer;
 		static std::shared_ptr<Texture2D> _ShadowMap;
+		static std::shared_ptr<Texture2D> _ScreenTexture;
 	};
 }

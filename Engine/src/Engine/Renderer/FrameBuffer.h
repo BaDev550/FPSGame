@@ -1,4 +1,6 @@
 #pragma once
+#include "Engine/Renderer/Buffers.h"
+#include "Engine/Renderer/VertexArrayBuffer.h"
 
 namespace Engine {
 	enum class EFrameBufferType
@@ -22,6 +24,7 @@ namespace Engine {
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
 		virtual uint32_t GetColorAttachmentFramebufferID() const = 0;
 		virtual uint32_t GetDepthAttachmentID() const = 0;
+		virtual std::shared_ptr<VertexArrayBuffer> GetScreenBuffer() const = 0;
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 
