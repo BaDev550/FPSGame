@@ -13,5 +13,6 @@
   <ItemGroup>
     <ClInclude Include="src\GameLayer\GameLayer.h" />
     <ClInclude Include="src\Player\PlayerPawn.h" />
+    <ClInclude Include="src\Player\FPCamera.h" />
   </ItemGroup>
 </Project>

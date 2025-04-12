@@ -28,7 +28,7 @@ namespace Engine
 		entt::entity handle = _Registry.create();
 		_Registry.emplace<TransformComponent>(handle);
 		_Registry.emplace<NameComponent>(handle, name);
-		_Registry.emplace<CameraComponent>(handle);
+		_Registry.emplace<CameraComponent>(handle, &_Registry.get<TransformComponent>(handle));
 		return Entity(handle);
 	}
 

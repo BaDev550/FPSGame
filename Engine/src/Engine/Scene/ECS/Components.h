@@ -31,6 +31,14 @@ namespace Engine
 			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.z + LocalRotation.z), glm::vec3(0, 0, 1));
 			return modelMatrix;
 		}
+
+		void SetPosition(glm::vec3 pos) { Position = pos; }
+		void SetRotation(glm::vec3 rot) { Rotation = rot; }
+		void SetScale(glm::vec3 scale) { Scale = scale; }
+
+		void SetLocalPosition(glm::vec3 lpos) { LocalPosition = lpos; }
+		void SetLocalRotation(glm::vec3 lrot) { LocalRotation = lrot; }
+		void SetLocalScale(glm::vec3 lscale) { LocalScale = lscale; }
 	};
 	
 	struct RigidBodyComponent {
@@ -76,19 +84,17 @@ namespace Engine
 	};
 	struct CameraComponent
 	{
-		CameraComponent(){
+		CameraComponent(TransformComponent* transform) : Transform(transform) {
 			UpdateCameraVectors();
 		}
 
-		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+	private:
+		TransformComponent* Transform;
 		glm::vec3 Front = { 0.0f, 0.0f, -1.0f };
 		glm::vec3 Up = { 0.0f, 1.0f, 0.0f };
 		glm::vec3 Right = { 1.0f, 0.0f, 0.0f };
 		glm::vec3 WorldUp = { 0.0f, 1.0f, 0.0f };
-
-		float Yaw = -90.0f;
-		float Pitch = 0.0f;
-
+	public:
 		float MovementSpeed = 5.0f;
 		float MouseSensitivity = 0.1f;
 		float Zoom = 45.0f;
@@ -97,7 +103,7 @@ namespace Engine
 
 		glm::mat4 GetViewMatrix()
 		{
-			return glm::lookAt(Position, Position + Front, Up);
+			return glm::lookAt((Transform->Position + Transform->LocalPosition), (Transform->Position + Transform->LocalPosition) + Front, Up);
 		}
 
 		glm::mat4 GetProjectionMatrix(float nearPlane, float farPlane)
@@ -113,28 +119,28 @@ namespace Engine
 		void ProcessKeyboard(ECameraDirection direction, float deltaTime) {
 			float velocity = MovementSpeed * deltaTime;
 			if (direction == ECameraDirection::FORWARD)
-				Position += Front * velocity;
+				Transform->Position += Front * velocity;
 			if (direction == ECameraDirection::BACKWARD)
-				Position -= Front * velocity;
+				Transform->Position -= Front * velocity;
 			if (direction == ECameraDirection::LEFT)
-				Position -= Right * velocity;
+				Transform->Position -= Right * velocity;
 			if (direction == ECameraDirection::RIGHT)
-				Position += Right * velocity;
+				Transform->Position += Right * velocity;
 		}
 
 		void ProcessMouseMovement(float xoffset, float yoffset, bool constrainPitch = true) {
 			xoffset *= MouseSensitivity;
 			yoffset *= MouseSensitivity;
 
-			Yaw += xoffset;
-			Pitch += yoffset;
+			Transform->Rotation.y += xoffset;
+			Transform->Rotation.z += yoffset;
 
 			if (constrainPitch)
 			{
-				if (Pitch > 89.0f)
-					Pitch = 89.0f;
-				if (Pitch < -89.0f)
-					Pitch = -89.0f;
+				if (Transform->Rotation.z > 89.0f)
+					Transform->Rotation.z = 89.0f;
+				if (Transform->Rotation.z < -89.0f)
+					Transform->Rotation.z = -89.0f;
 			}
 
 			UpdateCameraVectors();
@@ -150,16 +156,16 @@ namespace Engine
 		void SetAspectRatio(float ar) { AspectRatio = ar; }
 		void UpdateCameraVectors() {
 			glm::vec3 front;
-			front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-			front.y = sin(glm::radians(Pitch));
-			front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+			front.x = cos(glm::radians(Transform->Rotation.y)) * cos(glm::radians(Transform->Rotation.z));
+			front.y = sin(glm::radians(Transform->Rotation.z));
+			front.z = sin(glm::radians(Transform->Rotation.y)) * cos(glm::radians(Transform->Rotation.z));
 			Front = glm::normalize(front);
 
 			Right = glm::normalize(glm::cross(Front, WorldUp));
 			Up = glm::normalize(glm::cross(Right, Front));
 		}
 
-		inline glm::vec3 GetPosition() const { return Position; }
+		inline glm::vec3 GetPosition() const { return Transform->Position; }
 		inline glm::vec3 GetFront() const { return Front; }
 		inline glm::vec3 GetUp() const { return Up; }
 		inline glm::vec3 GetRight() const { return Right; }

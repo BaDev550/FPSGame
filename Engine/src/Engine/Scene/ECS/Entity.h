@@ -36,19 +36,17 @@ namespace Engine {
             return _Registry->get<T>(_Handle);
         }
 
-        template <typename T>
-        const T& GetComponent() const {
-            return _Registry->get<T>(_Handle);
-        }
-
         void SetParent(Entity* parent) {
+			if (_Parent == parent) return;
+
 			if (_Parent) {
-				_Parent->RemoveChild(this);
+				_Parent->_Childs.erase(
+					std::remove(_Parent->_Childs.begin(), _Parent->_Childs.end(), this),
+					_Parent->_Childs.end()
+				);
 			}
+
 			_Parent = parent;
-			if (_Parent) {
-				_Parent->AddChild(this);
-			}
         }
 
 		bool HasParent() {

@@ -19,15 +19,6 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 
 void GameLayer::OnUpdate()
 {
-	if (EngineKeyPressed(E_KEY_W) && !_bLevelEditorOpened)
-		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::FORWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_S) && !_bLevelEditorOpened)
-		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::BACKWARD, 0.1f);
-	if (EngineKeyPressed(E_KEY_A) && !_bLevelEditorOpened)
-		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::LEFT, 0.1f);
-	if (EngineKeyPressed(E_KEY_D) && !_bLevelEditorOpened)
-		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::RIGHT, 0.1f);
-
 	if(!_bLevelEditorOpened)
 		EngineScene::Get().Update();
 
@@ -50,7 +41,12 @@ Engine::CameraComponent* GameLayer::GetActiveCamera()
 		return _levelEditor->GetActiveCamera();
 	}
 	else {
-		return Player->GetCamera();
+		if (Player->IsValid() && Player->GetCameraEntity()->IsValid()) {
+			return &Player->GetCameraEntity()->GetCamera();
+		}
+		else {
+			return _levelEditor->GetActiveCamera();
+		}
 	}
 }
 

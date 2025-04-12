@@ -29,12 +29,12 @@ namespace LevelEditor {
 			if (e.GetKeyCode() == E_KEY_Q)
 				_GizmoType = ImGuizmo::SCALE;
 
-			if (e.GetKeyCode() == E_KEY_F) {
-				if (_SelectedEntity != entt::null) {
-					auto& transform = _Scene->GetRegistry().get<Engine::TransformComponent>(_SelectedEntity);
-					_Camera->Position = transform.Position;
-				}
-			}
+			//if (e.GetKeyCode() == E_KEY_F) {
+			//	if (_SelectedEntity != entt::null) {
+			//		auto& transform = _Scene->GetRegistry().get<Engine::TransformComponent>(_SelectedEntity);
+			//		_Camera->Position = transform.Position;
+			//	}
+			//}
 
 			return false;
 		}

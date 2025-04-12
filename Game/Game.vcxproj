@@ -108,6 +108,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Player\FPCamera.h" />
     <ClInclude Include="src\Player\PlayerPawn.h" />
     <ClInclude Include="src\GameLayer\GameLayer.h" />
   </ItemGroup>

@@ -48,7 +48,7 @@ namespace Engine
 		static Application* s_Instance;
 		bool _bRunning;
 	private:
-		ImGuiLayer* _ImGuiLayer;
+		std::unique_ptr<ImGuiLayer> _ImGuiLayer;
 		LayerStack _LayerStack;
 
 		std::vector<Layer*> _PendingLayers;

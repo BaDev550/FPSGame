@@ -97,10 +97,6 @@ namespace Engine
 				auto& camera = view.get<CameraComponent>(entity);
 				auto& transform = view.get<TransformComponent>(entity);
 
-				transform.Position = camera.Position;
-
-				transform.Rotation.y = camera.Yaw;
-				transform.Rotation.x = camera.Pitch;
 				_Shader->SetVec3("u_ViewPos", transform.Position);
 				_Shader->SetVec3("u_LightPos", transform.Position);
 

@@ -15,8 +15,8 @@ namespace Engine
 		_Window->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
 		_bRunning = true;
 	
-		_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(_ImGuiLayer);
+		_ImGuiLayer = std::make_unique<ImGuiLayer>();
+		PushOverlay(_ImGuiLayer.get());
 
 		Renderer::Init(_Window);
 	}
