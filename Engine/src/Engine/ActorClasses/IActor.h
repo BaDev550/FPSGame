@@ -7,10 +7,14 @@ namespace Engine {
 	class IActor : public Entity
 	{
 	public:
-		IActor(std::string name) : Entity(Scene::Get().GetRegistry().create()) {
+		IActor(std::string name) {
 			AddComponent<NameComponent>(name);
 			AddComponent<TransformComponent>();
+			AddComponent<ActorComponent>(this);
 		}
 		virtual ~IActor() = default;
+
+		virtual void OnStart() = 0;
+		virtual void OnUpdate() = 0;
 	};
 }

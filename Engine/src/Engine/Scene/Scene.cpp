@@ -3,9 +3,18 @@
 #include "ECS/Components.h"
 #include "ECS/Entity.h"
 #include "Engine/ActorClasses/IPawn.h"
+#include "Engine/Core/Core.h"
 
 namespace Engine
 {
+	Scene* Scene::instance = nullptr;
+	Scene::Scene()
+	{
+		instance = this;
+		ENGINE_ASSERT(instance, "Scene::Get is null");
+		std::cout << "Scene initialized!" << std::endl;
+	}
+
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		entt::entity handle = _Registry.create();
@@ -23,21 +32,62 @@ namespace Engine
 		return Entity(handle);
 	}
 
+	void Scene::Start()
+	{
+		auto view = _Registry.view<ActorComponent>();
+		for (auto& entity : view) {
+			auto& actor = _Registry.get<ActorComponent>(entity);
+			actor.GetActor()->OnStart();
+		}
+	}
+
+	void Scene::Update()
+	{
+		auto view = _Registry.view<ActorComponent>();
+		for (auto& entity : view) {
+			auto& actor = _Registry.get<ActorComponent>(entity);
+			actor.GetActor()->OnUpdate();
+		}
+	}
+
 	bool Scene::OnMouseMovedEvent(MouseMovedEvent& e)
 	{
-		for (auto& entity : _Registry.view<IPawn>()) {
-			IPawn& pawn = _Registry.get<IPawn>(entity);
-			pawn.OnMouseMoved(e);
+		auto view = _Registry.view<PawnComponent>();
+		for (auto& entity : view) {
+			auto& pawn = _Registry.get<PawnComponent>(entity);
+			pawn.GetPawn()->OnMouseMoved(e);
 		}
 		return true;
 	}
 
 	bool Scene::OnKeyPressedEvent(KeyPressedEvent& e)
 	{
-		for (auto& entity : _Registry.view<IPawn>()) {
-			IPawn& pawn = _Registry.get<IPawn>(entity);
-			pawn.OnKeyPressed(e);
+		auto view = _Registry.view<PawnComponent>();
+		for (auto& entity : view) {
+			auto& pawn = _Registry.get<PawnComponent>(entity);
+			pawn.GetPawn()->OnKeyPressed(e);
 		}
 		return true;
 	}
+
+	bool Scene::OnKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		auto view = _Registry.view<PawnComponent>();
+		for (auto& entity : view) {
+			auto& pawn = _Registry.get<PawnComponent>(entity);
+			pawn.GetPawn()->OnKeyReleased(e);
+		}
+		return true;
+	}
+
+	bool Scene::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		auto view = _Registry.view<PawnComponent>();
+		for (auto& entity : view) {
+			auto& pawn = _Registry.get<PawnComponent>(entity);
+			pawn.GetPawn()->OnMouseButtonPressed(e);
+		}
+		return true;
+	}
+
 }

@@ -349,6 +349,10 @@ public:
 		auto view = scene.GetRegistry().view<EngineNameComponent, EngineTransformComponent, EngineStaticMeshComponent>();
 
 		for (auto entity : view) {
+			if (scene.GetRegistry().any_of<Engine::PawnComponent>(entity) || scene.GetRegistry().any_of<Engine::ActorComponent>(entity)) {
+				continue;
+			}
+
 			out << YAML::BeginMap;
 			out << YAML::Key << "ID" << YAML::Value << (uint32_t)entity;
 

@@ -1,4 +1,5 @@
 #include "GameLayer.h"
+#include <memory>
 
 GameLayer::GameLayer() : Layer("LevelEditor")
 {
@@ -9,9 +10,11 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_LoadedScene = std::make_shared<EngineScene>();
 
 	EngineLoadScene("main.scene", *_LoadedScene);
-	_Camera = EngineScene::Get().CreateCamera("GameCamera");
 
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader);
+
+	Player = std::make_shared<PlayerPawn>();
+	EngineScene::Get().Start();
 }
 
 void GameLayer::OnUpdate()
@@ -24,6 +27,9 @@ void GameLayer::OnUpdate()
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::LEFT, 0.1f);
 	if (EngineKeyPressed(E_KEY_D) && !_bLevelEditorOpened)
 		GetActiveCamera()->ProcessKeyboard(Engine::ECameraDirection::RIGHT, 0.1f);
+
+	if(!_bLevelEditorOpened)
+		EngineScene::Get().Update();
 
 	OnRender();
 }
@@ -38,41 +44,13 @@ void GameLayer::OnRender()
 	}
 }
 
-bool GameLayer::OnMouseMove(Engine::MouseMovedEvent& e)
-{
-	if (_bLevelEditorOpened || GetActiveCamera() == NULL) return false;
-
-	if (_bfirstPressed)
-	{
-		_LastX = e.GetX();
-		_LastY = e.GetY();
-		_bfirstPressed = false;
-		return false;
-	}
-
-	float xOffset = e.GetX() - _LastX;
-	float yOffset = _LastY - e.GetY();
-
-	_LastX = e.GetX();
-	_LastY = e.GetY();
-
-	GetActiveCamera()->ProcessMouseMovement(xOffset, yOffset);
-	return false;
-}
-
 Engine::CameraComponent* GameLayer::GetActiveCamera()
 {
 	if (_bLevelEditorOpened) {
 		return _levelEditor->GetActiveCamera();
 	}
 	else {
-		if (_Camera.IsValid() && _Camera.HasComponent<Engine::CameraComponent>()) {
-			auto& camera = _Camera.GetComponent<Engine::CameraComponent>();
-			return &camera;
-		}
-		else {
-			std::cout << "No Active Camera" << std::endl;
-		}
+		return Player->GetCamera();
 	}
 }
 

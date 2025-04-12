@@ -18,13 +18,17 @@ namespace Engine
 		glm::vec3 Rotation = glm::vec3(0.0f);
 		glm::vec3 Scale = glm::vec3(1.0f);
 	
+		glm::vec3 LocalPosition = glm::vec3(0.0f);
+		glm::vec3 LocalRotation = glm::vec3(0.0f);
+		glm::vec3 LocalScale = glm::vec3(0.0f);
+
 		glm::mat4& GetModelMatrix() const {
 			glm::mat4 modelMatrix = glm::mat4(1.0f);
-			modelMatrix = glm::translate(modelMatrix, Position);
-			modelMatrix = glm::scale(modelMatrix, Scale);
-			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.x), glm::vec3(1, 0, 0));
-			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.y), glm::vec3(0, 1, 0));
-			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.z), glm::vec3(0, 0, 1));
+			modelMatrix = glm::translate(modelMatrix, Position + LocalPosition);
+			modelMatrix = glm::scale(modelMatrix, Scale + LocalScale);
+			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.x + LocalRotation.x), glm::vec3(1, 0, 0));
+			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.y + LocalRotation.y), glm::vec3(0, 1, 0));
+			modelMatrix = glm::rotate(modelMatrix, glm::radians(Rotation.z + LocalRotation.z), glm::vec3(0, 0, 1));
 			return modelMatrix;
 		}
 	};
@@ -159,5 +163,23 @@ namespace Engine
 		inline glm::vec3 GetFront() const { return Front; }
 		inline glm::vec3 GetUp() const { return Up; }
 		inline glm::vec3 GetRight() const { return Right; }
+	};
+
+	class IPawn;
+	struct PawnComponent {
+	public:
+		PawnComponent(IPawn* inst) : instance(inst) {}
+		IPawn* GetPawn() const { return instance; }
+	private:
+		IPawn* instance = nullptr;
+	};
+
+	class IActor;
+	struct ActorComponent {
+	public:
+		ActorComponent(IActor* inst) : instance(inst) {}
+		IActor* GetActor() const { return instance; }
+	private:
+		IActor* instance = nullptr;
 	};
 }

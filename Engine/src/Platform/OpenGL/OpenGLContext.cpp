@@ -40,10 +40,12 @@ namespace Engine
 		glEnable(GL_STENCIL_TEST);
 
 #ifdef E_DEBUG
+	#if LOG_GRAPICHS_ERROR
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(GLDebugMessageCallback, nullptr);
 		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+	#endif
 #endif // E_DEBUG
 	}
 	

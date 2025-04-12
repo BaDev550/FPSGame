@@ -15,9 +15,9 @@ namespace Engine {
 		ICharacter(std::string& name) : IPawn(name) {}
 		virtual ~ICharacter() = default;
 
-		virtual bool OnMouseMoved(MouseMovedEvent& e) = 0;
-		virtual bool OnMouseButtonPressed(MouseButtonPressedEvent& e) = 0;
-		virtual bool OnKeyPressed(KeyPressedEvent& e) = 0;
-		virtual bool OnKeyReleased(KeyReleasedEvent& e) = 0;
+		virtual void OnMouseMoved(MouseMovedEvent& e) = 0;
+		virtual void OnMouseButtonPressed(MouseButtonPressedEvent& e) = 0;
+		virtual void OnKeyPressed(KeyPressedEvent& e) = 0;
+		virtual void OnKeyReleased(KeyReleasedEvent& e) = 0;
 	};
 }

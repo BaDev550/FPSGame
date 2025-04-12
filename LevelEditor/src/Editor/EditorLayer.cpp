@@ -238,6 +238,7 @@ namespace LevelEditor {
 			if (ImGui::Selectable(nameComp.name.c_str())) {
 				_SelectedEntity = entity;
 			}
+
 		}
 		if (_SelectedEntity != entt::null) {
 			auto& nameComp = registry.get<Engine::NameComponent>(_SelectedEntity);

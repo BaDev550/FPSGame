@@ -7,5 +7,6 @@
 #define ENGINE_ASSERT(x, ...)
 #endif
 
+#define LOG_GRAPICHS_ERROR 0
 #define BIT(x) (x << x)
 #define BIND_EVENT_FUNCTION(fn) std::bind(&fn, this, std::placeholders::_1)

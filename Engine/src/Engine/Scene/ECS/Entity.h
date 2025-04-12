@@ -1,6 +1,5 @@
 #pragma once  
 #include <entt/entt.hpp>  
-
 #include "Engine/Scene/Scene.h"
 
 namespace Engine {
@@ -11,9 +10,9 @@ namespace Engine {
     };
 	class Entity {
 	public:
-        Entity() : _EntityType(EEntityType::Actor), _Handle(entt::null), _Registry(&Scene::Get().GetRegistry()) {}
+        Entity() : _EntityType(EEntityType::Actor), _Handle(Scene::Get().GetRegistry().create()), _Registry(&Scene::Get().GetRegistry()) {}
 		Entity(entt::entity handle)
-			: _Handle(handle), _Registry(&Scene::Get().GetRegistry()) {
+			: _Handle(handle), _Registry(&Scene::Get().GetRegistry()), _EntityType(EEntityType::Actor) {
 		}
         virtual ~Entity() = default;
 
@@ -43,8 +42,18 @@ namespace Engine {
         }
 
         void SetParent(Entity* parent) {
-            _Parent = parent;
+			if (_Parent) {
+				_Parent->RemoveChild(this);
+			}
+			_Parent = parent;
+			if (_Parent) {
+				_Parent->AddChild(this);
+			}
         }
+
+		bool HasParent() {
+			return _Parent != NULL;
+		}
 
         bool IsValid() {
             return _Registry->valid(_Handle);
@@ -53,6 +62,54 @@ namespace Engine {
         void DestroyEntity() {
             _Registry->destroy(_Handle);
         }
+
+		const std::vector<Entity*>& GetChildren() const {
+			return _Childs;
+		}
+
+		void AddChild(Entity* child) {
+			if (child && std::find(_Childs.begin(), _Childs.end(), child) == _Childs.end()) {
+                _Childs.push_back(child);
+                child->SetParent(this);
+			}
+		}
+
+		void RemoveChild(Entity* child) {
+			auto it = std::remove(_Childs.begin(), _Childs.end(), child);
+			if (it != _Childs.end()) {
+                _Childs.erase(it);
+                child->SetParent(nullptr);
+			}
+		}
+
+#ifdef E_DEBUG
+        void PrintComponents() {
+			std::cout << "Entity [" << (uint32_t)_Handle << "] Components:\n";
+
+			auto& reg = *_Registry;
+
+			if (reg.all_of<TransformComponent>(_Handle)) {
+				std::cout << "- TransformComponent\n";
+			}
+			if (reg.all_of<NameComponent>(_Handle)) {
+				std::cout << "- NameComponent: " << reg.get<NameComponent>(_Handle).name << "\n";
+			}
+			if (reg.all_of<MeshComponent>(_Handle)) {
+				std::cout << "- SpriteRendererComponent\n";
+			}
+			if (reg.all_of<CameraComponent>(_Handle)) {
+				std::cout << "- CameraComponent\n";
+			}
+			if (reg.all_of<PawnComponent>(_Handle)) {
+				std::cout << "- PawnComponent\n";
+			}
+			if (reg.all_of<ActorComponent>(_Handle)) {
+				std::cout << "- ActorComponent\n";
+			}
+        }
+#else
+        void PrintComponents() {}
+#endif
 
         Entity* GetParent() const { return _Parent; }
 
@@ -72,6 +129,7 @@ namespace Engine {
 		entt::registry* _Registry = NULL;
         entt::entity _Handle{ entt::null };
         Entity* _Parent = NULL;
+        std::vector<Entity*> _Childs;
         EEntityType _EntityType;
 	};
 }

@@ -17,7 +17,6 @@ namespace Engine
 		virtual void OnUpdate() {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
-		inline void SetWindow(Window* window) { _Window = window; }
 
 		inline const std::string& GetName() const { return _DebugName; }
 	protected:

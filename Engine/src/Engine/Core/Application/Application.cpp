@@ -17,10 +17,8 @@ namespace Engine
 	
 		_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(_ImGuiLayer);
-		
+
 		Renderer::Init(_Window);
-		for (Layer* layer : _LayerStack)
-			layer->SetWindow(_Window.get());
 	}
 	
 	Application::~Application()

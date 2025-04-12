@@ -5,20 +5,21 @@
 class PlayerPawn : public EnginePawn
 {
 public:
-	PlayerPawn() : EnginePawn("Player Pawn") {}
+	PlayerPawn() : EnginePawn("Player Pawn") {
+		AddComponent<EngineStaticMeshComponent>("Assets/Models/mario_2/mario_2.obj");
+		AddComponent<Engine::CameraComponent>();
+		_FPCamera = GetComponent<Engine::CameraComponent>();
+	}
 
-	virtual bool OnMouseMoved(Engine::MouseMovedEvent& e) override {
-		return false;
-	}
-	virtual bool OnMouseButtonPressed(Engine::MouseButtonPressedEvent& e) override {
-		return false;
-	}
-	virtual bool OnKeyPressed(Engine::KeyPressedEvent& e) override {
-		std::cout << e.ToString() << std::endl;
-		return false;
-	}
-	virtual bool OnKeyReleased(Engine::KeyReleasedEvent& e) override {
-		return false;
-	}
+	virtual void OnStart() override;
+	virtual void OnUpdate() override;
+
+	virtual void OnMouseMoved(Engine::MouseMovedEvent& e) override;
+
+	Engine::CameraComponent* GetCamera() { return &_FPCamera; }
+private:
+	Engine::CameraComponent _FPCamera;
+
+	float _LastX = 0.0f, _LastY = 0.0f;
+	bool _bfirstPressed = true;
 };
-

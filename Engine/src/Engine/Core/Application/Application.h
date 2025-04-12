@@ -12,8 +12,6 @@
 #include "Engine/Renderer/Model.h"
 #include "Engine/Renderer/Material.h"
 
-#include "Engine/Scene/Scene.h"
-
 #include <glm/glm.hpp>
 
 namespace Engine

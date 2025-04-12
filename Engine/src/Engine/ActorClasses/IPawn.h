@@ -2,9 +2,6 @@
 
 #include "IActor.h"
 
-#include "Engine/Scene/ECS/Entity.h"
-#include "Engine/Scene/ECS/Components.h"
-
 #include "Engine/Events/MouseEvent.h"
 #include "Engine/Events/KeyEvent.h"
 
@@ -12,12 +9,18 @@ namespace Engine {
 	class IPawn : public IActor
 	{
 	public:
-		IPawn(std::string name) : IActor(name) {}
+		IPawn(std::string name) : IActor(name) {
+			AddComponent<PawnComponent>(this);
+			PrintComponents();
+		}
 		virtual ~IPawn() = default;
 
-		virtual bool OnMouseMoved(MouseMovedEvent& e) = 0;
-		virtual bool OnMouseButtonPressed(MouseButtonPressedEvent& e) = 0;
-		virtual bool OnKeyPressed(KeyPressedEvent& e) = 0;
-		virtual bool OnKeyReleased(KeyReleasedEvent& e) = 0;
+		virtual void OnStart() = 0;
+		virtual void OnUpdate() = 0;
+
+		virtual void OnMouseMoved(MouseMovedEvent& e) {}
+		virtual void OnMouseButtonPressed(MouseButtonPressedEvent& e) {}
+		virtual void OnKeyPressed(KeyPressedEvent& e) {}
+		virtual void OnKeyReleased(KeyReleasedEvent& e) {}
 	};
 }
