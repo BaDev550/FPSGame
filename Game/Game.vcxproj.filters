@@ -4,15 +4,28 @@
     <Filter Include="GameLayer">
       <UniqueIdentifier>{1CF84C7D-8862-01F4-D1A0-B2993D4ADF48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{724E55CA-5EF0-7FA0-47AB-93F433EC06F1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\GameLayer\GameLayer.h">
+      <Filter>GameLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player\FPCamera.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player\PlayerPawn.h">
+      <Filter>Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameLayer\GameLayer.cpp" />
-    <ClCompile Include="src\Player\PlayerPawn.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\GameLayer\GameLayer.h" />
-    <ClInclude Include="src\Player\PlayerPawn.h" />
-    <ClInclude Include="src\Player\FPCamera.h" />
+    <ClCompile Include="src\GameLayer\GameLayer.cpp">
+      <Filter>GameLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player\PlayerPawn.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

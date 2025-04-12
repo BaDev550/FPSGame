@@ -20,6 +20,7 @@ IncludeDir["glm"] =   "Engine/vendor/glm/"
 IncludeDir["stb"] =   "Engine/vendor/stb/"
 IncludeDir["entt"] =  "Engine/vendor/entt/include"
 IncludeDir["yaml"] =  "Engine/vendor/yaml/include"
+IncludeDir["JoltPhysics"] =  "Engine/vendor/JoltPhysics/include"
 
 group "Dependencies"
     include "Engine/vendor/GLFW"
@@ -28,6 +29,7 @@ group "Dependencies"
     include "Engine/vendor/assimp/"
     include "Engine/vendor/ImGuizmo/"
     include "Engine/vendor/yaml/"
+    include "Engine/vendor/JoltPhysics/"
 group ""
 
 project "Engine"
@@ -69,7 +71,8 @@ project "Engine"
         "%{IncludeDir.glm}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.yaml}",
-        "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.JoltPhysics}"
     }
 
     links
@@ -80,6 +83,7 @@ project "Engine"
         "Assimp",
         "yaml-cpp",
         "ImGuiGizmo",
+        "JoltPhysics",
         "opengl32.lib"
     }
 
@@ -129,13 +133,15 @@ includedirs
     "%{IncludeDir.GLFW}",
     "%{IncludeDir.Assimp}",
     "%{IncludeDir.yaml}",
-    "%{IncludeDir.entt}"
+    "%{IncludeDir.entt}",
+    "%{IncludeDir.JoltPhysics}"
 }
 
 links 
 {
     "Engine",
-    "LevelEditor"
+    "LevelEditor",
+    "JoltPhysics"
 }
 
 filter "system:windows"
@@ -183,7 +189,8 @@ project "LevelEditor"
         "%{IncludeDir.Assimp}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.yaml}",
-        "%{IncludeDir.entt}"
+        "%{IncludeDir.entt}",
+        "%{IncludeDir.JoltPhysics}"
     }
 
     links
@@ -193,6 +200,7 @@ project "LevelEditor"
         "GLAD",
         "ImGui",
         "Assimp",
+        "JoltPhysics",
         "opengl32.lib"
     }
 

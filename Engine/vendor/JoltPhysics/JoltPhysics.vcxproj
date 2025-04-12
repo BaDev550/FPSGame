@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{812AB974-EDDF-316A-76D4-2B41E288286E}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>JoltPhysics</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>bin\Debug-windows-x86_64\JoltPhysics\</OutDir>
+    <IntDir>bin-int\Debug-windows-x86_64\JoltPhysics\</IntDir>
+    <TargetName>JoltPhysics</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>bin\Release-windows-x86_64\JoltPhysics\</OutDir>
+    <IntDir>bin-int\Release-windows-x86_64\JoltPhysics\</IntDir>
+    <TargetName>JoltPhysics</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>JPH_PROFILE_ENABLED=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>JPH_PROFILE_ENABLED=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Jolt\AABBTree\AABBTreeBuilder.h" />
+    <ClInclude Include="include\Jolt\AABBTree\AABBTreeToBuffer.h" />
+    <ClInclude Include="include\Jolt\AABBTree\NodeCodec\NodeCodecQuadTreeHalfFloat.h" />
+    <ClInclude Include="include\Jolt\AABBTree\TriangleCodec\TriangleCodecIndexed8BitPackSOA4Flags.h" />
+    <ClInclude Include="include\Jolt\ConfigurationString.h" />
+    <ClInclude Include="include\Jolt\Core\ARMNeon.h" />
+    <ClInclude Include="include\Jolt\Core\Array.h" />
+    <ClInclude Include="include\Jolt\Core\Atomics.h" />
+    <ClInclude Include="include\Jolt\Core\BinaryHeap.h" />
+    <ClInclude Include="include\Jolt\Core\ByteBuffer.h" />
+    <ClInclude Include="include\Jolt\Core\Color.h" />
+    <ClInclude Include="include\Jolt\Core\Core.h" />
+    <ClInclude Include="include\Jolt\Core\FPControlWord.h" />
+    <ClInclude Include="include\Jolt\Core\FPException.h" />
+    <ClInclude Include="include\Jolt\Core\FPFlushDenormals.h" />
+    <ClInclude Include="include\Jolt\Core\Factory.h" />
+    <ClInclude Include="include\Jolt\Core\FixedSizeFreeList.h" />
+    <ClInclude Include="include\Jolt\Core\HashCombine.h" />
+    <ClInclude Include="include\Jolt\Core\HashTable.h" />
+    <ClInclude Include="include\Jolt\Core\InsertionSort.h" />
+    <ClInclude Include="include\Jolt\Core\IssueReporting.h" />
+    <ClInclude Include="include\Jolt\Core\JobSystem.h" />
+    <ClInclude Include="include\Jolt\Core\JobSystemSingleThreaded.h" />
+    <ClInclude Include="include\Jolt\Core\JobSystemThreadPool.h" />
+    <ClInclude Include="include\Jolt\Core\JobSystemWithBarrier.h" />
+    <ClInclude Include="include\Jolt\Core\LinearCurve.h" />
+    <ClInclude Include="include\Jolt\Core\LockFreeHashMap.h" />
+    <ClInclude Include="include\Jolt\Core\Memory.h" />
+    <ClInclude Include="include\Jolt\Core\Mutex.h" />
+    <ClInclude Include="include\Jolt\Core\MutexArray.h" />
+    <ClInclude Include="include\Jolt\Core\NonCopyable.h" />
+    <ClInclude Include="include\Jolt\Core\Profiler.h" />
+    <ClInclude Include="include\Jolt\Core\QuickSort.h" />
+    <ClInclude Include="include\Jolt\Core\RTTI.h" />
+    <ClInclude Include="include\Jolt\Core\Reference.h" />
+    <ClInclude Include="include\Jolt\Core\Result.h" />
+    <ClInclude Include="include\Jolt\Core\STLAlignedAllocator.h" />
+    <ClInclude Include="include\Jolt\Core\STLAllocator.h" />
+    <ClInclude Include="include\Jolt\Core\STLLocalAllocator.h" />
+    <ClInclude Include="include\Jolt\Core\STLTempAllocator.h" />
+    <ClInclude Include="include\Jolt\Core\ScopeExit.h" />
+    <ClInclude Include="include\Jolt\Core\Semaphore.h" />
+    <ClInclude Include="include\Jolt\Core\StaticArray.h" />
+    <ClInclude Include="include\Jolt\Core\StreamIn.h" />
+    <ClInclude Include="include\Jolt\Core\StreamOut.h" />
+    <ClInclude Include="include\Jolt\Core\StreamUtils.h" />
+    <ClInclude Include="include\Jolt\Core\StreamWrapper.h" />
+    <ClInclude Include="include\Jolt\Core\StridedPtr.h" />
+    <ClInclude Include="include\Jolt\Core\StringTools.h" />
+    <ClInclude Include="include\Jolt\Core\TempAllocator.h" />
+    <ClInclude Include="include\Jolt\Core\TickCounter.h" />
+    <ClInclude Include="include\Jolt\Core\UnorderedMap.h" />
+    <ClInclude Include="include\Jolt\Core\UnorderedSet.h" />
+    <ClInclude Include="include\Jolt\Geometry\AABox.h" />
+    <ClInclude Include="include\Jolt\Geometry\AABox4.h" />
+    <ClInclude Include="include\Jolt\Geometry\ClipPoly.h" />
+    <ClInclude Include="include\Jolt\Geometry\ClosestPoint.h" />
+    <ClInclude Include="include\Jolt\Geometry\ConvexHullBuilder.h" />
+    <ClInclude Include="include\Jolt\Geometry\ConvexHullBuilder2D.h" />
+    <ClInclude Include="include\Jolt\Geometry\ConvexSupport.h" />
+    <ClInclude Include="include\Jolt\Geometry\EPAConvexHullBuilder.h" />
+    <ClInclude Include="include\Jolt\Geometry\EPAPenetrationDepth.h" />
+    <ClInclude Include="include\Jolt\Geometry\Ellipse.h" />
+    <ClInclude Include="include\Jolt\Geometry\GJKClosestPoint.h" />
+    <ClInclude Include="include\Jolt\Geometry\IndexedTriangle.h" />
+    <ClInclude Include="include\Jolt\Geometry\Indexify.h" />
+    <ClInclude Include="include\Jolt\Geometry\MortonCode.h" />
+    <ClInclude Include="include\Jolt\Geometry\OrientedBox.h" />
+    <ClInclude Include="include\Jolt\Geometry\Plane.h" />
+    <ClInclude Include="include\Jolt\Geometry\RayAABox.h" />
+    <ClInclude Include="include\Jolt\Geometry\RayCapsule.h" />
+    <ClInclude Include="include\Jolt\Geometry\RayCylinder.h" />
+    <ClInclude Include="include\Jolt\Geometry\RaySphere.h" />
+    <ClInclude Include="include\Jolt\Geometry\RayTriangle.h" />
+    <ClInclude Include="include\Jolt\Geometry\Sphere.h" />
+    <ClInclude Include="include\Jolt\Geometry\Triangle.h" />
+    <ClInclude Include="include\Jolt\Jolt.h" />
+    <ClInclude Include="include\Jolt\Math\BVec16.h" />
+    <ClInclude Include="include\Jolt\Math\DMat44.h" />
+    <ClInclude Include="include\Jolt\Math\DVec3.h" />
+    <ClInclude Include="include\Jolt\Math\Double3.h" />
+    <ClInclude Include="include\Jolt\Math\DynMatrix.h" />
+    <ClInclude Include="include\Jolt\Math\EigenValueSymmetric.h" />
+    <ClInclude Include="include\Jolt\Math\FindRoot.h" />
+    <ClInclude Include="include\Jolt\Math\Float2.h" />
+    <ClInclude Include="include\Jolt\Math\Float3.h" />
+    <ClInclude Include="include\Jolt\Math\Float4.h" />
+    <ClInclude Include="include\Jolt\Math\GaussianElimination.h" />
+    <ClInclude Include="include\Jolt\Math\HalfFloat.h" />
+    <ClInclude Include="include\Jolt\Math\Mat44.h" />
+    <ClInclude Include="include\Jolt\Math\Math.h" />
+    <ClInclude Include="include\Jolt\Math\MathTypes.h" />
+    <ClInclude Include="include\Jolt\Math\Matrix.h" />
+    <ClInclude Include="include\Jolt\Math\Quat.h" />
+    <ClInclude Include="include\Jolt\Math\Real.h" />
+    <ClInclude Include="include\Jolt\Math\Swizzle.h" />
+    <ClInclude Include="include\Jolt\Math\Trigonometry.h" />
+    <ClInclude Include="include\Jolt\Math\UVec4.h" />
+    <ClInclude Include="include\Jolt\Math\Vec3.h" />
+    <ClInclude Include="include\Jolt\Math\Vec4.h" />
+    <ClInclude Include="include\Jolt\Math\Vector.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\GetPrimitiveTypeOfType.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStream.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamBinaryIn.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamBinaryOut.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamIn.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamOut.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamTextIn.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamTextOut.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\ObjectStreamTypes.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\SerializableAttribute.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\SerializableAttributeEnum.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\SerializableAttributeTyped.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\SerializableObject.h" />
+    <ClInclude Include="include\Jolt\ObjectStream\TypeDeclarations.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\AllowedDOFs.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\Body.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyAccess.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyActivationListener.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyCreationSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyFilter.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyID.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyInterface.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyLock.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyLockInterface.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyLockMulti.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyManager.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyPair.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\BodyType.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\MassProperties.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\MotionProperties.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\MotionQuality.h" />
+    <ClInclude Include="include\Jolt\Physics\Body\MotionType.h" />
+    <ClInclude Include="include\Jolt\Physics\Character\Character.h" />
+    <ClInclude Include="include\Jolt\Physics\Character\CharacterBase.h" />
+    <ClInclude Include="include\Jolt\Physics\Character\CharacterID.h" />
+    <ClInclude Include="include\Jolt\Physics\Character\CharacterVirtual.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\AABoxCast.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ActiveEdgeMode.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ActiveEdges.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BackFaceMode.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhase.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseBruteForce.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseLayer.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseLayerInterfaceMask.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseLayerInterfaceTable.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseQuadTree.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseQuery.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\ObjectVsBroadPhaseLayerFilterMask.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\ObjectVsBroadPhaseLayerFilterTable.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\BroadPhase\QuadTree.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CastConvexVsTriangles.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CastResult.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CastSphereVsTriangles.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollectFacesMode.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideConvexVsTriangles.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollidePointResult.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideShapeVsShapePerLeaf.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideSoftBodyVertexIterator.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideSoftBodyVerticesVsTriangles.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollideSphereVsTriangles.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollisionCollector.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollisionCollectorImpl.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollisionDispatch.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\CollisionGroup.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ContactListener.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\EstimateCollisionResponse.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\GroupFilter.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\GroupFilterTable.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\InternalEdgeRemovingCollector.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ManifoldBetweenTwoFaces.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\NarrowPhaseQuery.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\NarrowPhaseStats.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ObjectLayer.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ObjectLayerPairFilterMask.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ObjectLayerPairFilterTable.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\PhysicsMaterial.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\PhysicsMaterialSimple.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\RayCast.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\BoxShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\CapsuleShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\CompoundShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\CompoundShapeVisitors.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\ConvexHullShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\ConvexShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\CylinderShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\DecoratedShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\EmptyShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\GetTrianglesContext.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\HeightFieldShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\MeshShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\MutableCompoundShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\OffsetCenterOfMassShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\PlaneShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\PolyhedronSubmergedVolumeCalculator.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\RotatedTranslatedShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\ScaleHelpers.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\ScaledShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\Shape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\SphereShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\StaticCompoundShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\SubShapeID.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\SubShapeIDPair.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\TaperedCapsuleShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\TaperedCylinderShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\Shape\TriangleShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ShapeCast.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\ShapeFilter.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\SimShapeFilter.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\SimShapeFilterWrapper.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\SortReverseAndStore.h" />
+    <ClInclude Include="include\Jolt\Physics\Collision\TransformedShape.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\CalculateSolverSteps.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConeConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\Constraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintManager.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\AngleConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\AxisConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\DualAxisConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\GearConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\HingeRotationConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\IndependentAxisConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\PointConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\RackAndPinionConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\RotationEulerConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\RotationQuatConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\SpringPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ConstraintPart\SwingTwistConstraintPart.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\ContactConstraintManager.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\DistanceConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\FixedConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\GearConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\HingeConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\MotorSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\PathConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\PathConstraintPath.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\PathConstraintPathHermite.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\PointConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\PulleyConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\RackAndPinionConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\SixDOFConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\SliderConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\SpringSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\SwingTwistConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Constraints\TwoBodyConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\DeterminismLog.h" />
+    <ClInclude Include="include\Jolt\Physics\EActivation.h" />
+    <ClInclude Include="include\Jolt\Physics\EPhysicsUpdateError.h" />
+    <ClInclude Include="include\Jolt\Physics\IslandBuilder.h" />
+    <ClInclude Include="include\Jolt\Physics\LargeIslandSplitter.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsLock.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsScene.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsStepListener.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsSystem.h" />
+    <ClInclude Include="include\Jolt\Physics\PhysicsUpdateContext.h" />
+    <ClInclude Include="include\Jolt\Physics\Ragdoll\Ragdoll.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyContactListener.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyCreationSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyManifold.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyMotionProperties.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyShape.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodySharedSettings.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyUpdateContext.h" />
+    <ClInclude Include="include\Jolt\Physics\SoftBody\SoftBodyVertex.h" />
+    <ClInclude Include="include\Jolt\Physics\StateRecorder.h" />
+    <ClInclude Include="include\Jolt\Physics\StateRecorderImpl.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\MotorcycleController.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\TrackedVehicleController.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleAntiRollBar.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleCollisionTester.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleConstraint.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleController.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleDifferential.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleEngine.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleTrack.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\VehicleTransmission.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\Wheel.h" />
+    <ClInclude Include="include\Jolt\Physics\Vehicle\WheeledVehicleController.h" />
+    <ClInclude Include="include\Jolt\RegisterTypes.h" />
+    <ClInclude Include="include\Jolt\Renderer\DebugRenderer.h" />
+    <ClInclude Include="include\Jolt\Renderer\DebugRendererPlayback.h" />
+    <ClInclude Include="include\Jolt\Renderer\DebugRendererRecorder.h" />
+    <ClInclude Include="include\Jolt\Renderer\DebugRendererSimple.h" />
+    <ClInclude Include="include\Jolt\Skeleton\SkeletalAnimation.h" />
+    <ClInclude Include="include\Jolt\Skeleton\Skeleton.h" />
+    <ClInclude Include="include\Jolt\Skeleton\SkeletonMapper.h" />
+    <ClInclude Include="include\Jolt\Skeleton\SkeletonPose.h" />
+    <ClInclude Include="include\Jolt\TriangleSplitter\TriangleSplitter.h" />
+    <ClInclude Include="include\Jolt\TriangleSplitter\TriangleSplitterBinning.h" />
+    <ClInclude Include="include\Jolt\TriangleSplitter\TriangleSplitterMean.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="include\Jolt\AABBTree\AABBTreeBuilder.cpp" />
+    <ClCompile Include="include\Jolt\Core\Color.cpp" />
+    <ClCompile Include="include\Jolt\Core\Factory.cpp" />
+    <ClCompile Include="include\Jolt\Core\IssueReporting.cpp" />
+    <ClCompile Include="include\Jolt\Core\JobSystemSingleThreaded.cpp" />
+    <ClCompile Include="include\Jolt\Core\JobSystemThreadPool.cpp" />
+    <ClCompile Include="include\Jolt\Core\JobSystemWithBarrier.cpp" />
+    <ClCompile Include="include\Jolt\Core\LinearCurve.cpp" />
+    <ClCompile Include="include\Jolt\Core\Memory.cpp" />
+    <ClCompile Include="include\Jolt\Core\Profiler.cpp" />
+    <ClCompile Include="include\Jolt\Core\RTTI.cpp" />
+    <ClCompile Include="include\Jolt\Core\Semaphore.cpp" />
+    <ClCompile Include="include\Jolt\Core\StringTools.cpp" />
+    <ClCompile Include="include\Jolt\Core\TickCounter.cpp" />
+    <ClCompile Include="include\Jolt\Geometry\ConvexHullBuilder.cpp" />
+    <ClCompile Include="include\Jolt\Geometry\ConvexHullBuilder2D.cpp" />
+    <ClCompile Include="include\Jolt\Geometry\Indexify.cpp" />
+    <ClCompile Include="include\Jolt\Geometry\OrientedBox.cpp" />
+    <ClCompile Include="include\Jolt\Math\Vec3.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStream.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamBinaryIn.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamBinaryOut.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamIn.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamOut.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamTextIn.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\ObjectStreamTextOut.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\SerializableObject.cpp" />
+    <ClCompile Include="include\Jolt\ObjectStream\TypeDeclarations.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\Body.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\BodyCreationSettings.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\BodyInterface.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\BodyManager.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\MassProperties.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Body\MotionProperties.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Character\Character.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Character\CharacterBase.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Character\CharacterVirtual.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhase.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseBruteForce.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\BroadPhase\BroadPhaseQuadTree.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\BroadPhase\QuadTree.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CastConvexVsTriangles.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CastSphereVsTriangles.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CollideConvexVsTriangles.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CollideSphereVsTriangles.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CollisionDispatch.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\CollisionGroup.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\EstimateCollisionResponse.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\GroupFilter.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\GroupFilterTable.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\ManifoldBetweenTwoFaces.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\NarrowPhaseQuery.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\NarrowPhaseStats.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\PhysicsMaterial.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\PhysicsMaterialSimple.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\BoxShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\CapsuleShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\CompoundShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\ConvexHullShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\ConvexShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\CylinderShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\DecoratedShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\EmptyShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\HeightFieldShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\MeshShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\MutableCompoundShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\OffsetCenterOfMassShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\PlaneShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\RotatedTranslatedShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\ScaledShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\Shape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\SphereShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\StaticCompoundShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\TaperedCapsuleShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\TaperedCylinderShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\Shape\TriangleShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Collision\TransformedShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\ConeConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\Constraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\ConstraintManager.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\ContactConstraintManager.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\DistanceConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\FixedConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\GearConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\HingeConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\MotorSettings.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\PathConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\PathConstraintPath.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\PathConstraintPathHermite.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\PointConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\PulleyConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\RackAndPinionConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\SixDOFConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\SliderConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\SpringSettings.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\SwingTwistConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Constraints\TwoBodyConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\DeterminismLog.cpp" />
+    <ClCompile Include="include\Jolt\Physics\IslandBuilder.cpp" />
+    <ClCompile Include="include\Jolt\Physics\LargeIslandSplitter.cpp" />
+    <ClCompile Include="include\Jolt\Physics\PhysicsScene.cpp" />
+    <ClCompile Include="include\Jolt\Physics\PhysicsSystem.cpp" />
+    <ClCompile Include="include\Jolt\Physics\PhysicsUpdateContext.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Ragdoll\Ragdoll.cpp" />
+    <ClCompile Include="include\Jolt\Physics\SoftBody\SoftBodyCreationSettings.cpp" />
+    <ClCompile Include="include\Jolt\Physics\SoftBody\SoftBodyMotionProperties.cpp" />
+    <ClCompile Include="include\Jolt\Physics\SoftBody\SoftBodyShape.cpp" />
+    <ClCompile Include="include\Jolt\Physics\SoftBody\SoftBodySharedSettings.cpp" />
+    <ClCompile Include="include\Jolt\Physics\StateRecorderImpl.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\MotorcycleController.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\TrackedVehicleController.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleAntiRollBar.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleCollisionTester.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleConstraint.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleController.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleDifferential.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleEngine.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleTrack.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\VehicleTransmission.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\Wheel.cpp" />
+    <ClCompile Include="include\Jolt\Physics\Vehicle\WheeledVehicleController.cpp" />
+    <ClCompile Include="include\Jolt\RegisterTypes.cpp" />
+    <ClCompile Include="include\Jolt\Renderer\DebugRenderer.cpp" />
+    <ClCompile Include="include\Jolt\Renderer\DebugRendererPlayback.cpp" />
+    <ClCompile Include="include\Jolt\Renderer\DebugRendererRecorder.cpp" />
+    <ClCompile Include="include\Jolt\Renderer\DebugRendererSimple.cpp" />
+    <ClCompile Include="include\Jolt\Skeleton\SkeletalAnimation.cpp" />
+    <ClCompile Include="include\Jolt\Skeleton\Skeleton.cpp" />
+    <ClCompile Include="include\Jolt\Skeleton\SkeletonMapper.cpp" />
+    <ClCompile Include="include\Jolt\Skeleton\SkeletonPose.cpp" />
+    <ClCompile Include="include\Jolt\TriangleSplitter\TriangleSplitter.cpp" />
+    <ClCompile Include="include\Jolt\TriangleSplitter\TriangleSplitterBinning.cpp" />
+    <ClCompile Include="include\Jolt\TriangleSplitter\TriangleSplitterMean.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

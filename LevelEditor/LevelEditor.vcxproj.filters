@@ -1,17 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d9d3bac6-a3a0-4c2d-a8ff-b621d4381642}</UniqueIdentifier>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{8C1A20B0-78BC-4A86-6177-5EDA4DB8D1D6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Editor\EditorLayer.cpp" />
-    <ClCompile Include="src\Editor\LevelEditorLayer.cpp" />
+    <ClInclude Include="src\Editor\EditorLayer.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Editor\LevelEditorLayer.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LevelEditor.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Editor\EditorLayer.h" />
-    <ClInclude Include="src\Editor\LevelEditorLayer.h" />
-    <ClInclude Include="src\LevelEditor.h" />
+    <ClCompile Include="src\Editor\EditorLayer.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Editor\LevelEditorLayer.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

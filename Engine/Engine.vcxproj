@@ -58,7 +58,7 @@
       <PrecompiledHeaderFile>epch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;E_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;E_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\GLAD\include;vendor\ImGui;vendor\ImGuizmo;vendor\assimp\include;vendor\glm;vendor\stb;vendor\yaml\include;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\GLAD\include;vendor\ImGui;vendor\ImGuizmo;vendor\assimp\include;vendor\glm;vendor\stb;vendor\yaml\include;vendor\entt\include;vendor\JoltPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>epch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;E_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;E_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\GLAD\include;vendor\ImGui;vendor\ImGuizmo;vendor\assimp\include;vendor\glm;vendor\stb;vendor\yaml\include;vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\GLFW\include;vendor\GLAD\include;vendor\ImGui;vendor\ImGuizmo;vendor\assimp\include;vendor\glm;vendor\stb;vendor\yaml\include;vendor\entt\include;vendor\JoltPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -101,8 +101,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Engine\ActorClasses\IActor.h" />
     <ClInclude Include="src\Engine.h" />
+    <ClInclude Include="src\Engine\ActorClasses\IActor.h" />
     <ClInclude Include="src\Engine\ActorClasses\ICharacter.h" />
     <ClInclude Include="src\Engine\ActorClasses\IPawn.h" />
     <ClInclude Include="src\Engine\Core\Application\Application.h" />
@@ -129,6 +129,8 @@
     <ClInclude Include="src\Engine\Renderer\VertexArrayBuffer.h" />
     <ClInclude Include="src\Engine\Scene\ECS\Components.h" />
     <ClInclude Include="src\Engine\Scene\ECS\Entity.h" />
+    <ClInclude Include="src\Engine\Scene\ECS\PhysicsSystem\PhysicsSystem.h" />
+    <ClInclude Include="src\Engine\Scene\ECS\RenderSystem\RenderSystem.h" />
     <ClInclude Include="src\Engine\Scene\ECS\Systems.h" />
     <ClInclude Include="src\Engine\Scene\Scene.h" />
     <ClInclude Include="src\Engine\Window\ImGui\ImGuiLayer.h" />
@@ -575,6 +577,8 @@
     <ClCompile Include="src\Engine\Renderer\Shader.cpp" />
     <ClCompile Include="src\Engine\Renderer\Texture.cpp" />
     <ClCompile Include="src\Engine\Renderer\VertexArrayBuffer.cpp" />
+    <ClCompile Include="src\Engine\Scene\ECS\PhysicsSystem\PhysicsSystem.cpp" />
+    <ClCompile Include="src\Engine\Scene\ECS\RenderSystem\RenderSystem.cpp" />
     <ClCompile Include="src\Engine\Scene\Scene.cpp" />
     <ClCompile Include="src\Engine\Window\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Engine\Window\ImGui\ImGuiLayer.cpp" />
@@ -611,14 +615,9 @@
     <ProjectReference Include="vendor\ImGuizmo\ImGuiGizmo.vcxproj">
       <Project>{C64C7BA4-B204-BDF1-1B0C-964D07E357E2}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\base_fragment.glsl" />
-    <None Include="Shaders\base_vertex.glsl" />
-    <None Include="Shaders\framebuffer_screen_fragment.glsl" />
-    <None Include="Shaders\framebuffer_screen_vertex.glsl" />
-    <None Include="Shaders\shader_fragment.glsl" />
-    <None Include="Shaders\shadow_vertex.glsl" />
+    <ProjectReference Include="vendor\JoltPhysics\JoltPhysics.vcxproj">
+      <Project>{812AB974-EDDF-316A-76D4-2B41E288286E}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

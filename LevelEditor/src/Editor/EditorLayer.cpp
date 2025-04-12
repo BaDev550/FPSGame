@@ -246,6 +246,7 @@ namespace LevelEditor {
 
 			if (ImGui::Begin("Properties")) {
 				static int SelectedComboBoxComponentItem = 0;
+				static int CollisionEnabled = 1;
 				char buffer[128];
 				strncpy(buffer, nameComp.name.c_str(), sizeof(buffer));
 				if (ImGui::InputText("Name", buffer, sizeof(buffer))) {
@@ -303,12 +304,32 @@ namespace LevelEditor {
 					ImGui::DragFloat("Camera Sens", &_LevelEditor->GetActiveCamera()->MouseSensitivity);
 				}
 
-				if (ImGui::Combo("Add Component", &SelectedComboBoxComponentItem, "None\0Static Mesh")) {
+				if (registry.any_of<Engine::BoxColliderComponent>(_SelectedEntity)) {
+					auto& box = registry.get<Engine::BoxColliderComponent>(_SelectedEntity);
+					ImGui::DragFloat3("Collider Size", glm::value_ptr(box.Size));
+					ImGui::Checkbox("Dynamic", &box.IsDynamic);
+					if (ImGui::Combo("Collision Enabled", &CollisionEnabled, "Disabled\0Enabled")) {
+						box.Mode = static_cast<Engine::ECollisionMode>(CollisionEnabled);
+					}
+				}
+
+				if (registry.any_of<Engine::RigidBodyComponent>(_SelectedEntity)) {
+					auto& rb = registry.get<Engine::RigidBodyComponent >(_SelectedEntity);
+					ImGui::DragFloat("Dynamic", &rb.Mass);
+				}
+
+				if (ImGui::Combo("Add Component", &SelectedComboBoxComponentItem, "None\0Static Mesh\0Box Collider\0RigidBody")) {
 					switch (SelectedComboBoxComponentItem)
 					{
 					case 1:
 						if (!registry.any_of<EngineStaticMeshComponent>(_SelectedEntity))
 							registry.emplace<EngineStaticMeshComponent>(_SelectedEntity, "../Game/Assets/Models/Cube/cube.obj");
+					case 2:
+						if (!registry.any_of<Engine::BoxColliderComponent>(_SelectedEntity))
+							registry.emplace<Engine::BoxColliderComponent>(_SelectedEntity);
+					case 3:
+						if (!registry.any_of<Engine::RigidBodyComponent>(_SelectedEntity))
+							registry.emplace<Engine::RigidBodyComponent>(_SelectedEntity);
 					default:
 						break;
 					}

@@ -1,6 +1,9 @@
 #include "GameLayer.h"
 #include <memory>
 
+float g_DeltaTime = 0.0f;
+float g_LastFrameTime = 0.0f;
+
 GameLayer::GameLayer() : Layer("LevelEditor")
 {
 	_Window = std::make_shared<EngineWindow>(EngineApp::Get().GetWindow());
@@ -12,6 +15,7 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	EngineLoadScene("main.scene", *_LoadedScene);
 
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader);
+	_PhysicsSystem = std::make_shared<EnginePhysicsSystem>();
 
 	Player = std::make_shared<PlayerPawn>();
 	EngineScene::Get().Start();
@@ -19,8 +23,14 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 
 void GameLayer::OnUpdate()
 {
-	if(!_bLevelEditorOpened)
+	float currentTime = (float)glfwGetTime();
+	g_DeltaTime = currentTime - g_LastFrameTime;
+	g_LastFrameTime = currentTime;
+
+	if (!_bLevelEditorOpened) {
 		EngineScene::Get().Update();
+		_PhysicsSystem->Update(g_DeltaTime);
+	}
 
 	OnRender();
 }

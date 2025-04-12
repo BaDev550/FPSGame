@@ -57,6 +57,7 @@ private:
 	std::shared_ptr<EngineWindow> _Window;
 	std::shared_ptr<EngineScene> _LoadedScene;
 	std::shared_ptr<EngineRenderSystem> _RenderSystem;
+	std::shared_ptr<EnginePhysicsSystem> _PhysicsSystem;
 	std::shared_ptr<PlayerPawn> Player;
 
 	std::shared_ptr<LEditor> _levelEditor;

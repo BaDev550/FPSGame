@@ -11,6 +11,7 @@ namespace Engine {
 	public:
 		IPawn(std::string name) : IActor(name) {
 			AddComponent<PawnComponent>(this);
+			AddComponent<BoxColliderComponent>();
 			PrintComponents();
 		}
 		virtual ~IPawn() = default;

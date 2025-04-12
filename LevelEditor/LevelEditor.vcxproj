@@ -57,7 +57,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\yaml\include;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\yaml\include;..\Engine\vendor\entt\include;..\Engine\vendor\JoltPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -78,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>E_PLATFORM_WINDOWS;E_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\yaml\include;..\Engine\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Engine\src;..\Engine\vendor;src;..\Engine\vendor\glm;..\Engine\vendor\GLFW\include;..\Engine\vendor\assimp\include;..\Engine\vendor\ImGui;..\Engine\vendor\yaml\include;..\Engine\vendor\entt\include;..\Engine\vendor\JoltPhysics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -122,6 +122,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Engine\vendor\assimp\assimp.vcxproj">
       <Project>{724885F2-5EEA-AFC8-47A5-C31C33E63619}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Engine\vendor\JoltPhysics\JoltPhysics.vcxproj">
+      <Project>{812AB974-EDDF-316A-76D4-2B41E288286E}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,8 +1,13 @@
 #pragma once
 #include <entt/entt.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
 #include "Engine/Renderer/Model.h"
+
+#include "Jolt/Jolt.h"
+#include "Jolt/Physics/Body/BodyCreationSettings.h"
 
 namespace Engine
 {
@@ -42,9 +47,20 @@ namespace Engine
 	};
 	
 	struct RigidBodyComponent {
-		glm::vec3 Velocity;
-		glm::vec3 Acceleration;
+		JPH::BodyID BodyID;
 		float Mass = 1.0f;
+	};
+
+	enum class ECollisionMode
+	{
+		Disabled,
+		Enabled
+	};
+	struct BoxColliderComponent
+	{
+		glm::vec3 Size = { 0.5f, 0.5f, 0.5f };
+		bool IsDynamic = true;
+		ECollisionMode Mode = ECollisionMode::Enabled;
 	};
 	
 	struct MeshComponent {

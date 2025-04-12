@@ -3,6 +3,7 @@
 void PlayerPawn::OnStart()
 {
 	_FPCamera->GetComponent<Engine::TransformComponent>().SetLocalPosition({ 0.0f, 1.0f, 0.0f });
+	GetComponent<Engine::BoxColliderComponent>().Size = glm::vec3(2.0f, 2.0f, 2.0f);
 }
 
 void PlayerPawn::OnUpdate()

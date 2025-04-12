@@ -50,6 +50,7 @@ typedef Engine::Vertex EngineVertex;
 typedef Engine::ShaderDataType EngineShaderDataType;
 typedef Engine::Scene EngineScene;
 typedef Engine::RenderSystem EngineRenderSystem;
+typedef Engine::PhysicsSystem EnginePhysicsSystem;
 
 typedef Engine::MeshComponent EngineStaticMeshComponent;
 typedef Engine::NameComponent EngineNameComponent;
