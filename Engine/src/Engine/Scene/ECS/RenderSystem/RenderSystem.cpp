@@ -17,6 +17,7 @@ namespace Engine {
 
 		RenderShadowPass(lightSpaceMatrix);
 		RenderMainScene();
+		//_DebugRenderer.RenderWireframeBoxes(_DebugShader);
 
 		Renderer::EndScene();
 

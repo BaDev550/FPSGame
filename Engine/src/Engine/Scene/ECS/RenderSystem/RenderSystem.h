@@ -3,6 +3,7 @@
 #include "Engine/Window/Window.h"
 #include "Engine/Scene/Scene.h"
 #include "entt/entt.hpp"
+#include "DebugRendering.h"
 
 namespace Engine
 {
@@ -21,6 +22,9 @@ namespace Engine
 			}
 			_ShadowShader = std::make_shared<Shader>("../Engine/Shaders/shadow_vertex.glsl", "../Engine/Shaders/shadow_fragment.glsl");
 			_FrameBufferShader = std::make_shared<Shader>("../Engine/Shaders/framebuffer_screen_vertex.glsl", "../Engine/Shaders/framebuffer_screen_fragment.glsl");
+			_DebugShader = std::make_shared<Shader>("../Engine/Shaders/wireframe_vertex.glsl", "../Engine/Shaders/wireframe_fragment.glsl");
+
+			_DebugRenderer.Setup();
 		}
 
 		void Draw(CameraComponent camera);
@@ -44,8 +48,10 @@ namespace Engine
 	private:
 		std::shared_ptr<Shader> _Shader;
 		std::shared_ptr<Shader> _ShadowShader;
+		std::shared_ptr<Shader> _DebugShader;
 		std::shared_ptr<Shader> _FrameBufferShader;
 		std::shared_ptr<Window> _Window;
+		DebugRenderer _DebugRenderer;
 		entt::registry* _Registry;
 		float distance = 60.0f;
 	};

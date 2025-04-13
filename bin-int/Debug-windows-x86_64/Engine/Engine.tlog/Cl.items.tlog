@@ -14,6 +14,7 @@ C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Renderer\Vertex
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Scene\ECS\PhysicsSystem\PhysicsSystem.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\PhysicsSystem.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Scene\ECS\RenderSystem\RenderSystem.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\RenderSystem.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Scene\Scene.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Scene.obj
+C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Scene\SceneSerializer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\SceneSerializer.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Window\ImGui\ImGuiBuild.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\ImGuiBuild.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Window\ImGui\ImGuiLayer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\ImGuiLayer.obj
 C:\Users\kekli\source\repos\VortexRenderEngine\Engine\src\Engine\Window\Layer.cpp;C:\Users\kekli\source\repos\VortexRenderEngine\bin-int\Debug-windows-x86_64\Engine\Layer.obj

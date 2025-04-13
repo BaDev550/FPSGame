@@ -162,6 +162,9 @@
     <ClInclude Include="src\Engine\Scene\ECS\PhysicsSystem\PhysicsSystem.h">
       <Filter>src\Engine\Scene\ECS\PhysicsSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Scene\ECS\RenderSystem\DebugRendering.h">
+      <Filter>src\Engine\Scene\ECS\RenderSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\Engine\Scene\ECS\RenderSystem\RenderSystem.h">
       <Filter>src\Engine\Scene\ECS\RenderSystem</Filter>
     </ClInclude>
@@ -169,6 +172,9 @@
       <Filter>src\Engine\Scene\ECS</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Scene\Scene.h">
+      <Filter>src\Engine\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Scene\SceneSerializer.h">
       <Filter>src\Engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Window\ImGui\ImGuiLayer.h">
@@ -1506,6 +1512,9 @@
       <Filter>src\Engine\Scene\ECS\RenderSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Scene\Scene.cpp">
+      <Filter>src\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Scene\SceneSerializer.cpp">
       <Filter>src\Engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Window\ImGui\ImGuiBuild.cpp">

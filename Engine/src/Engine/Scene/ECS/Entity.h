@@ -80,6 +80,10 @@ namespace Engine {
 			}
 		}
 
+		uint32_t GetEntityID() const {
+			return static_cast<uint32_t>(_Handle);
+		}
+
 #ifdef E_DEBUG
         void PrintComponents() {
 			std::cout << "Entity [" << (uint32_t)_Handle << "] Components:\n";

@@ -18,8 +18,8 @@ IncludeDir["ImGuiGizmo"] = "Engine/vendor/ImGuizmo/"
 IncludeDir["ImGui"] = "Engine/vendor/ImGui/"
 IncludeDir["glm"] =   "Engine/vendor/glm/"
 IncludeDir["stb"] =   "Engine/vendor/stb/"
+IncludeDir["json"] =  "Engine/vendor/json/"
 IncludeDir["entt"] =  "Engine/vendor/entt/include"
-IncludeDir["yaml"] =  "Engine/vendor/yaml/include"
 IncludeDir["JoltPhysics"] =  "Engine/vendor/JoltPhysics/include"
 
 group "Dependencies"
@@ -28,7 +28,6 @@ group "Dependencies"
     include "Engine/vendor/imgui"
     include "Engine/vendor/assimp/"
     include "Engine/vendor/ImGuizmo/"
-    include "Engine/vendor/yaml/"
     include "Engine/vendor/JoltPhysics/"
 group ""
 
@@ -70,7 +69,7 @@ project "Engine"
         "%{IncludeDir.Assimp}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.stb}",
-        "%{IncludeDir.yaml}",
+        "%{IncludeDir.json}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.JoltPhysics}"
     }
@@ -81,7 +80,6 @@ project "Engine"
         "GLAD",
         "ImGui",
         "Assimp",
-        "yaml-cpp",
         "ImGuiGizmo",
         "JoltPhysics",
         "opengl32.lib"
@@ -132,7 +130,7 @@ includedirs
     "%{IncludeDir.glm}",
     "%{IncludeDir.GLFW}",
     "%{IncludeDir.Assimp}",
-    "%{IncludeDir.yaml}",
+    "%{IncludeDir.json}",
     "%{IncludeDir.entt}",
     "%{IncludeDir.JoltPhysics}"
 }
@@ -188,7 +186,7 @@ project "LevelEditor"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Assimp}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.yaml}",
+        "%{IncludeDir.json}",
         "%{IncludeDir.entt}",
         "%{IncludeDir.JoltPhysics}"
     }

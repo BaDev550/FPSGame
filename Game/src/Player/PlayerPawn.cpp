@@ -2,23 +2,41 @@
 
 void PlayerPawn::OnStart()
 {
-	_FPCamera->GetComponent<Engine::TransformComponent>().SetLocalPosition({ 0.0f, 1.0f, 0.0f });
-	GetComponent<Engine::BoxColliderComponent>().Size = glm::vec3(2.0f, 2.0f, 2.0f);
 }
 
 void PlayerPawn::OnUpdate()
 {
-	if (EngineInput::IsKeyPressed(E_KEY_W)) {
-		GetComponent<Engine::TransformComponent>().Position += _FPCamera->GetCamera().GetFront() * 0.1f;
-	}
-	if (EngineInput::IsKeyPressed(E_KEY_S)) {
-		GetComponent<Engine::TransformComponent>().Position -= _FPCamera->GetCamera().GetFront() * 0.1f;
-	}
-	if (EngineInput::IsKeyPressed(E_KEY_A)) {
-		GetComponent<Engine::TransformComponent>().Position -= _FPCamera->GetCamera().GetRight() * 0.1f;
-	}
-	if (EngineInput::IsKeyPressed(E_KEY_D)) {
-		GetComponent<Engine::TransformComponent>().Position += _FPCamera->GetCamera().GetRight() * 0.1f;
+	if(HasComponent<Engine::RigidBodyComponent>()){
+		auto& rb = GetComponent<Engine::RigidBodyComponent>();
+
+		const float movementForce = 50.0f;
+		const float maxSpeed = 5.0f;
+
+		glm::vec3 front = _FPCamera->GetCamera().GetFront();
+		glm::vec3 right = _FPCamera->GetCamera().GetRight();
+		front.y = 0.0f;
+		right.y = 0.0f;
+		front = glm::normalize(front);
+		right = glm::normalize(right);
+
+		glm::vec3 moveDir(0.0f);
+		if (EngineInput::IsKeyPressed(E_KEY_W)) moveDir += front;
+		if (EngineInput::IsKeyPressed(E_KEY_S)) moveDir -= front;
+		if (EngineInput::IsKeyPressed(E_KEY_A)) moveDir -= right;
+		if (EngineInput::IsKeyPressed(E_KEY_D)) moveDir += right;
+
+		if (glm::length(moveDir) > 0.1f) {
+			moveDir = glm::normalize(moveDir);
+
+			glm::vec3 desiredVelocity = moveDir * maxSpeed;
+			desiredVelocity.y = rb.Velocity.y;
+
+			rb.AddForce((desiredVelocity - rb.Velocity) * rb.Mass);
+		}
+
+		if (EngineInput::IsKeyPressed(E_KEY_SPACE)) {
+			rb.AddForce({ 0.0f, 10.0f * rb.Mass, 0.0f });
+		}
 	}
 }
 

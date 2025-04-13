@@ -1,0 +1,41 @@
+{
+    "entities": [
+        {
+            "mesh": {
+                "materials": [
+                    {
+                        "highlight": false,
+                        "metalness": 0.0,
+                        "roughness": 0.0,
+                        "shininess": 32.0,
+                        "textures": [
+                            "",
+                            "",
+                            "",
+                            ""
+                        ]
+                    }
+                ],
+                "model_path": "../Game/Assets/Models/Cube/cube.obj"
+            },
+            "name": "Entity",
+            "transform": {
+                "position": [
+                    0.0,
+                    -1.7230224609375,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    7.016456604003906,
+                    0.12397424876689911,
+                    5.861782073974609
+                ]
+            }
+        }
+    ]
+}

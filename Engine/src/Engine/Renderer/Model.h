@@ -10,6 +10,7 @@
 #include "Engine/Renderer/Texture.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Material.h"
+#include <map>
 
 namespace AssimpGLMHelper {
 	inline glm::mat4 ConvertMatrixToGLMFormat(const aiMatrix4x4& from) {

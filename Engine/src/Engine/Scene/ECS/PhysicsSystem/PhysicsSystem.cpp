@@ -4,73 +4,27 @@
 #include "Engine/Scene/ECS/Components.h"
 #include <thread>
 
-namespace std {
-	template <>
-	struct hash<std::pair<uint32_t, uint32_t>> {
-		size_t operator()(const std::pair<uint32_t, uint32_t>& p) const {
-			size_t h1 = hash<uint32_t>()(p.first);
-			size_t h2 = hash<uint32_t>()(p.second);
-			return h1 ^ (h2 << 1);
-		}
-	};
-}
-
 namespace Engine {
-	std::unordered_set<std::pair<uint32_t, uint32_t>> g_CollidingEntities;
+	static CollisionManager g_CollisionManager;
 	constexpr int cMaxPhysicsJobs = 64;
 	constexpr int cMaxPhysicsBarriers = 4;
 	constexpr int cCollisionSteps = 1;
 	constexpr int cIntegrationSubSteps = 1;
 	const uint32_t threadCount = std::thread::hardware_concurrency();
 
-	class MyBroadPhaseLayerInterface final : public JPH::BroadPhaseLayerInterface
-	{
+	class MyContactListener : public JPH::ContactListener {
 	public:
-		MyBroadPhaseLayerInterface()
-		{
-			mBroadPhaseLayers[0] = JPH::BroadPhaseLayer(0);
-			mBroadPhaseLayers[1] = JPH::BroadPhaseLayer(1);
-		}
-
-		virtual unsigned int GetNumBroadPhaseLayers() const override { return 2; }
-		virtual JPH::BroadPhaseLayer GetBroadPhaseLayer(JPH::ObjectLayer layer) const override
-		{
-			return mBroadPhaseLayers[layer];
-		}
-	private:
-		JPH::BroadPhaseLayer mBroadPhaseLayers[2];
-	};
-
-	class ObjectLayerPairFilterImpl : public JPH::ObjectLayerPairFilter
-	{
-	public:
-		virtual bool ShouldCollide(JPH::ObjectLayer layer1, JPH::ObjectLayer layer2) const override
-		{
-			return true;
+		void OnContactAdded(const JPH::Body& body1, const JPH::Body& body2, const JPH::ContactManifold&, JPH::ContactSettings&) override {
+			g_CollisionManager.AddCollision((uint32_t)body1.GetUserData(), (uint32_t)body2.GetUserData());
+			std::cout << "Collision Detected" << std::endl;
 		}
 	};
 
-	class ObjectVsBroadPhaseLayerFilterImpl : public JPH::ObjectVsBroadPhaseLayerFilter
-	{
-	public:
-		virtual bool ShouldCollide(JPH::ObjectLayer objectLayer, JPH::BroadPhaseLayer broadPhaseLayer) const override
-		{
-			return true;
-		}
-	};
-
-	class MyContactListener : public JPH::ContactListener
-	{
-	public:
-		void OnContactAdded(const JPH::Body& body1, const JPH::Body& body2,
-			const JPH::ContactManifold&, JPH::ContactSettings&) override
-		{
-			g_CollidingEntities.insert({ (uint32_t)body1.GetUserData(), (uint32_t)body2.GetUserData() });
-		}
-	};
-
+	PhysicsSystem* PhysicsSystem::s_Instance = nullptr;
 	PhysicsSystem::PhysicsSystem()
 	{
+		s_Instance = this;
+
 		JPH::RegisterDefaultAllocator();
 		JPH::Factory::sInstance = new JPH::Factory();
 		JPH::RegisterTypes();
@@ -78,21 +32,27 @@ namespace Engine {
 		_TempAllocator = std::make_unique<JPH::TempAllocatorImpl>(10 * 1024 * 1024);
 		_JobSystem = std::make_unique<JPH::JobSystemThreadPool>(cMaxPhysicsJobs, cMaxPhysicsBarriers, threadCount);
 
-		MyBroadPhaseLayerInterface broadPhaseLayerInterface;
-		ObjectVsBroadPhaseLayerFilterImpl broadPhaseFilter;
-		ObjectLayerPairFilterImpl pairFilter;
+		_BroadPhaseLayerInterface = std::make_unique<MyBroadPhaseLayerInterface>();
 
 		_PhysicsSystem.Init(1024, 0, 1024, 1024,
-			broadPhaseLayerInterface,
-			broadPhaseFilter,
-			pairFilter
+			*_BroadPhaseLayerInterface,
+			_broadPhaseFilter,
+			_PairFilter
 		);
+
+		_PhysicsSystem.SetGravity(JPH::Vec3(0.0f, -9.81f, 0.0f));
+		_PhysicsSystem.SetContactListener(new MyContactListener());
 
 		_BodyInterface = &_PhysicsSystem.GetBodyInterface();
 	}
 
 	PhysicsSystem::~PhysicsSystem()
 	{
+		_BodyInterface = nullptr;
+		_PhysicsSystem.OptimizeBroadPhase();
+
+		_BroadPhaseLayerInterface.reset();
+
 		JPH::UnregisterTypes();
 		delete JPH::Factory::sInstance;
 	}
@@ -101,24 +61,34 @@ namespace Engine {
 	{
 		auto& registry = Scene::Get().GetRegistry();
 
-		auto view = registry.view<TransformComponent, RigidBodyComponent, BoxColliderComponent>();
-		for (auto entity : view) {
-			auto& rigidbody = view.get<RigidBodyComponent>(entity);
-			auto& collider = view.get<BoxColliderComponent>(entity);
+		auto rbView = registry.view<RigidBodyComponent>();
+		for (auto entity : rbView) {
+			auto& rb = rbView.get<RigidBodyComponent>(entity);
 
-			if (collider.IsDynamic && collider.Mode == ECollisionMode::Enabled) {
-				JPH::BodyID id = rigidbody.BodyID;
-
-				if (_BodyInterface->IsActive(id)) {
-					glm::vec3 gravity(0.0f, -9.81f, 0.0f);
-					_BodyInterface->AddForce(id, JPH::Vec3(gravity.x, gravity.y, gravity.z));
-				}
+			if (glm::length(rb.PendingForce) > 0.01f || glm::length(rb.ConstantForce) > 0.01f) {
+				glm::vec3 totalForce = rb.PendingForce + rb.ConstantForce;
+				_BodyInterface->AddForce(rb.BodyID,
+					JPH::Vec3(totalForce.x, totalForce.y, totalForce.z));
+				rb.PendingForce = { 0,0,0 };
 			}
+
+			JPH::Vec3 currentVel = _BodyInterface->GetLinearVelocity(rb.BodyID);
+			rb.Velocity = { currentVel.GetX(), currentVel.GetY(), currentVel.GetZ() };
 		}
 
 		_PhysicsSystem.Update(deltaTime, cCollisionSteps, _TempAllocator.get(), _JobSystem.get());
 
-		for (const auto& [id1, id2] : g_CollidingEntities)
+		auto view = registry.view<TransformComponent, RigidBodyComponent, BoxColliderComponent>();
+		for (auto entity : view) {
+			auto& transform = view.get<TransformComponent>(entity);
+			auto& rigidbody = view.get<RigidBodyComponent>(entity);
+
+			auto bodyID = rigidbody.BodyID;
+			JPH::RVec3 pos = _BodyInterface->GetPosition(bodyID);
+			transform.Position = glm::vec3((float)pos.GetX(), (float)pos.GetY(), (float)pos.GetZ());
+		}
+
+		for (const auto& [id1, id2] : g_CollisionManager.GetCollidingEntities())
 		{
 			auto entity1 = (entt::entity)id1;
 			auto entity2 = (entt::entity)id2;
@@ -131,36 +101,43 @@ namespace Engine {
 					auto& rb1 = registry.get<RigidBodyComponent>(entity1);
 					auto& rb2 = registry.get<RigidBodyComponent>(entity2);
 
-					_BodyInterface->SetLinearVelocity(rb1.BodyID, JPH::Vec3::sZero());
-					_BodyInterface->SetLinearVelocity(rb2.BodyID, JPH::Vec3::sZero());
+					if (!col1.IsDynamic && !col2.IsDynamic) {
+						_BodyInterface->SetLinearVelocity(rb1.BodyID, JPH::Vec3::sZero());
+						_BodyInterface->SetLinearVelocity(rb2.BodyID, JPH::Vec3::sZero());
+					}
 				}
 			}
 		}
-		g_CollidingEntities.clear();
-
-		for (auto entity : view) {
-			auto& transform = view.get<TransformComponent>(entity);
-			auto& rigidbody = view.get<RigidBodyComponent>(entity);
-
-			auto bodyID = rigidbody.BodyID;
-			JPH::RVec3 pos = _BodyInterface->GetPosition(bodyID);
-			transform.Position = glm::vec3((float)pos.GetX(), (float)pos.GetY(), (float)pos.GetZ());
-		}
+		g_CollisionManager.Clear();
 	}
 
 	void PhysicsSystem::AddBoxBody(glm::vec3 pos, glm::vec3 size, bool isDynamic, uint32_t entityID)
 	{
+		JPH::Vec3 halfExtents(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f);
+
 		JPH::BodyCreationSettings settings(
-			new JPH::BoxShape(JPH::Vec3(size.x, size.y, size.z)),
+			new JPH::BoxShape(JPH::Vec3(size.x * 0.5f, size.y * 0.5f, size.z * 0.5f)),
 			JPH::RVec3(pos.x, pos.y, pos.z),
 			JPH::Quat::sIdentity(),
 			isDynamic ? JPH::EMotionType::Dynamic : JPH::EMotionType::Static,
-			isDynamic ? 1 : 0
+			isDynamic ? Layers::MOVING : Layers::NON_MOVING
 		);
 
-		settings.mUserData = (uint64_t)entityID;
+		settings.mUserData = static_cast<JPH::uint64>(entityID);
+
+		if (isDynamic) {
+			settings.mOverrideMassProperties = JPH::EOverrideMassProperties::MassAndInertiaProvided;
+			settings.mMassPropertiesOverride.mMass = 1.0f;
+		}
 
 		JPH::BodyID id = _BodyInterface->CreateAndAddBody(settings, JPH::EActivation::Activate);
-		std::cout << "Added Body with ID: " << id.GetIndexAndSequenceNumber() << "\n";
+
+		auto& registry = Scene::Get().GetRegistry();
+		auto entity = static_cast<entt::entity>(entityID);
+		if (registry.valid(entity)) {
+			if (auto* rb = registry.try_get<RigidBodyComponent>(entity)) {
+				rb->BodyID = id;
+			}
+		}
 	}
 }

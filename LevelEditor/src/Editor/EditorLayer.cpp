@@ -191,7 +191,7 @@ namespace LevelEditor {
 
 		IGFD::FileDialogConfig config;
 		if (bShowOpenSceneDialog) {
-			ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a scene file", ".scene", config);
+			ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose a scene file", ".json", config);
 			if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
 				if (ImGuiFileDialog::Instance()->IsOk()) {
 					std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
@@ -203,7 +203,7 @@ namespace LevelEditor {
 		}
 
 		if (bShowSaveSceneDialog) {
-			ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save scene", ".scene", config);
+			ImGuiFileDialog::Instance()->OpenDialog("SaveFileDlgKey", "Save scene", ".json", config);
 			if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey")) {
 				if (ImGuiFileDialog::Instance()->IsOk()) {
 					std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
@@ -315,21 +315,39 @@ namespace LevelEditor {
 
 				if (registry.any_of<Engine::RigidBodyComponent>(_SelectedEntity)) {
 					auto& rb = registry.get<Engine::RigidBodyComponent >(_SelectedEntity);
-					ImGui::DragFloat("Dynamic", &rb.Mass);
+					ImGui::DragFloat("Mass", &rb.Mass);
 				}
 
 				if (ImGui::Combo("Add Component", &SelectedComboBoxComponentItem, "None\0Static Mesh\0Box Collider\0RigidBody")) {
 					switch (SelectedComboBoxComponentItem)
 					{
 					case 1:
-						if (!registry.any_of<EngineStaticMeshComponent>(_SelectedEntity))
+						if (!registry.any_of<EngineStaticMeshComponent>(_SelectedEntity)) {
 							registry.emplace<EngineStaticMeshComponent>(_SelectedEntity, "../Game/Assets/Models/Cube/cube.obj");
+						}
+						SelectedComboBoxComponentItem = 0;
+						break;
 					case 2:
-						if (!registry.any_of<Engine::BoxColliderComponent>(_SelectedEntity))
+						if (!registry.any_of<Engine::BoxColliderComponent>(_SelectedEntity)) {
 							registry.emplace<Engine::BoxColliderComponent>(_SelectedEntity);
+						}
+						SelectedComboBoxComponentItem = 0;
+						break;
 					case 3:
-						if (!registry.any_of<Engine::RigidBodyComponent>(_SelectedEntity))
+						if (!registry.any_of<Engine::RigidBodyComponent>(_SelectedEntity)) {
 							registry.emplace<Engine::RigidBodyComponent>(_SelectedEntity);
+							auto& rb = registry.get<Engine::RigidBodyComponent>(_SelectedEntity);
+							auto& collider = registry.get<Engine::BoxColliderComponent>(_SelectedEntity);
+
+							EnginePhysicsSystem::Get().AddBoxBody(
+								transform.Position,
+								collider.Size,
+								collider.IsDynamic,
+								static_cast<uint32_t>(_SelectedEntity)
+							);
+						}
+						SelectedComboBoxComponentItem = 0;
+						break;
 					default:
 						break;
 					}

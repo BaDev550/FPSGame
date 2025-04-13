@@ -15,5 +15,3 @@ project "JoltPhysics"
     includedirs {
         "include"
     }
-
-    defines { "JPH_PROFILE_ENABLED=0" } 

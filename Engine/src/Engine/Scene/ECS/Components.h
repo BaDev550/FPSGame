@@ -7,7 +7,13 @@
 #include "Engine/Renderer/Model.h"
 
 #include "Jolt/Jolt.h"
+#include "Jolt/Core/Factory.h"
+#include "Jolt/Core/JobSystemThreadPool.h"
+#include "Jolt/Physics/PhysicsSystem.h"
 #include "Jolt/Physics/Body/BodyCreationSettings.h"
+#include "Jolt/Physics/Collision/Shape/BoxShape.h"
+#include "Jolt/Physics/Collision/Shape/SphereShape.h"
+#include "Jolt/RegisterTypes.h"
 
 namespace Engine
 {
@@ -49,6 +55,25 @@ namespace Engine
 	struct RigidBodyComponent {
 		JPH::BodyID BodyID;
 		float Mass = 1.0f;
+		glm::vec3 Velocity = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 PendingForce = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 ConstantForce = { 0.0f, 0.0f, 0.0f };
+		float LinearDamping = 0.1f;
+		float AngularDamping = 0.1f;
+		bool IsKinematic = false;
+
+		void AddForce(const glm::vec3& force) {
+			PendingForce += force;
+		}
+
+		void SetVelocity(const glm::vec3& velocity) {
+			Velocity = velocity;
+		}
+
+		void ClearForces() {
+			PendingForce = { 0.0f, 0.0f, 0.0f };
+			ConstantForce = { 0.0f, 0.0f, 0.0f };
+		}
 	};
 
 	enum class ECollisionMode
@@ -58,7 +83,7 @@ namespace Engine
 	};
 	struct BoxColliderComponent
 	{
-		glm::vec3 Size = { 0.5f, 0.5f, 0.5f };
+		glm::vec3 Size = { 1.0f, 1.0f, 1.0f };
 		bool IsDynamic = true;
 		ECollisionMode Mode = ECollisionMode::Enabled;
 	};

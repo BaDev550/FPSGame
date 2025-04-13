@@ -4,6 +4,7 @@
 
 #include "Engine/Events/MouseEvent.h"
 #include "Engine/Events/KeyEvent.h"
+#include "Engine/Scene/ECS/PhysicsSystem/PhysicsSystem.h"
 
 namespace Engine {
 	class IPawn : public IActor
@@ -11,7 +12,6 @@ namespace Engine {
 	public:
 		IPawn(std::string name) : IActor(name) {
 			AddComponent<PawnComponent>(this);
-			AddComponent<BoxColliderComponent>();
 			PrintComponents();
 		}
 		virtual ~IPawn() = default;
