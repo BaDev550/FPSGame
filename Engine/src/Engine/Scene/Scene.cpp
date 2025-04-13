@@ -4,6 +4,7 @@
 #include "ECS/Entity.h"
 #include "Engine/ActorClasses/IPawn.h"
 #include "Engine/Core/Core.h"
+#include "Engine/Scene/ECS/Entity.h"
 
 namespace Engine
 {
@@ -30,6 +31,25 @@ namespace Engine
 		_Registry.emplace<NameComponent>(handle, name);
 		_Registry.emplace<CameraComponent>(handle, &_Registry.get<TransformComponent>(handle));
 		return Entity(handle);
+	}
+
+	Entity Scene::FindEntityByID(uint32_t id)
+	{
+		entt::entity handle = static_cast<entt::entity>(id);
+		if (_Registry.valid(handle)) {
+			return Entity(handle);
+		}
+
+		return Entity();
+	}
+
+	std::optional<Entity> Scene::TryFindEntityByID(uint32_t id)
+	{
+		entt::entity handle = static_cast<entt::entity>(id);
+		if (_Registry.valid(handle)) {
+			return Entity(handle);
+		}
+		return std::nullopt;
 	}
 
 	void Scene::Start()

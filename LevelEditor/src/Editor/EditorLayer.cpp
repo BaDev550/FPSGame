@@ -164,7 +164,7 @@ namespace LevelEditor {
 						bShowSaveSceneDialog = !bShowSaveSceneDialog;
 					}
 					else {
-						EngineSaveScene(_Scene->GetPath(), *_Scene);
+						//EngineSaveScene(_Scene->GetPath(), *_Scene);
 					}
 				}
 				if (ImGui::MenuItem("Save As")) {
@@ -195,7 +195,7 @@ namespace LevelEditor {
 			if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
 				if (ImGuiFileDialog::Instance()->IsOk()) {
 					std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
-					EngineLoadScene(filePath, *_Scene);
+					//EngineLoadScene(filePath, *_Scene);
 				}
 				ImGuiFileDialog::Instance()->Close();
 				bShowOpenSceneDialog = false;
@@ -207,7 +207,7 @@ namespace LevelEditor {
 			if (ImGuiFileDialog::Instance()->Display("SaveFileDlgKey")) {
 				if (ImGuiFileDialog::Instance()->IsOk()) {
 					std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
-					EngineSaveScene(filePath, *_Scene);
+					//EngineSaveScene(filePath, *_Scene);
 				}
 				ImGuiFileDialog::Instance()->Close();
 				bShowSaveSceneDialog = false;

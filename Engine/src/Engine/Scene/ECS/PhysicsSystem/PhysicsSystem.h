@@ -7,6 +7,7 @@
 #include "Jolt/Physics/Collision/Shape/BoxShape.h"
 #include "Jolt/Physics/Collision/Shape/SphereShape.h"
 #include "Jolt/RegisterTypes.h"
+#include "Engine/Events/Event.h"
 #include <glm/glm.hpp>
 
 namespace std {
@@ -21,9 +22,14 @@ namespace std {
 }
 
 namespace Engine {
+	using EventCallbackFuntion = std::function<void(Event&)>;
 	class CollisionManager {
 	public:
 		void AddCollision(uint32_t id1, uint32_t id2) {
+			m_CollidingEntities.insert({ id1, id2 });
+		}
+
+		void RemoveCollision(uint32_t id1, uint32_t id2) {
 			m_CollidingEntities.insert({ id1, id2 });
 		}
 
@@ -107,5 +113,6 @@ namespace Engine {
 
 		JPH::BodyInterface* _BodyInterface = nullptr;
 		static PhysicsSystem* s_Instance;
+		EventCallbackFuntion _EventCallbackFn;
 	};
 }

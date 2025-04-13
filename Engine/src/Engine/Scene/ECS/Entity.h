@@ -36,6 +36,11 @@ namespace Engine {
             return _Registry->get<T>(_Handle);
         }
 
+		template <typename T>
+		const T& GetComponent() const {
+			return _Registry->get<T>(_Handle);
+		}
+
         void SetParent(Entity* parent) {
 			if (_Parent == parent) return;
 
@@ -86,28 +91,6 @@ namespace Engine {
 
 #ifdef E_DEBUG
         void PrintComponents() {
-			std::cout << "Entity [" << (uint32_t)_Handle << "] Components:\n";
-
-			auto& reg = *_Registry;
-
-			if (reg.all_of<TransformComponent>(_Handle)) {
-				std::cout << "- TransformComponent\n";
-			}
-			if (reg.all_of<NameComponent>(_Handle)) {
-				std::cout << "- NameComponent: " << reg.get<NameComponent>(_Handle).name << "\n";
-			}
-			if (reg.all_of<MeshComponent>(_Handle)) {
-				std::cout << "- SpriteRendererComponent\n";
-			}
-			if (reg.all_of<CameraComponent>(_Handle)) {
-				std::cout << "- CameraComponent\n";
-			}
-			if (reg.all_of<PawnComponent>(_Handle)) {
-				std::cout << "- PawnComponent\n";
-			}
-			if (reg.all_of<ActorComponent>(_Handle)) {
-				std::cout << "- ActorComponent\n";
-			}
         }
 #else
         void PrintComponents() {}

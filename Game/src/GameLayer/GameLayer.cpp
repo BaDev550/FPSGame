@@ -12,7 +12,7 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_Shader = EngineCreateShader("../Engine/Shaders/base_vertex.glsl", "../Engine/Shaders/base_fragment.glsl");
 	_LoadedScene = std::make_shared<EngineScene>();
 
-	EngineLoadScene("main.scene", *_LoadedScene);
+	//EngineLoadScene("main.scene", *_LoadedScene);
 
 	_RenderSystem = std::make_shared<EngineRenderSystem>(_Shader);
 	_PhysicsSystem = std::make_shared<EnginePhysicsSystem>();

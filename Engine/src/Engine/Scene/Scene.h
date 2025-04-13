@@ -6,6 +6,7 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Core/Core.h"
 #include "Engine/Core/Application/Application.h"
+#include <optional>
 
 namespace Engine {
 	class Entity;
@@ -32,6 +33,9 @@ namespace Engine {
 			dispatcher.Dispatch<KeyReleasedEvent>(BIND_EVENT_FUNCTION(Scene::OnKeyReleasedEvent));
 			dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_EVENT_FUNCTION(Scene::OnMouseButtonPressed));
 		}
+
+		Entity FindEntityByID(uint32_t id);
+		std::optional<Entity> TryFindEntityByID(uint32_t id);
 
 		void Start();
 		void Update();

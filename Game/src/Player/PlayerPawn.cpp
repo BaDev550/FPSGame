@@ -2,6 +2,7 @@
 
 void PlayerPawn::OnStart()
 {
+	ColliderEvents();
 }
 
 void PlayerPawn::OnUpdate()
@@ -43,4 +44,15 @@ void PlayerPawn::OnUpdate()
 void PlayerPawn::OnMouseMoved(Engine::MouseMovedEvent& e)
 {
 	_FPCamera->ProcessMouseMovement(e.GetX(), e.GetY());
+}
+
+void PlayerPawn::ColliderEvents()
+{
+	collider.OnCollisionBeginCallback = [](const Engine::OnCollisionBegin& e) {
+		std::cout << "Collision with entity ID: " << e.GetOtherActor().GetComponent<Engine::NameComponent>().name << "\n";
+	};
+
+	collider.OnCollisionEndCallback = [](const Engine::OnCollisionEnd& e) {
+		std::cout << "Stopped colliding with entity ID: " << e.GetOtherActor().GetComponent<Engine::NameComponent>().name << "\n";
+	};
 }

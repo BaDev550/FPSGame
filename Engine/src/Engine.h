@@ -6,6 +6,7 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
 #include "Engine/Events/Event.h"
+#include "Engine/Events/CollisionEvent.h"
 
 #include "Engine/Input/Input.h"
 #include "Engine/Input/KeyCodes.h"
@@ -67,8 +68,8 @@ typedef Engine::Material EngineMaterial;
 #define EngineCreateShader(vertexPath, fragmentPath) std::shared_ptr<EngineShader>(new EngineShader(vertexPath, fragmentPath))
 
 #define EngineKeyPressed(key) EngineInput::IsKeyPressed(key)
-#define EngineLoadScene(path, scene) SceneManager::LoadScene(path, scene);
-#define EngineSaveScene(path, scene) SceneManager::SaveScene(path, scene);
+//#define EngineLoadScene(path, scene) SceneManager::LoadScene(path, scene);
+//#define EngineSaveScene(path, scene) SceneManager::SaveScene(path, scene);
 
 #define EngineClear() EngineRenderCommand::Clear()
 #define EngineSetClearColor(r, g, b, a) EngineRenderCommand::SetClearColor({r, g, b, a})
@@ -79,15 +80,15 @@ typedef Engine::Material EngineMaterial;
 #define RendererEndScene() EngineRenderer::EndScene()
 #define RendererSubmit(shader, vertexArray) EngineRenderer::Submit(shader, vertexArray)
 
-class SceneManager {
-public:
-	static bool LoadScene(const std::string& path, EngineScene& scene) {
-		Engine::SceneSerializer serializer(scene);
-		return serializer.Deserialize(path);
-	}
-
-	static void SaveScene(const std::string& path, EngineScene& scene) {
-		Engine::SceneSerializer serializer(scene);
-		serializer.Serialize(path);
-	}
-};
+//class SceneManager {
+//public:
+//	static bool LoadScene(const std::string& path, EngineScene& scene) {
+//		Engine::SceneSerializer serializer(scene);
+//		return serializer.Deserialize(path);
+//	}
+//
+//	static void SaveScene(const std::string& path, EngineScene& scene) {
+//		Engine::SceneSerializer serializer(scene);
+//		serializer.Serialize(path);
+//	}
+//};

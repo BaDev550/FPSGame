@@ -2,6 +2,7 @@
 #include "PhysicsSystem.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/ECS/Components.h"
+#include "Engine/Events/CollisionEvent.h"
 #include <thread>
 
 namespace Engine {
@@ -14,10 +15,64 @@ namespace Engine {
 
 	class MyContactListener : public JPH::ContactListener {
 	public:
-		void OnContactAdded(const JPH::Body& body1, const JPH::Body& body2, const JPH::ContactManifold&, JPH::ContactSettings&) override {
-			g_CollisionManager.AddCollision((uint32_t)body1.GetUserData(), (uint32_t)body2.GetUserData());
-			std::cout << "Collision Detected" << std::endl;
+		MyContactListener(EventCallbackFuntion callback)
+			: _Scene(&Scene::Get()), _EventCallbackFn(callback) {
 		}
+
+		void OnContactAdded(const JPH::Body& body1, const JPH::Body& body2,
+			const JPH::ContactManifold&, JPH::ContactSettings&) override
+		{
+			uint32_t id1 = static_cast<uint32_t>(body1.GetUserData());
+			uint32_t id2 = static_cast<uint32_t>(body2.GetUserData());
+
+			g_CollisionManager.AddCollision(id1, id2);
+
+			Entity e1 = _Scene->FindEntityByID(id1);
+			Entity e2 = _Scene->FindEntityByID(id2);
+
+			if (e1.IsValid() && e2.IsValid())
+			{
+				_EventCallbackFn(OnCollisionBegin(e2));
+
+				if (e1.HasComponent<BoxColliderComponent>())
+				{
+					auto& collider = e1.GetComponent<BoxColliderComponent>();
+					if (collider.OnCollisionBeginCallback)
+						collider.OnCollisionBeginCallback(OnCollisionBegin(e2));
+
+					collider.CollidingWith.insert(id2);
+				}
+			}
+		}
+
+		void OnContactRemoved(const JPH::Body& body1, const JPH::Body& body2,
+			const JPH::ContactManifold&, JPH::ContactSettings&) {
+			uint32_t id1 = static_cast<uint32_t>(body1.GetUserData());
+			uint32_t id2 = static_cast<uint32_t>(body2.GetUserData());
+
+			g_CollisionManager.RemoveCollision(id1, id2);
+
+			Entity e1 = _Scene->FindEntityByID(id1);
+			Entity e2 = _Scene->FindEntityByID(id2);
+
+			if (e1.IsValid() && e2.IsValid())
+			{
+				_EventCallbackFn(OnCollisionEnd(e2));
+
+				if (e1.HasComponent<BoxColliderComponent>())
+				{
+					auto& collider = e1.GetComponent<BoxColliderComponent>();
+					if (collider.OnCollisionEndCallback)
+						collider.OnCollisionEndCallback(OnCollisionEnd(e2));
+
+					collider.CollidingWith.erase(id2);
+				}
+			}
+		}
+
+	private:
+		Scene* _Scene = nullptr;
+		EventCallbackFuntion _EventCallbackFn;
 	};
 
 	PhysicsSystem* PhysicsSystem::s_Instance = nullptr;
@@ -41,7 +96,7 @@ namespace Engine {
 		);
 
 		_PhysicsSystem.SetGravity(JPH::Vec3(0.0f, -9.81f, 0.0f));
-		_PhysicsSystem.SetContactListener(new MyContactListener());
+		_PhysicsSystem.SetContactListener(new MyContactListener(_EventCallbackFn));
 
 		_BodyInterface = &_PhysicsSystem.GetBodyInterface();
 	}

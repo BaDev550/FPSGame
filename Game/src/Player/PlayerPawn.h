@@ -8,6 +8,7 @@ class PlayerPawn : public EnginePawn
 public:
 	PlayerPawn() : EnginePawn("Player Pawn") {
 		AddComponent<EngineStaticMeshComponent>("Assets/Models/mario_2/mario_2.obj");
+		collider = AddComponent<Engine::BoxColliderComponent>();
 
 		_FPCamera = std::make_unique<FPCamera>();
 		AddChild(_FPCamera.get());
@@ -18,6 +19,9 @@ public:
 
 	virtual void OnMouseMoved(Engine::MouseMovedEvent& e) override;
 	std::unique_ptr<FPCamera>& GetCameraEntity() { return _FPCamera; }
+
+	void ColliderEvents();
 private:
 	std::unique_ptr<FPCamera> _FPCamera;
+	Engine::BoxColliderComponent collider;
 };

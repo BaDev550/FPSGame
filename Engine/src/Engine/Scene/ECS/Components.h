@@ -14,6 +14,7 @@
 #include "Jolt/Physics/Collision/Shape/BoxShape.h"
 #include "Jolt/Physics/Collision/Shape/SphereShape.h"
 #include "Jolt/RegisterTypes.h"
+#include <functional>
 
 namespace Engine
 {
@@ -81,11 +82,18 @@ namespace Engine
 		Disabled,
 		Enabled
 	};
+	class OnCollisionBegin;
+	class OnCollisionEnd;
 	struct BoxColliderComponent
 	{
 		glm::vec3 Size = { 1.0f, 1.0f, 1.0f };
 		bool IsDynamic = true;
 		ECollisionMode Mode = ECollisionMode::Enabled;
+
+		std::function<void(const OnCollisionBegin&)> OnCollisionBeginCallback = nullptr;
+		std::function<void(const OnCollisionEnd&)> OnCollisionEndCallback = nullptr;
+
+		std::unordered_set<uint32_t> CollidingWith;
 	};
 	
 	struct MeshComponent {

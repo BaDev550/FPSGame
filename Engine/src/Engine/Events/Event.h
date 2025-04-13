@@ -22,7 +22,9 @@ namespace Engine
 		MouseButtonPressed,
 		MouseButtonReleased,
 		MouseMoved,
-		MouseScrolled
+		MouseScrolled,
+		CollisionDetected,
+		CollisionEnded
 	};
 	
 	enum EventCategory
@@ -32,7 +34,8 @@ namespace Engine
 		EventCategoryInput = BIT(1),
 		EventCategoryKeyboard = BIT(2),
 		EventCategoryMouse = BIT(3),
-		EventCategoryMouseButton = BIT(4)
+		EventCategoryMouseButton = BIT(4),
+		EventCategoryCollision = BIT(5)
 	};
 	
 	#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
