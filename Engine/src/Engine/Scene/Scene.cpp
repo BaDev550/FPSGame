@@ -37,10 +37,10 @@ namespace Engine
 	{
 		entt::entity handle = static_cast<entt::entity>(id);
 		if (_Registry.valid(handle)) {
-			return Entity(handle);
+			return {handle};
 		}
 
-		return Entity();
+		return {};
 	}
 
 	std::optional<Entity> Scene::TryFindEntityByID(uint32_t id)

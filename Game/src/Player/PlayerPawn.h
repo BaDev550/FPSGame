@@ -20,7 +20,8 @@ public:
 	virtual void OnMouseMoved(Engine::MouseMovedEvent& e) override;
 	std::unique_ptr<FPCamera>& GetCameraEntity() { return _FPCamera; }
 
-	void ColliderEvents();
+	bool OnCollisionBegin(Engine::OnCollisionBegin& e);
+	bool OnCollisionEnded(Engine::OnCollisionEnd& e);
 private:
 	std::unique_ptr<FPCamera> _FPCamera;
 	Engine::BoxColliderComponent collider;

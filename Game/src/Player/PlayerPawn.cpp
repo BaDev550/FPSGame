@@ -2,7 +2,9 @@
 
 void PlayerPawn::OnStart()
 {
-	ColliderEvents();
+	collider.OnCollisionBeginCallback = BIND_EVENT_FUNCTION(PlayerPawn::OnCollisionBegin);
+	collider.OnCollisionEndCallback = BIND_EVENT_FUNCTION(PlayerPawn::OnCollisionEnded);
+	std::cout << "Callback set: " << (bool)collider.OnCollisionBeginCallback << std::endl;
 }
 
 void PlayerPawn::OnUpdate()
@@ -46,13 +48,13 @@ void PlayerPawn::OnMouseMoved(Engine::MouseMovedEvent& e)
 	_FPCamera->ProcessMouseMovement(e.GetX(), e.GetY());
 }
 
-void PlayerPawn::ColliderEvents()
+bool PlayerPawn::OnCollisionBegin(Engine::OnCollisionBegin& e)
 {
-	collider.OnCollisionBeginCallback = [](const Engine::OnCollisionBegin& e) {
-		std::cout << "Collision with entity ID: " << e.GetOtherActor().GetComponent<Engine::NameComponent>().name << "\n";
-	};
+	std::cout << "Collided Entity: " << e.GetOtherActor().GetComponent<Engine::NameComponent>().name << std::endl;
+	return true;
+}
 
-	collider.OnCollisionEndCallback = [](const Engine::OnCollisionEnd& e) {
-		std::cout << "Stopped colliding with entity ID: " << e.GetOtherActor().GetComponent<Engine::NameComponent>().name << "\n";
-	};
+bool PlayerPawn::OnCollisionEnded(Engine::OnCollisionEnd& e)
+{
+	return true;
 }

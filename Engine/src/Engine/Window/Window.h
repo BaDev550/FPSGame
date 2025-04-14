@@ -31,6 +31,7 @@ namespace Engine
 		bool IsOpen();
 	
 		inline void SetEventCallback(const EventCallbackFuntion& callback) { _WindowProperties.EventCallbackFn = callback; }
+		EventCallbackFuntion& GetEventCallback() { return _WindowProperties.EventCallbackFn; }
 		inline unsigned int GetWidth() const { return _WindowProperties.Width; }
 		inline unsigned int GetHeight() const { return _WindowProperties.Height; }
 		inline virtual void* GetNativeWindow() const { return _Window; }

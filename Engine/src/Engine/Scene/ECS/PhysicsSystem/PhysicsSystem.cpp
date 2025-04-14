@@ -15,8 +15,8 @@ namespace Engine {
 
 	class MyContactListener : public JPH::ContactListener {
 	public:
-		MyContactListener(EventCallbackFuntion callback)
-			: _Scene(&Scene::Get()), _EventCallbackFn(callback) {
+		MyContactListener()
+			: _Scene(&Scene::Get()){
 		}
 
 		void OnContactAdded(const JPH::Body& body1, const JPH::Body& body2,
@@ -32,13 +32,14 @@ namespace Engine {
 
 			if (e1.IsValid() && e2.IsValid())
 			{
-				_EventCallbackFn(OnCollisionBegin(e2));
 
 				if (e1.HasComponent<BoxColliderComponent>())
 				{
 					auto& collider = e1.GetComponent<BoxColliderComponent>();
-					if (collider.OnCollisionBeginCallback)
-						collider.OnCollisionBeginCallback(OnCollisionBegin(e2));
+					if (collider.OnCollisionBeginCallback) {
+						Engine::OnCollisionBegin event(e2);
+						collider.OnCollisionBeginCallback(event);
+					}
 
 					collider.CollidingWith.insert(id2);
 				}
@@ -47,8 +48,8 @@ namespace Engine {
 
 		void OnContactRemoved(const JPH::Body& body1, const JPH::Body& body2,
 			const JPH::ContactManifold&, JPH::ContactSettings&) {
-			uint32_t id1 = static_cast<uint32_t>(body1.GetUserData());
-			uint32_t id2 = static_cast<uint32_t>(body2.GetUserData());
+			uint32_t id1 = (uint32_t)body1.GetUserData();
+			uint32_t id2 = (uint32_t)body2.GetUserData();
 
 			g_CollisionManager.RemoveCollision(id1, id2);
 
@@ -57,13 +58,12 @@ namespace Engine {
 
 			if (e1.IsValid() && e2.IsValid())
 			{
-				_EventCallbackFn(OnCollisionEnd(e2));
 
-				if (e1.HasComponent<BoxColliderComponent>())
+				if (e2.HasComponent<BoxColliderComponent>())
 				{
-					auto& collider = e1.GetComponent<BoxColliderComponent>();
+					auto& collider = e2.GetComponent<BoxColliderComponent>();
 					if (collider.OnCollisionEndCallback)
-						collider.OnCollisionEndCallback(OnCollisionEnd(e2));
+						collider.OnCollisionEndCallback(OnCollisionEnd(e1));
 
 					collider.CollidingWith.erase(id2);
 				}
@@ -72,7 +72,6 @@ namespace Engine {
 
 	private:
 		Scene* _Scene = nullptr;
-		EventCallbackFuntion _EventCallbackFn;
 	};
 
 	PhysicsSystem* PhysicsSystem::s_Instance = nullptr;
@@ -96,7 +95,7 @@ namespace Engine {
 		);
 
 		_PhysicsSystem.SetGravity(JPH::Vec3(0.0f, -9.81f, 0.0f));
-		_PhysicsSystem.SetContactListener(new MyContactListener(_EventCallbackFn));
+		_PhysicsSystem.SetContactListener(new MyContactListener());
 
 		_BodyInterface = &_PhysicsSystem.GetBodyInterface();
 	}

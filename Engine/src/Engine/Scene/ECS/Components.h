@@ -90,10 +90,16 @@ namespace Engine
 		bool IsDynamic = true;
 		ECollisionMode Mode = ECollisionMode::Enabled;
 
-		std::function<void(const OnCollisionBegin&)> OnCollisionBeginCallback = nullptr;
-		std::function<void(const OnCollisionEnd&)> OnCollisionEndCallback = nullptr;
+		std::function<bool(OnCollisionBegin&)> OnCollisionBeginCallback;
+		std::function<bool(OnCollisionEnd&)> OnCollisionEndCallback;
 
 		std::unordered_set<uint32_t> CollidingWith;
+
+		BoxColliderComponent() = default;
+		BoxColliderComponent(const BoxColliderComponent&) = default;
+		BoxColliderComponent& operator=(const BoxColliderComponent&) = default;
+		BoxColliderComponent(BoxColliderComponent&&) = default;
+		BoxColliderComponent& operator=(BoxColliderComponent&&) = default;
 	};
 	
 	struct MeshComponent {
