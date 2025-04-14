@@ -21,5 +21,6 @@ namespace Engine
 		std::shared_ptr<IndexBuffer> _IndexBuffer;
 		uint32_t _VertexCount;
 		uint32_t _BufferID;
+		uint32_t _AttribIndex = 0;
 	};
 }

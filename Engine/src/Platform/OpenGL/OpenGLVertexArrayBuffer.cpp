@@ -40,30 +40,64 @@ namespace Engine
 	void OpenGLVertexArrayBuffer::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
 	{
 		ENGINE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout");
+
 		glBindVertexArray(_BufferID);
 		vertexBuffer->Bind();
-		uint32_t index = 0;
+
 		const auto& layout = vertexBuffer->GetLayout();
-		for (const auto& element : layout) {
+		for (const auto& element : layout)
+		{
+			GLuint componentCount = element.GetComponentCount();
+			GLenum type = ShaderDataTypeToOpenGLBaseType(element.Type);
+			GLboolean normalized = element.Normalized ? GL_TRUE : GL_FALSE;
+			GLsizei stride = layout.GetStride();
+			const void* offset = (const void*)(intptr_t)element.Offset;
 #if (DEBUG_BUFFER)
 			std::cout << "Binding attribute at index " << index
 				<< " with component count " << element.GetComponentCount()
 				<< " and type " << ShaderDataTypeToOpenGLBaseType(element.Type) << std::endl;
 #endif // _DEBUG_BUFFER
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(
-				index,
-				element.GetComponentCount(),
-				ShaderDataTypeToOpenGLBaseType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset
-			);
-			index++;
+			if (element.Type == ShaderDataType::Mat3 || element.Type == ShaderDataType::Mat4)
+			{
+				uint8_t rows = (element.Type == ShaderDataType::Mat3) ? 3 : 4;
+				uint8_t cols = rows;
+
+				for (uint8_t i = 0; i < rows; ++i)
+				{
+					glEnableVertexAttribArray(_AttribIndex);
+					glVertexAttribPointer(
+						_AttribIndex,
+						rows,
+						type,
+						normalized,
+						stride,
+						(const void*)(intptr_t)(element.Offset + sizeof(float) * rows * i)
+					);
+					if (element.Divisor > 0)
+						glVertexAttribDivisor(_AttribIndex, element.Divisor);
+					_AttribIndex++;
+				}
+			}
+			else
+			{
+				glEnableVertexAttribArray(_AttribIndex);
+				glVertexAttribPointer(
+					_AttribIndex,
+					componentCount,
+					type,
+					normalized,
+					stride,
+					offset
+				);
+				if (element.Divisor > 0)
+					glVertexAttribDivisor(_AttribIndex, element.Divisor);
+				_AttribIndex++;
+			}
 		}
+
 		_VertexBuffers.push_back(vertexBuffer);
 	}
-	
+
 	void OpenGLVertexArrayBuffer::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(_BufferID);

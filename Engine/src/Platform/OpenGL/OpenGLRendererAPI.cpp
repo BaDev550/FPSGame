@@ -27,6 +27,16 @@ namespace Engine
 	{
 		glDrawArrays(GL_TRIANGLES, 0, vertexArray->GetVertexCount());
 	}
+	void OpenGLRendererAPI::DrawIndexedInstanced(const std::shared_ptr<VertexArrayBuffer>& vertexArray, uint32_t instancedCount)
+	{
+		glDrawElementsInstanced(
+			GL_TRIANGLES,
+			vertexArray->GetIndexBuffer()->GetCount(),
+			GL_UNSIGNED_INT,
+			nullptr,
+			instancedCount
+		);
+	}
 	void OpenGLRendererAPI::SetPolyMode(const int face, const int mode)
 	{
 		glPolygonMode(face, mode);

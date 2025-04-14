@@ -30,6 +30,7 @@ namespace Engine
 		void Draw(CameraComponent camera);
 		void RenderShadowPass(const glm::mat4& lightSpaceMatrix);
 		void RenderMainScene();
+		void RenderInstancedScene();
 
 		void UpdateCameraSystem()
 		{

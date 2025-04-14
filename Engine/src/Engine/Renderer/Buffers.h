@@ -50,11 +50,12 @@ namespace Engine
 		ShaderDataType Type;
 		uint32_t Size;
 		uint32_t Offset;
+		uint32_t Divisor = 0;
 		bool Normalized;
 	
 		BufferElement() {}
-		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
+		BufferElement(ShaderDataType type, const std::string& name, uint32_t divisor = 0, bool normalized = false)
+			: Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized), Divisor(divisor)
 		{ 	}
 	
 		uint32_t GetComponentCount() const {
@@ -114,9 +115,10 @@ namespace Engine
 		virtual void Unbind() const = 0;
 	
 		virtual void SetLayout(const BufferLayout& layout) = 0;
+		virtual void SetData(void* vertices, uint32_t size) = 0;
 		virtual const BufferLayout& GetLayout() const = 0;
 	
-		static VertexBuffer* Create(Vertex* vertices, uint32_t size);
+		static VertexBuffer* Create(void* vertices, uint32_t size);
 	};
 	
 	class IndexBuffer {

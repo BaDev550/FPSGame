@@ -34,7 +34,7 @@ namespace Engine
 		glm::vec3 LocalRotation = glm::vec3(0.0f);
 		glm::vec3 LocalScale = glm::vec3(0.0f);
 
-		glm::mat4& GetModelMatrix() const {
+		glm::mat4 GetModelMatrix() const {
 			glm::mat4 modelMatrix = glm::mat4(1.0f);
 			modelMatrix = glm::translate(modelMatrix, Position + LocalPosition);
 			modelMatrix = glm::scale(modelMatrix, Scale + LocalScale);
@@ -123,6 +123,7 @@ namespace Engine
 		void SetMaterials(std::vector<std::shared_ptr<Material>>& materials) { _Model->SetMaterial(materials); }
 		void SetVisiblity(bool Visible) { bVisible = Visible; }
 		void SetDrawShadows(bool Draw) { bDrawShadows = Draw; }
+		Model* GetModel() { return _Model.get(); }
 		void Draw(std::shared_ptr<Shader> shader, TransformComponent& transform) {
 			_Model->Draw(shader, transform.GetModelMatrix());
 		}

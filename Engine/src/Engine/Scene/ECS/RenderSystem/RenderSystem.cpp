@@ -18,6 +18,7 @@ namespace Engine {
 		RenderShadowPass(lightSpaceMatrix);
 		RenderMainScene();
 		//_DebugRenderer.RenderWireframeBoxes(_DebugShader);
+		//RenderInstancedScene();
 
 		Renderer::EndScene();
 
@@ -53,6 +54,27 @@ namespace Engine {
 			if (mesh.ModelLoaded()) {
 				mesh.Draw(_Shader, transform);
 			}
+		}
+	}
+
+	void RenderSystem::RenderInstancedScene()
+	{
+		std::unordered_map<Model*, std::vector<glm::mat4>> modelInstances;
+
+		for (auto entity : _Registry->view<TransformComponent, MeshComponent>()) {
+			auto& transform = _Registry->get<TransformComponent>(entity);
+			auto& mesh = _Registry->get<MeshComponent>(entity);
+			if (!mesh.bVisible || !mesh.ModelLoaded())
+				continue;
+
+			Model* model = mesh.GetModel();
+			modelInstances[model].push_back(transform.GetModelMatrix());
+		}
+
+		_Shader->Bind();
+
+		for (auto& [model, transforms] : modelInstances) {
+			model->Draw(_Shader, transforms);
 		}
 	}
 

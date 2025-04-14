@@ -85,6 +85,12 @@ namespace Engine
 		}
 	}
 
+	void Model::Draw(std::shared_ptr<Shader>& shader, const std::vector<glm::mat4>& instanceTransforms)
+	{
+		for (auto& mesh : _Meshes)
+			mesh.Draw(shader, instanceTransforms);
+	}
+
 	void Model::DrawShadow(std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform, glm::mat4 LightSpaceMatrix)
 	{
 		glm::mat4 model = transform;

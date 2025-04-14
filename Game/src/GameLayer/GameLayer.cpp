@@ -18,6 +18,21 @@ GameLayer::GameLayer() : Layer("LevelEditor")
 	_PhysicsSystem = std::make_shared<EnginePhysicsSystem>();
 
 	Player = std::make_shared<PlayerPawn>();
+	for (size_t i = 0; i < 50; i++) {
+		std::string strName = "Entity" + std::to_string(i);
+		EngineEntity TempEntity(_LoadedScene->CreateEntity(strName));
+
+		std::mt19937 rng(std::random_device{}());
+		std::uniform_int_distribution<int> distX(-10, 14);
+		std::uniform_int_distribution<int> distZ(-26, 9);
+
+		float x = static_cast<float>(i + distX(rng));
+		float y = 0.0f;
+		float z = static_cast<float>(i + distZ(rng));
+
+		TempEntity.GetComponent<Engine::TransformComponent>().SetPosition(glm::vec3(x, y, z));
+		TempEntity.AddComponent<Engine::MeshComponent>("Assets/Models/mario_2/mario_2.obj");
+	}
 	EngineScene::Get().Start();
 }
 

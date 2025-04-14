@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Engine/Core/Application/Application.h"
 
+#define DRAW_INSTANCED = 0
 namespace Engine
 {
 	Renderer::SSCeneData* Renderer::_SceneData = new Renderer::SSCeneData;
@@ -55,7 +56,19 @@ namespace Engine
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
-	};
+	}
+
+	void Renderer::SubmitInstanced(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, uint32_t instanceCount)
+	{
+		shader->Bind();
+		shader->SetMat4("u_ViewProjection", _SceneData->ViewProjectionMatrix);
+
+		_ShadowMap->Bind(1);
+		shader->SetInt("u_ShadowMap", 1);
+
+		vertexArray->Bind();
+		RenderCommand::DrawIndexedInstanced(vertexArray, instanceCount);
+	}
 
 	void Renderer::RenderShadowMap(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, const glm::mat4& lightSpaceMatrix)
 	{

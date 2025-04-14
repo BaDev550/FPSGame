@@ -22,6 +22,9 @@ namespace Engine
 		inline static void DrawIndexed(const std::shared_ptr<VertexArrayBuffer>& vertexArray) {
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
+		inline static void DrawIndexedInstanced(const std::shared_ptr<VertexArrayBuffer>& vertexArray, uint32_t instancedCount) {
+			s_RendererAPI->DrawIndexedInstanced(vertexArray, instancedCount);
+		}
 		inline static void DrawVertex(const std::shared_ptr<VertexArrayBuffer>& vertexArray) {
 			s_RendererAPI->DrawVertex(vertexArray);
 		}

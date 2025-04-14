@@ -34,6 +34,7 @@ namespace Engine
 		};
 		void LoadModel(const std::string& path);
 		void Draw(std::shared_ptr<Shader>& shader, const glm::mat4& transform);
+		void Draw(std::shared_ptr<Shader>& shader, const std::vector<glm::mat4>& instanceTransforms);
 		void DrawShadow(std::shared_ptr<Shader>& ShadowShader, const glm::mat4& transform, glm::mat4 LightSpaceMatrix);
 		std::vector<std::shared_ptr<Material>> GetAllMaterials();
 		std::string& GetPath() { return _ModelPath; }

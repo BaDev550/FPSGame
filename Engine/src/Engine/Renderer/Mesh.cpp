@@ -30,7 +30,20 @@ namespace Engine
 		_Mesh->SetIndexBuffer(indexBuffer);
 	}
 
-	void Mesh::Draw(std::shared_ptr<Shader>& shader)
+	void Mesh::setupInstancing()
+	{
+		if (_InstanceMatrices.empty())
+			return;
+
+		_InstanceBuffer.reset(VertexBuffer::Create(_InstanceMatrices.data(), _InstanceMatrices.size() * sizeof(glm::mat4)));
+		_InstanceBuffer->SetLayout({
+			{ ShaderDataType::Mat4, "aInstanceModel", 1 }
+		});
+
+		_Mesh->AddVertexBuffer(_InstanceBuffer);
+	}
+
+	void Mesh::Draw(std::shared_ptr<Shader>& shader, const std::vector<glm::mat4>& instanceMatrices)
 	{
 		if (!_Material)
 			return;
@@ -69,7 +82,15 @@ namespace Engine
 			textureSlot++;
 		}
 
-		Renderer::Submit(shader, _Mesh);
+		if (!instanceMatrices.empty())
+		{
+			UpdateInstanceData(instanceMatrices);
+			Renderer::SubmitInstanced(shader, _Mesh, static_cast<uint32_t>(instanceMatrices.size()));
+		}
+		else
+		{
+			Renderer::Submit(shader, _Mesh);
+		}
 	}
 	void Mesh::DrawShadow(std::shared_ptr<Shader>& shader, glm::mat4 lightSpaceMatrix)
 	{
@@ -77,5 +98,15 @@ namespace Engine
 		shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix);
 
 		Renderer::RenderShadowMap(shader, _Mesh, lightSpaceMatrix);
+	}
+
+	void Mesh::UpdateInstanceData(const std::vector<glm::mat4>& instanceMatrices)
+	{
+		_InstanceMatrices = instanceMatrices;
+
+		if (!_InstanceBuffer)
+			setupInstancing();
+		else
+			_InstanceBuffer->SetData(_InstanceMatrices.data(), _InstanceMatrices.size() * sizeof(glm::mat4));
 	}
 }

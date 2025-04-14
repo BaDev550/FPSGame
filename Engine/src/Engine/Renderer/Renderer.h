@@ -17,6 +17,7 @@ namespace Engine
 		static void EndScene();
 		
 		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray);
+		static void SubmitInstanced(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, uint32_t instanceCount);
 		static void RenderShadowMap(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArrayBuffer>& vertexArray, const glm::mat4& lightSpaceMatrix);
 		static void RenderFrameBufferScreen(const std::shared_ptr<Shader>& shader);
 

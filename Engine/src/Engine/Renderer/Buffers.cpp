@@ -7,7 +7,7 @@
 
 namespace Engine
 {
-	VertexBuffer* VertexBuffer::Create(Vertex* vertices, uint32_t size)
+	VertexBuffer* VertexBuffer::Create(void* vertices, uint32_t size)
 	{
 		switch (Renderer::CurrentAPI())
 		{
